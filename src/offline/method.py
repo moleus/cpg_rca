@@ -179,6 +179,9 @@ class MethodConstructor:
 
     def __init__(self, G: nx.MultiDiGraph) -> None:
         self._G = G
+        # Preserve the source order of G.edges() when scanning only one method.
+        # The CPG stays unchanged for the lifetime of this constructor.
+        self._node_order = {node_id: index for index, node_id in enumerate(G)}
 
     # ── public ────────────────────────────────────────────────────────────────
 
@@ -338,8 +341,9 @@ class MethodConstructor:
         # Derive TRUE/FALSE labels from CONTROL_STRUCTURE AST structure
         branch_conditions = self._collect_branch_conditions(ast_nodes)
 
-        for src, dst, data in G.edges(data=True):
-            if src in ast_nodes and dst in ast_nodes:
+        sources = sorted(ast_nodes, key=self._node_order.__getitem__)
+        for src, dst, data in G.out_edges(sources, data=True):
+            if dst in ast_nodes:
                 if _edge_label(data) == "CFG":
                     cond = branch_conditions.get((src, dst), "")
                     cfg.add_edge(src, dst, condition=cond)
@@ -518,8 +522,9 @@ class MethodConstructor:
     def _collect_pdg_edges(self, ast_nodes: set) -> List[PdgEdge]:
         G = self._G
         edges: List[PdgEdge] = []
-        for src, dst, data in G.edges(data=True):
-            if src not in ast_nodes or dst not in ast_nodes:
+        sources = sorted(ast_nodes, key=self._node_order.__getitem__)
+        for src, dst, data in G.out_edges(sources, data=True):
+            if dst not in ast_nodes:
                 continue
             lbl = _edge_label(data)
             if lbl in ("CDG", "REACHING_DEF"):
