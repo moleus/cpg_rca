@@ -7,6 +7,8 @@ E1 enters Entry, calls Callee, its FSM has l1.  E2 enters Entry2 [102], calls Ca
 import copy
 import json
 
+import pytest
+
 from eval import compare, coverage
 
 LOG_POINTS = {"1": "100", "2": "100", "3": "101", "4": "999"}  # call node id -> method node id
@@ -60,3 +62,37 @@ def test_compare_exit_codes(tmp_path):
 
     assert run_compare(tmp_path, less_visible) == 1
     assert run_compare(tmp_path, more_lost) == 1
+
+
+@pytest.mark.parametrize("field", ["entrypoints", "log_points", "reachable", "pooled_reachable"])
+def test_compare_rejects_a_smaller_coverage_universe(tmp_path, field):
+    def shrink(s):
+        for row in (s["totals"], s["services"]["svc"]):
+            row[field] -= 1
+            # Dropping a callee can make lost look better without finding a log.
+            row["lost"] = 0
+            row["pooled_lost"] = 0
+        return s
+
+    assert run_compare(tmp_path, shrink) == 1
+
+
+def test_compare_reports_a_missing_service(tmp_path, capsys):
+    def remove_service(s):
+        del s["services"]["svc"]
+        return s
+
+    assert run_compare(tmp_path, remove_service) == 1
+    assert "MISSING" in capsys.readouterr().out
+
+
+def test_compare_allows_more_visible_logs_with_same_universe(tmp_path):
+    def improve(s):
+        for row in (s["totals"], s["services"]["svc"]):
+            row["visible"] += 1
+            row["pooled_visible"] += 1
+            row["lost"] -= 1
+            row["pooled_lost"] -= 1
+        return s
+
+    assert run_compare(tmp_path, improve) == 0

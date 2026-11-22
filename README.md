@@ -180,5 +180,11 @@ Optionally, `<entrypoint>.fsm.png` (Graphviz) when `--render-graphviz` is set.
 
 ```bash
 python3 -m eval.coverage output coverage/new   # writes coverage.json and coverage.md
-python3 -m eval.compare coverage/old/coverage.json coverage/new/coverage.json   # exit 1 if visible decreases or lost increases
+python3 -m eval.compare coverage/old/coverage.json coverage/new/coverage.json
 ```
+
+The comparison exits 1 if a service disappears, a coverage count decreases, or
+lost logs increase. It checks entrypoints, log points, reachable logs and visible
+logs. This prevents a smaller FLOW from appearing to improve coverage. Compare
+the same source and builder options. Review intentional filters before setting a
+new baseline. Equal counts do not prove that the same call sites were preserved.
