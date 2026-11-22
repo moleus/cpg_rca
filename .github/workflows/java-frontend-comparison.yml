@@ -1,0 +1,114 @@
+name: Java frontend dependency comparison
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - experiment/java-frontend-comparison
+    paths:
+      - .github/workflows/java-frontend-comparison.yml
+      - eval/java_frontend_compare.py
+      - eval/FrontendClasspath.java
+      - eval/fixtures/java/**
+      - eval/measure_command.py
+      - eval/opensearch_benchmark.py
+      - eval/requirements-benchmark.txt
+      - src/offline/joern_dot.py
+      - src/offline/log.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: java-frontend-comparison-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: opensearch-project/OpenSearch
+          ref: 2220907d3119897b8bd58cbc3c926787cd05ed2c
+          path: temp/OpenSearch
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install measurement dependencies
+        run: python -m pip install -r eval/requirements-benchmark.txt
+      - name: Record environment
+        shell: bash
+        run: |
+          export JAVA_HOME="$JAVA_HOME_21_X64"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          mkdir -p output/java-frontend-environment
+          java -version > output/java-frontend-environment/java.txt 2>&1
+          python -m pip freeze > output/java-frontend-environment/python.txt
+          lscpu > output/java-frontend-environment/cpu.txt
+          free -b > output/java-frontend-environment/memory.txt
+      - name: Download and verify pinned distributions
+        timeout-minutes: 10
+        shell: bash
+        run: |
+          mkdir -p temp/joern temp/javaparser
+          curl --fail --location --retry 1 --max-time 240 \
+            https://github.com/joernio/joern/releases/download/v4.0.689/joern-cli-linux-x86_64.zip \
+            --output temp/joern/joern.zip
+          curl --fail --location --retry 1 --max-time 60 \
+            https://repo.maven.apache.org/maven2/com/github/javaparser/javaparser-core/3.28.2/javaparser-core-3.28.2.jar \
+            --output temp/javaparser/javaparser-core-3.28.2.jar
+          curl --fail --location --retry 1 --max-time 60 \
+            https://repo.maven.apache.org/maven2/com/github/javaparser/javaparser-symbol-solver-core/3.28.2/javaparser-symbol-solver-core-3.28.2.jar \
+            --output temp/javaparser/javaparser-symbol-solver-core-3.28.2.jar
+          python - <<'PY'
+          from pathlib import Path
+          from eval.java_frontend_compare import digest, REPLACEMENT_SHA256
+          from eval.opensearch_benchmark import JOERN_ARCHIVE_SHA256
+          expected = {Path('temp/joern/joern.zip'): JOERN_ARCHIVE_SHA256}
+          expected.update({Path(f'temp/javaparser/{name}-3.28.2.jar'): value
+                           for name, value in REPLACEMENT_SHA256.items()})
+          for path, checksum in expected.items():
+              actual = digest(path)
+              if actual != checksum:
+                  raise SystemExit(f'Checksum mismatch for {path}: {actual}')
+          PY
+          unzip -q temp/joern/joern.zip -d temp/joern
+      - name: Run both frontends on the same inputs
+        timeout-minutes: 32
+        shell: bash
+        run: |
+          export JAVA_HOME="$JAVA_HOME_21_X64"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          python -m eval.java_frontend_compare run \
+            --source-checkout temp/OpenSearch \
+            --joern-home temp/joern/joern-cli \
+            --joern-archive temp/joern/joern.zip \
+            --replacement-dir temp/javaparser \
+            --output output/java-frontend \
+            --parse-timeout-sec 180 \
+            --export-timeout-sec 60 \
+            --max-rss-mib 3072
+      - name: Save measurements and diagnostic logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: java-frontend-comparison-${{ github.run_id }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            output/java-frontend-environment/
+            output/java-frontend/comparison.json
+            output/java-frontend/inventory-*.json
+            output/java-frontend/manifests/*.json
+            output/java-frontend/probes/*.json
+            output/java-frontend/probes/*.log
+            output/java-frontend/runs/**/*.json
+            output/java-frontend/runs/**/*.log
