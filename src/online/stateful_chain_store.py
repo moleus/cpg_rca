@@ -248,6 +248,26 @@ class _CompactPathHypothesis(PathHypothesis):
         return _TransitionPathKey(self._history)
 
 
+class _HypothesisIndex:
+    """Private views while the store owns all mutable hypothesis references."""
+
+    def __init__(self, owner, mapping) -> None:
+        self.owner_id = id(owner)
+        self.mapping = mapping
+        self.active = {}
+        self.completed = {}
+        self.enabled = True
+        self.fallback_reason = ""
+
+    def disable(self, reason: str) -> None:
+        if self.enabled:
+            self.enabled = False
+            self.fallback_reason = reason
+            self.active.clear()
+            self.completed.clear()
+            self.mapping = None
+
+
 @dataclass
 class ActiveChain:
     """Candidate request chain containing multiple explicit path hypotheses."""
@@ -261,22 +281,99 @@ class ActiveChain:
     termination_reason: str = ""
     correlation_key: Optional[str] = None
 
+    def __getattribute__(self, name):
+        if name == "hypotheses":
+            index = object.__getattribute__(self, "__dict__").get("_hypothesis_index")
+            if index is not None:
+                # The caller can retain this ordinary dict and mutate it later.
+                # Permanent scan fallback keeps that existing API exact.
+                index.disable("public_hypotheses")
+        return object.__getattribute__(self, name)
+
+    def _retained_hypotheses(self):
+        """Internal access only. Do not return this mapping in public outputs."""
+        return object.__getattribute__(self, "hypotheses")
+
+    def _usable_index(self):
+        mapping = self._retained_hypotheses()
+        index = self.__dict__.get("_hypothesis_index")
+        if index is not None and index.enabled:
+            if index.owner_id != id(self) or index.mapping is not mapping:
+                # copy.copy shares the cache. Disable that shared object so the
+                # source chain also observes later mutations through the copy.
+                index.disable("copied_chain_or_replaced_mapping")
+            else:
+                return index
+        return None
+
+    def _enable_hypothesis_index(self) -> None:
+        mapping = self._retained_hypotheses()
+        if mapping:
+            raise ValueError("Enable the index only on a new empty chain.")
+        self._hypothesis_index = _HypothesisIndex(self, mapping)
+
+    def _active_hypotheses(self) -> List[PathHypothesis]:
+        index = self._usable_index()
+        if index is not None:
+            return list(index.active.values())
+        return [h for h in self._retained_hypotheses().values() if h.status == "active"]
+
+    def _completed_hypotheses(self) -> List[PathHypothesis]:
+        index = self._usable_index()
+        if index is not None:
+            return list(index.completed.values())
+        return [h for h in self._retained_hypotheses().values() if h.status == "completed"]
+
+    def _add_hypothesis(self, hypothesis: PathHypothesis) -> None:
+        mapping = self._retained_hypotheses()
+        index = self._usable_index()
+        if index is not None and hypothesis.hypothesis_id in mapping:
+            index.disable("replacement_keeps_mapping_order")
+        mapping[hypothesis.hypothesis_id] = hypothesis
+        if index is not None and index.enabled:
+            if hypothesis.status == "active":
+                index.active[hypothesis.hypothesis_id] = hypothesis
+            elif hypothesis.status == "completed":
+                index.completed[hypothesis.hypothesis_id] = hypothesis
+
+    def _set_hypothesis_status(self, hypothesis: PathHypothesis, status: str) -> None:
+        index = self._usable_index()
+        hypothesis.status = status
+        if index is not None:
+            if status in {"active", "completed"}:
+                # Store transitions only retire existing objects. Keep a safe
+                # fallback if a future caller adds reactivation through here.
+                index.disable("status_reactivation")
+            else:
+                index.active.pop(hypothesis.hypothesis_id, None)
+                index.completed.pop(hypothesis.hypothesis_id, None)
+
     @property
     def score(self) -> float:
-        return max((h.score for h in self.hypotheses.values()), default=0.0)
+        return max((h.score for h in self._retained_hypotheses().values()), default=0.0)
 
     @property
     def active_hypotheses(self) -> List[PathHypothesis]:
-        return [h for h in self.hypotheses.values() if h.status == "active"]
+        result = self._active_hypotheses()
+        if result:
+            index = self._usable_index()
+            if index is not None:
+                index.disable("public_active_hypotheses")
+        return result
 
     @property
     def completed_hypotheses(self) -> List[PathHypothesis]:
-        return [h for h in self.hypotheses.values() if h.status == "completed"]
+        result = self._completed_hypotheses()
+        if result:
+            index = self._usable_index()
+            if index is not None:
+                index.disable("public_completed_hypotheses")
+        return result
 
     @property
     def frontier(self) -> Tuple[str, ...]:
         """Compatibility view of current states for active hypotheses."""
-        return tuple(sorted({h.current_state for h in self.active_hypotheses}))
+        return tuple(sorted({h.current_state for h in self._active_hypotheses()}))
 
 
 @dataclass(frozen=True)
@@ -355,6 +452,9 @@ class ExplicitHypothesisStore:
 
     Experimental compact_history=True shares immutable history prefixes.
     Public history fields remain tuple/list snapshots. Do not mutate them.
+
+    Experimental index_hypotheses=True indexes active and completed hypotheses.
+    Reading a live public hypothesis view restores scanning for that chain.
     """
 
     def __init__(
@@ -368,6 +468,7 @@ class ExplicitHypothesisStore:
         allow_new_chains: bool = True,
         require_correlation: bool = False,
         compact_history: bool = False,
+        index_hypotheses: bool = False,
     ) -> None:
         self.fsms = {key: fsm for key, fsm in fsms.items() if fsm.transitions}
         self.threshold = threshold
@@ -378,6 +479,7 @@ class ExplicitHypothesisStore:
         self.allow_new_chains = allow_new_chains
         self.require_correlation = require_correlation
         self._compact_history = compact_history
+        self._index_hypotheses = index_hypotheses
         self.active_chains: Dict[int, ActiveChain] = {}
         self.history: List[HypothesisEvent] = []
         self._next_chain_id = 0
@@ -433,36 +535,36 @@ class ExplicitHypothesisStore:
                 continue
             if timestamp - chain.last_timestamp <= pd.Timedelta(seconds=self.time_gap_sec):
                 continue
-            for hypothesis in chain.active_hypotheses:
-                hypothesis.status = "expired"
+            for hypothesis in chain._active_hypotheses():
+                chain._set_hypothesis_status(hypothesis, "expired")
                 hypothesis.termination_reason = "timeout"
             chain.status = "expired"
             chain.termination_reason = "timeout"
 
     def _refresh_chain_status(self, chain: ActiveChain) -> None:
-        if chain.active_hypotheses:
+        if chain._active_hypotheses():
             chain.status = "active"
             chain.termination_reason = ""
-        elif chain.completed_hypotheses:
+        elif chain._completed_hypotheses():
             chain.status = "completed"
             chain.termination_reason = "terminal_state"
-        elif any(h.status == "incomplete" for h in chain.hypotheses.values()):
+        elif any(h.status == "incomplete" for h in chain._retained_hypotheses().values()):
             chain.status = "incomplete"
             chain.termination_reason = "incomplete_static_graph"
-        elif any(h.status == "pruned" for h in chain.hypotheses.values()):
+        elif any(h.status == "pruned" for h in chain._retained_hypotheses().values()):
             chain.status = "pruned"
             chain.termination_reason = "hypothesis_limit"
-        elif chain.hypotheses:
+        elif chain._retained_hypotheses():
             chain.status = "expired"
             chain.termination_reason = "timeout"
 
     def _enforce_chain_beam(self, chain: ActiveChain) -> None:
-        active = chain.active_hypotheses
+        active = chain._active_hypotheses()
         if len(active) <= self.max_hypotheses_per_chain:
             return
         active.sort(key=lambda h: (h.score, h._path_length()), reverse=True)
         for hypothesis in active[self.max_hypotheses_per_chain:]:
-            hypothesis.status = "pruned"
+            chain._set_hypothesis_status(hypothesis, "pruned")
             hypothesis.termination_reason = "beam_width"
         self._refresh_chain_status(chain)
 
@@ -471,13 +573,13 @@ class ExplicitHypothesisStore:
             (chain, hypothesis)
             for chain in self.active_chains.values()
             if chain.status == "active"
-            for hypothesis in chain.active_hypotheses
+            for hypothesis in chain._active_hypotheses()
         ]
         if len(active) <= self.max_total_active_hypotheses:
             return
         active.sort(key=lambda item: (item[1].score, item[0].last_timestamp is not None, item[0].last_timestamp), reverse=True)
         for chain, hypothesis in active[self.max_total_active_hypotheses:]:
-            hypothesis.status = "pruned"
+            chain._set_hypothesis_status(hypothesis, "pruned")
             hypothesis.termination_reason = "global_hypothesis_limit"
             self._refresh_chain_status(chain)
 
@@ -487,8 +589,8 @@ class ExplicitHypothesisStore:
             return
         chains.sort(key=lambda chain: (chain.score, chain.last_timestamp is not None, chain.last_timestamp), reverse=True)
         for chain in chains[self.max_active_chains:]:
-            for hypothesis in chain.active_hypotheses:
-                hypothesis.status = "pruned"
+            for hypothesis in chain._active_hypotheses():
+                chain._set_hypothesis_status(hypothesis, "pruned")
                 hypothesis.termination_reason = "active_chain_limit"
             chain.status = "pruned"
             chain.termination_reason = "active_chain_limit"
@@ -553,7 +655,7 @@ class ExplicitHypothesisStore:
         children: List[PathHypothesis] = []
         parents_expanded: List[PathHypothesis] = []
 
-        for parent in list(chain.active_hypotheses):
+        for parent in chain._active_hypotheses():
             matches = self._matches(
                 chain.fsm_key,
                 self._outgoing[chain.fsm_key].get(parent.current_state, []),
@@ -587,9 +689,9 @@ class ExplicitHypothesisStore:
             if key not in best or child.score > best[key].score:
                 best[key] = child
         for child in best.values():
-            chain.hypotheses[child.hypothesis_id] = child
+            chain._add_hypothesis(child)
         for parent in parents_expanded:
-            parent.status = "superseded"
+            chain._set_hypothesis_status(parent, "superseded")
             parent.termination_reason = "expanded"
 
         chain.last_timestamp = timestamp
@@ -614,11 +716,13 @@ class ExplicitHypothesisStore:
             last_timestamp=timestamp,
             correlation_key=correlation_key,
         )
+        if self._index_hypotheses:
+            chain._enable_hypothesis_index()
         self._next_chain_id += 1
         events: List[HypothesisEvent] = []
         for match in matches:
             hypothesis = self._make_child(chain, None, match, index, timestamp, bucket, message)
-            chain.hypotheses[hypothesis.hypothesis_id] = hypothesis
+            chain._add_hypothesis(hypothesis)
             events.append(HypothesisEvent(
                 index=index, timestamp=timestamp, bucket=bucket, message=message,
                 chain_id=chain.chain_id, hypothesis_id=hypothesis.hypothesis_id,
@@ -738,7 +842,7 @@ class ExplicitHypothesisStore:
     def hypotheses_frame(self) -> pd.DataFrame:
         rows: List[Dict[str, Any]] = []
         for chain in self.active_chains.values():
-            for hypothesis in chain.hypotheses.values():
+            for hypothesis in chain._retained_hypotheses().values():
                 rows.append({
                     "chain_id": chain.chain_id, "entrypoint": chain.fsm_key,
                     "chain_status": chain.status, "hypothesis_id": hypothesis.hypothesis_id,
@@ -758,9 +862,9 @@ class ExplicitHypothesisStore:
                 "chain_id": chain.chain_id, "entrypoint": chain.fsm_key,
                 "status": chain.status, "termination_reason": chain.termination_reason,
                 "created_at": chain.created_at, "last_timestamp": chain.last_timestamp,
-                "score": chain.score, "hypotheses_total": len(chain.hypotheses),
-                "hypotheses_active": len(chain.active_hypotheses),
-                "hypotheses_completed": len(chain.completed_hypotheses),
+                "score": chain.score, "hypotheses_total": len(chain._retained_hypotheses()),
+                "hypotheses_active": len(chain._active_hypotheses()),
+                "hypotheses_completed": len(chain._completed_hypotheses()),
                 "frontier_size": len(chain.frontier), "frontier": " | ".join(chain.frontier),
             })
         return pd.DataFrame(rows).sort_values(["status", "score"], ascending=[True, False]) if rows else pd.DataFrame()

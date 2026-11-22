@@ -88,7 +88,7 @@ class RuntimeStreamProcessor:
             if fsm is None or flow is None:
                 continue
 
-            for hypothesis in chain.completed_hypotheses:
+            for hypothesis in chain._completed_hypotheses():
                 report_key = (service.lower(), hypothesis.hypothesis_id)
                 if report_key in self.reported_hypotheses:
                     continue
@@ -251,7 +251,7 @@ class RuntimeStreamProcessor:
 
         for service, catalog in self.catalogs.items():
             for chain in catalog.store.active_chains.values():
-                for hypothesis in chain.hypotheses.values():
+                for hypothesis in chain._retained_hypotheses().values():
                     if hypothesis.status not in {"active", "incomplete", "expired", "pruned"}:
                         continue
                     reports.append({

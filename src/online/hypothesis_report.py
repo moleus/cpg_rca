@@ -77,7 +77,7 @@ def build_llm_report(
 
     timestamps = [log.timestamp for log in hypothesis.logs if log.timestamp is not None]
     competing = [
-        other for other in chain.hypotheses.values()
+        other for other in chain._retained_hypotheses().values()
         if other.hypothesis_id != hypothesis.hypothesis_id
         and other.status in {"active", "completed"}
     ]
