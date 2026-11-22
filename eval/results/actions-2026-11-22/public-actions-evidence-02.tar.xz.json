@@ -1,0 +1,19 @@
+{
+  "file": "public-actions-evidence-02.tar.xz",
+  "sha256": "ae2b2fe20f136aa55583adbd331da6bfa00408941a28bb73eda64d3b74e9b7db",
+  "bytes": 751828,
+  "files": 205,
+  "source_file_bytes": 7713546,
+  "run_ids": [
+    45024003121,
+    45025027002,
+    45025461098
+  ],
+  "compression": "xz, preset 6",
+  "local_evidence": [
+    "full-native-scope-query",
+    "notifier-overlays"
+  ],
+  "content_note": "Downloaded public Actions artifact files and explicitly selected local public experiments. Original ZIP archives and native CPG binaries are excluded.",
+  "duplicate_storage": "Identical files use internal tar hard links; all paths and hashes remain in ARCHIVE-MANIFEST.json."
+}

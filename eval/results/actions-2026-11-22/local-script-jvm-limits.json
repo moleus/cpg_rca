@@ -1,0 +1,19 @@
+{
+  "joern_version": "4.0.689",
+  "java_version": "21.0.13",
+  "probe_script_sha256": "fb5099c9ad4da1030561cf7b4df495b750be15a57c2b28e22efe2dfd2dd290c0",
+  "launcher_arguments": [
+    "-J-Xmx3g",
+    "-J-XX:ActiveProcessorCount=2"
+  ],
+  "launcher_flags_only": {
+    "runtime_max_heap_bytes": 2613051392,
+    "runtime_available_processors": 9
+  },
+  "with_JDK_JAVA_OPTIONS": {
+    "value": "-Xmx3g -XX:ActiveProcessorCount=2",
+    "runtime_max_heap_bytes": 3221225472,
+    "runtime_available_processors": 2
+  },
+  "scope": "Empty script; no CPG loaded. Local host. These are observations, not expected defaults on other hosts."
+}

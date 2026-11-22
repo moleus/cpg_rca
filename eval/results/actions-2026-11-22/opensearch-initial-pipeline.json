@@ -1,0 +1,260 @@
+{
+  "artifact_bytes": 10031686,
+  "counts": {
+    "entrypoints": 89,
+    "entrypoints_error": 0,
+    "templates": 106
+  },
+  "coverage": {
+    "entrypoints": 89,
+    "log_points": 106,
+    "lost": 23,
+    "pooled_lost": 77,
+    "pooled_lost_callee": 77,
+    "pooled_lost_entry": 0,
+    "pooled_reachable": 123,
+    "pooled_visible": 46,
+    "reachable": 69,
+    "visible": 46,
+    "zero_log": 60
+  },
+  "graph": {
+    "edges": 333948,
+    "nodes": 45756
+  },
+  "input": {
+    "bytes": 32222675,
+    "file": "export.dot",
+    "sha256": "42d301e920e200b27e30feef027b979324dbaffaaa086c87bb7d62edf58b8ec4"
+  },
+  "meta": {
+    "benchmark_module_sha256": "b819451b6ac3c891d6df148964a6da9e43ed4d61071cc6916118d364070da04d",
+    "builder_module_sha256": "20fa7245f350c88aaaff75698087a6e6c0ca9163c8bc9a3937ee68d269547e99",
+    "commit": "1f464cdf3d7c2748bd13d3fadccc561dec77f6f1",
+    "cpu_count": 4,
+    "dot_parser": "joern",
+    "flow_max_depth": 5,
+    "max_ddg_depth": 5,
+    "memory_total_bytes": 16464302080,
+    "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39",
+    "process_rss_high_water_is_cumulative": true,
+    "python": "3.12.16",
+    "python_hash_seed": "0",
+    "rss_sample_interval_sec": 0.02,
+    "tracked_changes": false,
+    "versions": {
+      "networkx": "3.6.1",
+      "psutil": "7.2.2",
+      "pydot": "4.0.1",
+      "pyparsing": "3.3.2"
+    }
+  },
+  "pipeline_wall_sec": 4.888787143999991,
+  "schema_version": 1,
+  "source": {
+    "commit": "2220907d3119897b8bd58cbc3c926787cd05ed2c",
+    "fetch_dependencies": false,
+    "files": [
+      {
+        "bytes": 1358,
+        "path": "server/src/main/java/org/opensearch/snapshots/AbortedSnapshotException.java",
+        "sha256": "60a709a5b8ba90c85ee0d77701dcf98f68b438a4f31e379c05db01444593a989"
+      },
+      {
+        "bytes": 1981,
+        "path": "server/src/main/java/org/opensearch/snapshots/ConcurrentSnapshotExecutionException.java",
+        "sha256": "26abdeecc2b88f67c290c499e47c8a39d0e40b0e0d4f79a97a0ae85089276fb6"
+      },
+      {
+        "bytes": 1539,
+        "path": "server/src/main/java/org/opensearch/snapshots/EmptySnapshotsInfoService.java",
+        "sha256": "e6b0098db64147fddc5d97c16c3c840b15cadc794346b4804b26850eb313550f"
+      },
+      {
+        "bytes": 7106,
+        "path": "server/src/main/java/org/opensearch/snapshots/InFlightShardSnapshotStates.java",
+        "sha256": "9a08f32b381e66d3a63c80f9b1eebc0dd249eede5d62b95883a6de3e8129bc03"
+      },
+      {
+        "bytes": 17643,
+        "path": "server/src/main/java/org/opensearch/snapshots/InternalSnapshotsInfoService.java",
+        "sha256": "d476a1caad887e02bf66e4f6a065374d293a75d29fcb04d711e3e1a30ce49283"
+      },
+      {
+        "bytes": 1844,
+        "path": "server/src/main/java/org/opensearch/snapshots/InvalidSnapshotNameException.java",
+        "sha256": "0782789919470abe677be69cd025cd15eb8b0286b126530fcdde1c59318ae4a3"
+      },
+      {
+        "bytes": 4052,
+        "path": "server/src/main/java/org/opensearch/snapshots/RestoreCompletionNotifier.java",
+        "sha256": "fcbf808f693f117a269238d4cf6758beb2e45a3f4d83ddf126062e4bf962f176"
+      },
+      {
+        "bytes": 1334,
+        "path": "server/src/main/java/org/opensearch/snapshots/RestoreContext.java",
+        "sha256": "5a617488da5094026fe135891c26946894ec6b71a2ca4e0de084065e12136033"
+      },
+      {
+        "bytes": 6914,
+        "path": "server/src/main/java/org/opensearch/snapshots/RestoreInfo.java",
+        "sha256": "385fab74062eb860accdc880a694a7af3e0dc04ebebd35ef945a70271de9f430"
+      },
+      {
+        "bytes": 86251,
+        "path": "server/src/main/java/org/opensearch/snapshots/RestoreService.java",
+        "sha256": "341a662e84df668600c4392134e50fed7c57159602bc29014921f0358f050d2f"
+      },
+      {
+        "bytes": 3326,
+        "path": "server/src/main/java/org/opensearch/snapshots/Snapshot.java",
+        "sha256": "4f40b0d0f8ed03f48d2ed4974f666213a11b07a7355e89832ff7efc4974fa286"
+      },
+      {
+        "bytes": 1672,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotCreationException.java",
+        "sha256": "40ca534fbda7d7a6e8b5f1c87587ab21987a6d2bb0340e066d33b52d6c58cfe8"
+      },
+      {
+        "bytes": 3516,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotException.java",
+        "sha256": "6d9bc73990790f4a8f248548848f4407a684bc89fef452511de9ffa231506b08"
+      },
+      {
+        "bytes": 3934,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotId.java",
+        "sha256": "9fb85de947f8a1435bbec3ee523fcb1bfc671970f948682910a91e8fae0d0e01"
+      },
+      {
+        "bytes": 1778,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotInProgressException.java",
+        "sha256": "47964c32952c1f29543084726afe694642a9f38bd88ff850b438a14823c56e67"
+      },
+      {
+        "bytes": 901,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotInUseDeletionException.java",
+        "sha256": "e52263557df1631cecc245b634432f8fbbd6e3d0d0a222addafd02957a26bd94"
+      },
+      {
+        "bytes": 37847,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotInfo.java",
+        "sha256": "265c3fdeb57fa4f43fd7a0425809e0757c11872fe1bb768473de8e7f78b0b432"
+      },
+      {
+        "bytes": 1945,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotMissingException.java",
+        "sha256": "24c4b2a388ad7694829e6ecb9d99e75a00cf1db7072314fe907f5ba38bdc5491"
+      },
+      {
+        "bytes": 1902,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotRestoreException.java",
+        "sha256": "e91bda0e7dd740f2885b201e4b1554a46e8b8b87a2def14ed223a9521717f7e6"
+      },
+      {
+        "bytes": 8399,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotShardFailure.java",
+        "sha256": "ae6ebafb41968310963623b90d68220098e7a5b2051a5609148255e1d645093f"
+      },
+      {
+        "bytes": 6130,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotShardPaths.java",
+        "sha256": "bf758ed48af32fd9a3c85a3c97b13d8d59b9cc466aa01f5b044a4aa9fc6ed4aa"
+      },
+      {
+        "bytes": 2986,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotShardSizeInfo.java",
+        "sha256": "6b93934cd70ac3dac6256e0b7e0961ba9e0c4a2c8ce6693958e0c56c3af989d9"
+      },
+      {
+        "bytes": 34730,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotShardsService.java",
+        "sha256": "e9eda9579999b3eed23c791fad308275c81878405e748225a2cf52748f4953e4"
+      },
+      {
+        "bytes": 3297,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotState.java",
+        "sha256": "0d7c9abd9221619c987a5dc01d3bd6835e09bbbdf47ecb7a7073d6f52aa5fba6"
+      },
+      {
+        "bytes": 3075,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotUtils.java",
+        "sha256": "ec8045d0e08bea3ed00d177cc476bc3bb3a1f37ca64a9c16dd3c9f15619a3ec1"
+      },
+      {
+        "bytes": 1312,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotsInfoService.java",
+        "sha256": "4c31b8212409961d8424afb79f0656234f9829fccf24ded4925d2aa586504489"
+      },
+      {
+        "bytes": 253599,
+        "path": "server/src/main/java/org/opensearch/snapshots/SnapshotsService.java",
+        "sha256": "f2a88fa2494ba1933b3fc54e5ab71ce378b7b752ef0625f81b53d87bf9f9a30f"
+      },
+      {
+        "bytes": 3844,
+        "path": "server/src/main/java/org/opensearch/snapshots/UpdateIndexShardSnapshotStatusRequest.java",
+        "sha256": "a672fc884490a30969607b791e39c1e277c1fc8fe802903a3d8be6d494198087"
+      },
+      {
+        "bytes": 1679,
+        "path": "server/src/main/java/org/opensearch/snapshots/UpdateIndexShardSnapshotStatusResponse.java",
+        "sha256": "7860b82d738a7f78554d8401de81886eaff919386597d5da35409ad23b7d5f57"
+      },
+      {
+        "bytes": 13785,
+        "path": "server/src/main/java/org/opensearch/snapshots/package-info.java",
+        "sha256": "f79820309eb9dc0d0ed88b250a294e17cb3ecb6fd2a908194ea584c8c309ac8e"
+      }
+    ],
+    "java_files": 30,
+    "joern_expected_archive_sha256": "c13f0b6adbb1ea2fbf94c046e42ae023394f150f855ca6ca19ef20e20a1805b0",
+    "joern_version": "v4.0.689",
+    "repository": "https://github.com/opensearch-project/OpenSearch",
+    "scope": "server/src/main/java/org/opensearch/snapshots",
+    "scope_kind": "package_subset",
+    "source_bytes": 519679
+  },
+  "stages": [
+    {
+      "cpu_sec": 2.75666309,
+      "process_rss_high_water_bytes": 358780928,
+      "rss_end_bytes": 327032832,
+      "rss_sampled_peak_bytes": 359124992,
+      "rss_start_bytes": 37920768,
+      "stage": "load_dot",
+      "status": "ok",
+      "wall_sec": 2.750464934000007
+    },
+    {
+      "cpu_sec": 0.06583920600000015,
+      "process_rss_high_water_bytes": 358780928,
+      "rss_end_bytes": 328740864,
+      "rss_sampled_peak_bytes": 328740864,
+      "rss_start_bytes": 327053312,
+      "stage": "templates_and_trie",
+      "status": "ok",
+      "wall_sec": 0.06566417700000216
+    },
+    {
+      "cpu_sec": 1.9912070960000006,
+      "process_rss_high_water_bytes": 358780928,
+      "rss_end_bytes": 337207296,
+      "rss_sampled_peak_bytes": 337211392,
+      "rss_start_bytes": 328740864,
+      "stage": "flow_and_fsm",
+      "status": "ok",
+      "wall_sec": 1.9855147540000075
+    },
+    {
+      "cpu_sec": 0.03369637800000014,
+      "process_rss_high_water_bytes": 358780928,
+      "rss_end_bytes": 337207296,
+      "rss_sampled_peak_bytes": 337211392,
+      "rss_start_bytes": 337207296,
+      "stage": "coverage",
+      "status": "ok",
+      "wall_sec": 0.0335886849999838
+    }
+  ],
+  "status": "ok"
+}

@@ -1,0 +1,485 @@
+{
+  "environment": {
+    "commit": "c8fdad395069096fda4d9110455992933d7bd49a",
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "cpu_models": [
+      "Intel(R) Xeon(R) 6975P-C"
+    ],
+    "harness_sha256": "844f1bf33a0e366a593ad035577f2712e1993849c464de36b40094b3b6573d80",
+    "logical_cpus": 4,
+    "memory_total_bytes": 16464302080,
+    "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39",
+    "python": "3.12.16 (main, Oct 26 2026, 02:50:49) [GCC 13.3.0]",
+    "python_dont_write_bytecode": "1",
+    "python_hash_seed": "0",
+    "recorded_at_utc": "2026-11-22T12:28:34.407967+00:00",
+    "runner": {
+      "GITHUB_REF": "refs/heads/experiment/opensearch-controlled-benchmark",
+      "GITHUB_REPOSITORY": "moleus/cpg_rca",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_RUN_ID": "45022293329",
+      "GITHUB_SHA": "c8fdad395069096fda4d9110455992933d7bd49a",
+      "ImageOS": "ubuntu24",
+      "ImageVersion": "20261116.133.1",
+      "RUNNER_ARCH": "X64",
+      "RUNNER_OS": "Linux"
+    },
+    "tracked_changes": "",
+    "versions": {
+      "networkx": "3.6.1",
+      "psutil": "7.2.2",
+      "pydot": "4.0.1",
+      "pyparsing": "3.3.2"
+    }
+  },
+  "schema_version": 1,
+  "scopes": [
+    {
+      "command": {
+        "aggregate_rss_sampled_peak_bytes": 115232768,
+        "command": [
+          "/opt/hostedtoolcache/Python/3.12.16/x64/bin/python",
+          "-m",
+          "eval.controlled_benchmark",
+          "reader-case",
+          "--inputs",
+          "/home/runner/work/cpg_rca/cpg_rca/output/controlled-inputs",
+          "--scope",
+          "notifier",
+          "--output",
+          "/home/runner/work/cpg_rca/cpg_rca/output/reader-equality/notifier"
+        ],
+        "cpu_measurement": "waited_children",
+        "cpu_system_sec": 0.148932,
+        "cpu_user_sec": 6.196809,
+        "max_aggregate_rss_bytes": 2147483648,
+        "returncode": 0,
+        "sample_interval_sec": 0.05,
+        "sampled_cpu_system_sec": 0.13,
+        "sampled_cpu_user_sec": 6.1,
+        "schema_version": 1,
+        "status": "ok",
+        "timeout_sec": 180,
+        "wall_sec": 6.4315744349999875
+      },
+      "equality": {
+        "artifacts": {
+          "changed": [],
+          "equal": true,
+          "extra": [],
+          "files": 4,
+          "missing": []
+        },
+        "environment": {
+          "commit": "c8fdad395069096fda4d9110455992933d7bd49a",
+          "cpu_affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cpu_models": [
+            "Intel(R) Xeon(R) 6975P-C"
+          ],
+          "harness_sha256": "844f1bf33a0e366a593ad035577f2712e1993849c464de36b40094b3b6573d80",
+          "logical_cpus": 4,
+          "memory_total_bytes": 16464302080,
+          "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39",
+          "python": "3.12.16 (main, Oct 26 2026, 02:50:49) [GCC 13.3.0]",
+          "python_dont_write_bytecode": "1",
+          "python_hash_seed": "0",
+          "recorded_at_utc": "2026-11-22T12:28:34.922252+00:00",
+          "runner": {
+            "GITHUB_REF": "refs/heads/experiment/opensearch-controlled-benchmark",
+            "GITHUB_REPOSITORY": "moleus/cpg_rca",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_RUN_ID": "45022293329",
+            "GITHUB_SHA": "c8fdad395069096fda4d9110455992933d7bd49a",
+            "ImageOS": "ubuntu24",
+            "ImageVersion": "20261116.133.1",
+            "RUNNER_ARCH": "X64",
+            "RUNNER_OS": "Linux"
+          },
+          "tracked_changes": "",
+          "versions": {
+            "networkx": "3.6.1",
+            "psutil": "7.2.2",
+            "pydot": "4.0.1",
+            "pyparsing": "3.3.2"
+          }
+        },
+        "graph_equal": true,
+        "graph_scope": "Graph metadata; ordered nodes and attributes; ordered edges, keys and attributes. Attribute-map key order is not tested.",
+        "graph_sha256": {
+          "joern": "1bd066277832c7abb6375ada1267ec75a62a14a7fe1d7c5b926b9d5113fe61f4",
+          "pydot": "1bd066277832c7abb6375ada1267ec75a62a14a7fe1d7c5b926b9d5113fe61f4"
+        },
+        "input": {
+          "dot_bytes": 301473,
+          "dot_sha256": "f1c3b4febbd969e940ddc39905bbeb20cd412f4da14c6d3ab9db801dcfc80b56",
+          "source_manifest_sha256": "f240991e92b52947df4eddedebe1900739654a9fefeab2014b51839253d881a4"
+        },
+        "readers": {
+          "joern": {
+            "edges": 3027,
+            "entrypoints": 1,
+            "nodes": 607,
+            "templates": 1
+          },
+          "pydot": {
+            "edges": 3027,
+            "entrypoints": 1,
+            "nodes": 607,
+            "templates": 1
+          }
+        },
+        "scope": "notifier",
+        "stages": [
+          {
+            "cpu_sec": 5.703118891,
+            "process_rss_high_water_bytes": 65548288,
+            "rss_end_bytes": 65769472,
+            "rss_sampled_peak_bytes": 65769472,
+            "rss_start_bytes": 40407040,
+            "stage": "pydot_load",
+            "status": "ok",
+            "wall_sec": 5.78395437399999
+          },
+          {
+            "cpu_sec": 0.023214273999999868,
+            "process_rss_high_water_bytes": 67907584,
+            "rss_end_bytes": 68231168,
+            "rss_sampled_peak_bytes": 68235264,
+            "rss_start_bytes": 65769472,
+            "stage": "joern_load",
+            "status": "ok",
+            "wall_sec": 0.02319036299999766
+          },
+          {
+            "cpu_sec": 0.0111282070000005,
+            "process_rss_high_water_bytes": 68825088,
+            "rss_end_bytes": 69165056,
+            "rss_sampled_peak_bytes": 69165056,
+            "rss_start_bytes": 68714496,
+            "stage": "pydot_artifacts",
+            "status": "ok",
+            "wall_sec": 0.011127695000027416
+          },
+          {
+            "cpu_sec": 0.009368196000000495,
+            "process_rss_high_water_bytes": 68956160,
+            "rss_end_bytes": 69271552,
+            "rss_sampled_peak_bytes": 69271552,
+            "rss_start_bytes": 69165056,
+            "stage": "joern_artifacts",
+            "status": "ok",
+            "wall_sec": 0.009367568999977038
+          }
+        ],
+        "status": "ok"
+      },
+      "exit_code": 0,
+      "scope": "notifier"
+    },
+    {
+      "command": {
+        "aggregate_rss_sampled_peak_bytes": 115904512,
+        "command": [
+          "/opt/hostedtoolcache/Python/3.12.16/x64/bin/python",
+          "-m",
+          "eval.controlled_benchmark",
+          "reader-case",
+          "--inputs",
+          "/home/runner/work/cpg_rca/cpg_rca/output/controlled-inputs",
+          "--scope",
+          "snapshots-info",
+          "--output",
+          "/home/runner/work/cpg_rca/cpg_rca/output/reader-equality/snapshots-info"
+        ],
+        "cpu_measurement": "waited_children",
+        "cpu_system_sec": 0.39930699999999997,
+        "cpu_user_sec": 25.109265,
+        "max_aggregate_rss_bytes": 2147483648,
+        "returncode": 0,
+        "sample_interval_sec": 0.05,
+        "sampled_cpu_system_sec": 0.39,
+        "sampled_cpu_user_sec": 25.03,
+        "schema_version": 1,
+        "status": "ok",
+        "timeout_sec": 180,
+        "wall_sec": 25.447566698000003
+      },
+      "equality": {
+        "artifacts": {
+          "changed": [],
+          "equal": true,
+          "extra": [],
+          "files": 10,
+          "missing": []
+        },
+        "environment": {
+          "commit": "c8fdad395069096fda4d9110455992933d7bd49a",
+          "cpu_affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cpu_models": [
+            "Intel(R) Xeon(R) 6975P-C"
+          ],
+          "harness_sha256": "844f1bf33a0e366a593ad035577f2712e1993849c464de36b40094b3b6573d80",
+          "logical_cpus": 4,
+          "memory_total_bytes": 16464302080,
+          "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39",
+          "python": "3.12.16 (main, Oct 26 2026, 02:50:49) [GCC 13.3.0]",
+          "python_dont_write_bytecode": "1",
+          "python_hash_seed": "0",
+          "recorded_at_utc": "2026-11-22T12:28:41.348743+00:00",
+          "runner": {
+            "GITHUB_REF": "refs/heads/experiment/opensearch-controlled-benchmark",
+            "GITHUB_REPOSITORY": "moleus/cpg_rca",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_RUN_ID": "45022293329",
+            "GITHUB_SHA": "c8fdad395069096fda4d9110455992933d7bd49a",
+            "ImageOS": "ubuntu24",
+            "ImageVersion": "20261116.133.1",
+            "RUNNER_ARCH": "X64",
+            "RUNNER_OS": "Linux"
+          },
+          "tracked_changes": "",
+          "versions": {
+            "networkx": "3.6.1",
+            "psutil": "7.2.2",
+            "pydot": "4.0.1",
+            "pyparsing": "3.3.2"
+          }
+        },
+        "graph_equal": true,
+        "graph_scope": "Graph metadata; ordered nodes and attributes; ordered edges, keys and attributes. Attribute-map key order is not tested.",
+        "graph_sha256": {
+          "joern": "5890811b646c9a9a108ca4f2dd4e22693fde57b6a342a263a7f21b02e8b385a3",
+          "pydot": "5890811b646c9a9a108ca4f2dd4e22693fde57b6a342a263a7f21b02e8b385a3"
+        },
+        "input": {
+          "dot_bytes": 1354667,
+          "dot_sha256": "3f0a4244eabbb692ff3c4eb9e8510e369bed9e525ac6fb462544339577f03717",
+          "source_manifest_sha256": "552edadac3340e93d4e45116d35ce28d61cfc0728a8f7a6eea2e99c7d90f5093"
+        },
+        "readers": {
+          "joern": {
+            "edges": 14361,
+            "entrypoints": 4,
+            "nodes": 2278,
+            "templates": 4
+          },
+          "pydot": {
+            "edges": 14361,
+            "entrypoints": 4,
+            "nodes": 2278,
+            "templates": 4
+          }
+        },
+        "scope": "snapshots-info",
+        "stages": [
+          {
+            "cpu_sec": 24.560629785000003,
+            "process_rss_high_water_bytes": 85950464,
+            "rss_end_bytes": 86192128,
+            "rss_sampled_peak_bytes": 86192128,
+            "rss_start_bytes": 40214528,
+            "stage": "pydot_load",
+            "status": "ok",
+            "wall_sec": 24.499183611999996
+          },
+          {
+            "cpu_sec": 0.10670873899999833,
+            "process_rss_high_water_bytes": 96829440,
+            "rss_end_bytes": 97083392,
+            "rss_sampled_peak_bytes": 97087488,
+            "rss_start_bytes": 86196224,
+            "stage": "joern_load",
+            "status": "ok",
+            "wall_sec": 0.10633585500002596
+          },
+          {
+            "cpu_sec": 0.08106048699999846,
+            "process_rss_high_water_bytes": 99188736,
+            "rss_end_bytes": 99553280,
+            "rss_sampled_peak_bytes": 99557376,
+            "rss_start_bytes": 99532800,
+            "stage": "pydot_artifacts",
+            "status": "ok",
+            "wall_sec": 0.08074909300000854
+          },
+          {
+            "cpu_sec": 0.07735047499999936,
+            "process_rss_high_water_bytes": 99188736,
+            "rss_end_bytes": 99553280,
+            "rss_sampled_peak_bytes": 99557376,
+            "rss_start_bytes": 99553280,
+            "stage": "joern_artifacts",
+            "status": "ok",
+            "wall_sec": 0.07703226500001392
+          }
+        ],
+        "status": "ok"
+      },
+      "exit_code": 0,
+      "scope": "snapshots-info"
+    },
+    {
+      "command": {
+        "aggregate_rss_sampled_peak_bytes": 115978240,
+        "command": [
+          "/opt/hostedtoolcache/Python/3.12.16/x64/bin/python",
+          "-m",
+          "eval.controlled_benchmark",
+          "reader-case",
+          "--inputs",
+          "/home/runner/work/cpg_rca/cpg_rca/output/controlled-inputs",
+          "--scope",
+          "recovery-exception",
+          "--output",
+          "/home/runner/work/cpg_rca/cpg_rca/output/reader-equality/recovery-exception"
+        ],
+        "cpu_measurement": "waited_children",
+        "cpu_system_sec": 0.09913899999999998,
+        "cpu_user_sec": 3.150952,
+        "max_aggregate_rss_bytes": 2147483648,
+        "returncode": 0,
+        "sample_interval_sec": 0.05,
+        "sampled_cpu_system_sec": 0.08,
+        "sampled_cpu_user_sec": 3.1100000000000003,
+        "schema_version": 1,
+        "status": "ok",
+        "timeout_sec": 180,
+        "wall_sec": 3.283894226000001
+      },
+      "equality": {
+        "artifacts": {
+          "changed": [],
+          "equal": true,
+          "extra": [],
+          "files": 2,
+          "missing": []
+        },
+        "environment": {
+          "commit": "c8fdad395069096fda4d9110455992933d7bd49a",
+          "cpu_affinity": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cpu_models": [
+            "Intel(R) Xeon(R) 6975P-C"
+          ],
+          "harness_sha256": "844f1bf33a0e366a593ad035577f2712e1993849c464de36b40094b3b6573d80",
+          "logical_cpus": 4,
+          "memory_total_bytes": 16464302080,
+          "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39",
+          "python": "3.12.16 (main, Oct 26 2026, 02:50:49) [GCC 13.3.0]",
+          "python_dont_write_bytecode": "1",
+          "python_hash_seed": "0",
+          "recorded_at_utc": "2026-11-22T12:29:06.797493+00:00",
+          "runner": {
+            "GITHUB_REF": "refs/heads/experiment/opensearch-controlled-benchmark",
+            "GITHUB_REPOSITORY": "moleus/cpg_rca",
+            "GITHUB_RUN_ATTEMPT": "1",
+            "GITHUB_RUN_ID": "45022293329",
+            "GITHUB_SHA": "c8fdad395069096fda4d9110455992933d7bd49a",
+            "ImageOS": "ubuntu24",
+            "ImageVersion": "20261116.133.1",
+            "RUNNER_ARCH": "X64",
+            "RUNNER_OS": "Linux"
+          },
+          "tracked_changes": "",
+          "versions": {
+            "networkx": "3.6.1",
+            "psutil": "7.2.2",
+            "pydot": "4.0.1",
+            "pyparsing": "3.3.2"
+          }
+        },
+        "graph_equal": true,
+        "graph_scope": "Graph metadata; ordered nodes and attributes; ordered edges, keys and attributes. Attribute-map key order is not tested.",
+        "graph_sha256": {
+          "joern": "39dfe6f790c22a2cb8921e9328d851b2f690a83c86aa9d582f5b42a547af8192",
+          "pydot": "39dfe6f790c22a2cb8921e9328d851b2f690a83c86aa9d582f5b42a547af8192"
+        },
+        "input": {
+          "dot_bytes": 138236,
+          "dot_sha256": "85cf7575ef0e8489f16ba9af0021a9a716839ba8d82d9dc15d58b6478290575e",
+          "source_manifest_sha256": "5eaa3a740f8feec4db7d2da2eeffdf75863373a689427a612a95e010a4e484eb"
+        },
+        "readers": {
+          "joern": {
+            "edges": 1331,
+            "entrypoints": 0,
+            "nodes": 272,
+            "templates": 0
+          },
+          "pydot": {
+            "edges": 1331,
+            "entrypoints": 0,
+            "nodes": 272,
+            "templates": 0
+          }
+        },
+        "scope": "recovery-exception",
+        "stages": [
+          {
+            "cpu_sec": 2.660185102,
+            "process_rss_high_water_bytes": 63033344,
+            "rss_end_bytes": 63098880,
+            "rss_sampled_peak_bytes": 63098880,
+            "rss_start_bytes": 40333312,
+            "stage": "pydot_load",
+            "status": "ok",
+            "wall_sec": 2.6547001670000157
+          },
+          {
+            "cpu_sec": 0.010544423999999886,
+            "process_rss_high_water_bytes": 63950848,
+            "rss_end_bytes": 64212992,
+            "rss_sampled_peak_bytes": 64212992,
+            "rss_start_bytes": 63098880,
+            "stage": "joern_load",
+            "status": "ok",
+            "wall_sec": 0.01054401300001473
+          },
+          {
+            "cpu_sec": 0.0011424589999999846,
+            "process_rss_high_water_bytes": 64212992,
+            "rss_end_bytes": 64442368,
+            "rss_sampled_peak_bytes": 64442368,
+            "rss_start_bytes": 64430080,
+            "stage": "pydot_artifacts",
+            "status": "ok",
+            "wall_sec": 0.0011422839999966072
+          },
+          {
+            "cpu_sec": 0.0009482780000000801,
+            "process_rss_high_water_bytes": 64212992,
+            "rss_end_bytes": 64454656,
+            "rss_sampled_peak_bytes": 64454656,
+            "rss_start_bytes": 64454656,
+            "stage": "joern_artifacts",
+            "status": "ok",
+            "wall_sec": 0.0009483509999768103
+          }
+        ],
+        "status": "ok"
+      },
+      "exit_code": 0,
+      "scope": "recovery-exception"
+    }
+  ],
+  "status": "ok"
+}

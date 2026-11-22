@@ -1,0 +1,20 @@
+{
+  "file": "public-actions-evidence-01.tar.xz",
+  "sha256": "bbc2f527f383cabf93cb88bec49b469b84fbb91e9514694dc9acc49e1f4ded46",
+  "bytes": 2547316,
+  "files": 3965,
+  "source_file_bytes": 170831718,
+  "run_ids": [
+    45021824719,
+    45021824724,
+    45022240714,
+    45022293329,
+    45022463665,
+    45022846907,
+    45023047806,
+    45023212719
+  ],
+  "compression": "xz, preset 6",
+  "content_note": "Downloaded public Actions artifact files. Original ZIP archives and full native CPG binaries are excluded.",
+  "duplicate_storage": "Identical files use internal tar hard links; all paths and hashes remain in ARCHIVE-MANIFEST.json."
+}

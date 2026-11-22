@@ -1,0 +1,480 @@
+{
+  "anomalies": {
+    "eligible_without_file": {
+      "count": 0,
+      "paths": [],
+      "paths_truncated": false,
+      "sorted_paths_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "eligible_without_namespace": {
+      "count": 3,
+      "paths": [
+        "benchmarks/src/main/java/org/opensearch/common/hash/HashFunctionBenchmark.java",
+        "server/src/main/java/org/opensearch/index/mapper/DerivedFieldSupportedTypes.java",
+        "server/src/main/java/org/opensearch/wlm/ResourceType.java"
+      ],
+      "paths_truncated": false,
+      "sorted_paths_sha256": "1d364054b5fb8fade7be03d0f1781ffd330db619e62d795c5882c8092c3d8037"
+    },
+    "excluded_file_names": {
+      "count": 0,
+      "paths": [],
+      "paths_truncated": false,
+      "sorted_paths_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "excluded_method_names": {
+      "count": 0,
+      "paths": [],
+      "paths_truncated": false,
+      "sorted_paths_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "excluded_namespace_names": {
+      "count": 0,
+      "paths": [],
+      "paths_truncated": false,
+      "sorted_paths_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "failed_paths_with_method_filename": {
+      "count": 0,
+      "paths": [],
+      "paths_truncated": false,
+      "sorted_paths_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "file_names_outside_manifest": {
+      "count": 0,
+      "paths": [],
+      "paths_truncated": false,
+      "sorted_paths_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "method_names_outside_manifest": {
+      "count": 1,
+      "paths": [
+        "<empty>"
+      ],
+      "paths_truncated": false,
+      "sorted_paths_sha256": "b579ebb77e8bc298eb5b3c19adfa880e3e8c2a8ade87a53fd56903a83639ddb1"
+    },
+    "namespace_names_outside_manifest": {
+      "count": 1,
+      "paths": [
+        "<unknown>"
+      ],
+      "paths_truncated": false,
+      "sorted_paths_sha256": "3c8ba0d26df9326538077d60fff4786f3fda5971cd50f9753ff6000352e4fae6"
+    },
+    "unclassified_no_method_sources": {
+      "count": 0,
+      "paths": [],
+      "paths_truncated": false,
+      "sorted_paths_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "audit_script_sha256": "9fd114efca6fc6e8a5baab4bccaa2e64b58966918e79b124d22bde0c2ce54539",
+  "baseline_count_report_agrees": true,
+  "baseline_cpg_sha256": "a07cfe1932801ec453057c74897eb0483c2e7e3fc02cb913dd06db28127504ab",
+  "default_exclude_rule": {
+    "override_flag": "--no-default-exclude",
+    "override_used_in_baseline": false,
+    "path_components": [
+      ".git",
+      ".mvn",
+      ".gradle",
+      "build",
+      "target",
+      "out",
+      "node_modules",
+      ".idea",
+      "test"
+    ]
+  },
+  "excluded_first_matching_component_counts": {
+    "test": 4657
+  },
+  "failed_ast_creation_paths": [
+    "benchmarks/src/main/java/org/opensearch/common/hash/HashFunctionBenchmark.java",
+    "server/src/main/java/org/opensearch/index/mapper/DerivedFieldSupportedTypes.java",
+    "server/src/main/java/org/opensearch/wlm/ResourceType.java"
+  ],
+  "failure_records": [
+    {
+      "logger": "AstCreator",
+      "next_log_line": "java.util.NoSuchElementException: None.get",
+      "path": "server/src/main/java/org/opensearch/index/mapper/DerivedFieldSupportedTypes.java"
+    },
+    {
+      "logger": "AstCreator",
+      "next_log_line": "java.util.NoSuchElementException: None.get",
+      "path": "server/src/main/java/org/opensearch/wlm/ResourceType.java"
+    },
+    {
+      "logger": "AstCreator",
+      "next_log_line": "java.util.NoSuchElementException: None.get",
+      "path": "benchmarks/src/main/java/org/opensearch/common/hash/HashFunctionBenchmark.java"
+    }
+  ],
+  "file_namespace_explanation": {
+    "eligible_minus_failed_plus_global": 9111,
+    "exact_missing_namespace_matches_failures": true,
+    "failed_paths_with_file_nodes": [
+      "benchmarks/src/main/java/org/opensearch/common/hash/HashFunctionBenchmark.java",
+      "server/src/main/java/org/opensearch/index/mapper/DerivedFieldSupportedTypes.java",
+      "server/src/main/java/org/opensearch/wlm/ResourceType.java"
+    ],
+    "file_node_survives_ast_error": "AstCreator creates FILE before astForTranslationUnit; the latter catches the exception and returns an empty AST.",
+    "global_namespace_added": "MetaDataPass adds one global NAMESPACE_BLOCK with an unknown filename; it adds no FILE.",
+    "observed_namespace_nodes": 9111
+  },
+  "input_files": {
+    "baseline_summary": {
+      "bytes": 837984,
+      "file": "summary.json",
+      "sha256": "45630903f12dab3eef4c29fc4f0469ee071f0eb2b13e4ba467a67f7ebfa6bf31"
+    },
+    "native_counts": {
+      "bytes": 2584191,
+      "file": "native-counts.json",
+      "sha256": "3e13db706d39dd3bdb47e323fdc0455bc509f1f902caf32fdaacc11958ea6f8a"
+    },
+    "parse_stderr": {
+      "bytes": 70416,
+      "file": "parse.stderr.log",
+      "sha256": "8cde2241823cb27afcc395b5b2a47369ac4a0ef7eb2fc96ab71317fbcad59af1"
+    },
+    "source_manifest": {
+      "bytes": 3104648,
+      "file": "source-manifest.json",
+      "sha256": "f004db63b91083a3b0b3c2d30085e09715002e0f2da6f91684997d8a08995468"
+    }
+  },
+  "joern_version": "v4.0.689",
+  "manifest_source_bytes": 124664521,
+  "native_cpg_file_verified": true,
+  "native_node_counts": {
+    "FILE": 9113,
+    "METHOD": 113292,
+    "NAMESPACE_BLOCK": 9111
+  },
+  "no_method_source_review": [
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "buildSrc/src/main/java/org/opensearch/gradle/FileSupplier.java",
+      "sha256": "ebb24c8dfad7055c8ee7394267526f20c9d7e7c6c4baeb798678da877159ee99"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "libs/telemetry/src/main/java/org/opensearch/telemetry/metrics/MetricsTelemetry.java",
+      "sha256": "87c5317fdef8ca7751a9b614479f8dba792bfcf44059472637c5ebb84f3427ff"
+    },
+    {
+      "category": "interface_fields_only_verified_by_source_review",
+      "path": "libs/x-content/src/main/java/org/opensearch/common/xcontent/XContentConstraints.java",
+      "sha256": "f90e16b36aadfdd38ae4e89ce6bbadd0ecb1e01ef44efbcbdfa47b6b9d071ff4"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "modules/parent-join/src/main/java/org/opensearch/join/aggregations/Children.java",
+      "sha256": "19e78bae536fe91a19474415aaab16e942b25664a21d31cb112559cba70cbb21"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "modules/parent-join/src/main/java/org/opensearch/join/aggregations/Parent.java",
+      "sha256": "7275ddc30989f7ecc38e47c4449c98633e5aabfa370603f77617a67ea4217c2c"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "sandbox/libs/analytics-framework/src/main/java/org/opensearch/analytics/spi/BackendExecutionState.java",
+      "sha256": "9fe2bd875e7ad770ef313ecb16d17179cb69615acd5a102c5ce05d278c9a4514"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "sandbox/libs/analytics-framework/src/main/java/org/opensearch/analytics/spi/CommonExecutionContext.java",
+      "sha256": "8a60c5fa264feab8440ea5531efd1908157850cbb1edd3ab4c23ebabdcc6c884"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "sandbox/plugins/analytics-engine/src/main/java/org/opensearch/analytics/exec/stage/SinkProvidingStageExecution.java",
+      "sha256": "496c0832bf271320303de43a83a128726688514cbbd4d6e748c95e5e007ccafb"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/action/CompositeIndicesRequest.java",
+      "sha256": "3a6a2d94f334c221c84b658bad2eb2bfbcad4a7b2a72cfa5d164826ec699cfda"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/action/ingest/SimulateDocumentResult.java",
+      "sha256": "f4c0bcb1a6265739d0652f0c6ebb1f64bda67badf7bb0a19553f34a2b62911c5"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/common/inject/spi/ProviderWithDependencies.java",
+      "sha256": "845fafa599a099e1308939d8f8f8f796d9fc2025a166a0b799daa957eedfcee8"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/common/inject/spi/UntargettedBinding.java",
+      "sha256": "ef5f3eece3d33e05f253c0764887f2257d268e08e4a2b5d3e0c3ef2e628e49d5"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/common/lucene/index/BatchPlan.java",
+      "sha256": "0fccd0a131c548450841e1e65a84886937ff3cfd56502ab648305be4161cd5e8"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/common/lucene/index/BatchedDocumentValues.java",
+      "sha256": "baa21904eae0b4a4e839023bff27cbc054b9352eca39eac5194c57c2284d698b"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/common/metrics/Metric.java",
+      "sha256": "2cb1a8bd449ece5cb1493bdf0362823d812f21c6171f5a16ff710012f0fba8c6"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/identity/PluginSubject.java",
+      "sha256": "800dc7fcea9c2dde7c016c8c0077ffbb17016ada6a5e6cac04da13d7b65b7e5d"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/index/analysis/CustomMappingRuleParser.java",
+      "sha256": "bc72cc3778cafe1a9282f11bc7b8cec33e4d35b966096916effa06c9305d6a36"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/index/fielddata/IndexGeoPointFieldData.java",
+      "sha256": "d66dbdf6fddfae4ca9f00fffd61ec8870ac1cd4e1d8a1a316e09c76e6c914a11"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/index/query/MultiTermQueryBuilder.java",
+      "sha256": "e7ca145a3f8b6bba2aee49059a890d46ed1aa237c1969641c29b4cf09ec13f3a"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/lucene/analysis/miscellaneous/DisableGraphAttribute.java",
+      "sha256": "abe279db6543042725515daffa57955cc4f1a2ee0d187d0edc626f12851e1b79"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/persistent/PersistentTaskParams.java",
+      "sha256": "47cdbdf22512053c586ecc56cc13bb7f3babe31f95f952cb43ef96f9a9f5c3d2"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/persistent/PersistentTaskState.java",
+      "sha256": "01b3f59fe3285acd0777fc1dd3a09fc944fc91a37d0f345f27be6cf32b27a954"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/bucket/SingleBucketAggregator.java",
+      "sha256": "1d5168454852ba2fd28f04e45ec274a8535f58a377557251a91e13c652259b42"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/bucket/filter/Filter.java",
+      "sha256": "e2ae336bd2fa4e60017e1f1a7b990a522038032e76f5aa993a57583083765ecc"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/bucket/global/Global.java",
+      "sha256": "7df79290570fce960112f7ff65bfab6016b39169787c3fd648cd805067e22b41"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/bucket/missing/Missing.java",
+      "sha256": "cffe16b89887f0b1ed07d87f9bd781bb9b9982675a5e4df4eab4e8dad693438a"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/bucket/nested/Nested.java",
+      "sha256": "1843abc6b95b1e1164fbb5b0fe02f1a021b8f6ef1f8f8c31028068352e17868a"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/bucket/nested/ReverseNested.java",
+      "sha256": "af0c398393d52ed6ec883afce9ca26bdeb3a08f49c88bd4c9937e524c34a9cca"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/bucket/sampler/Sampler.java",
+      "sha256": "abbd460b90b03407cf8489e8a7bde4e675c3415a3424b4e8a1e904767b3ad86a"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/bucket/terms/heuristic/SignificanceHeuristicBuilder.java",
+      "sha256": "4bfccea4cdc957fa3d5d8c8b3ef0eba0775e3b9dbb2c83c7e72726145d330ffd"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/pipeline/ExtendedStatsBucket.java",
+      "sha256": "3e3ad1a68b7c8078c90c3418c6f60f701131309ea0326e4b5d4ba72766578ae0"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/pipeline/PercentilesBucket.java",
+      "sha256": "a181476434615567a89837b1a11c850bd66692d9e2aa373232cc6b1e82d1a75f"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/pipeline/SimpleValue.java",
+      "sha256": "fa1d364c06e37bd8d0ebb89722297b4ce2b73bd37c04524572c9a7c6ce51950a"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/aggregations/pipeline/StatsBucket.java",
+      "sha256": "0a0d3f10f5d727560e4ab7c2a2d2d1b1e8494dc1744c59b61480d78976ef9ee7"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/search/profile/query/ProfileCollectorManager.java",
+      "sha256": "4572dce98cd0d6afde31ece16b89b11092560ef3912a371c40902705465923b0"
+    },
+    {
+      "category": "interface_without_declared_body_members",
+      "path": "server/src/main/java/org/opensearch/tasks/SearchBackpressureTask.java",
+      "sha256": "eb14e34f552c32321410dfdd9d92228d513672c60e7bb69ec102d1acf6ff372e"
+    }
+  ],
+  "no_method_source_review_counts": {
+    "interface_fields_only_verified_by_source_review": 1,
+    "interface_without_declared_body_members": 35
+  },
+  "no_method_source_review_note": "Source text classification only. It does not check the presence of fields, initializers, inherited methods or all CPG constructs.",
+  "path_sets": {
+    "default_excluded": {
+      "count": 4657,
+      "sorted_paths_sha256": "8a3916c55447ba5cff3e1f0470831a65c6738d5fab72b8f41c7a89d2ce59f692"
+    },
+    "eligible": {
+      "count": 9113,
+      "sorted_paths_sha256": "23452c2aedd56bdad5cc0466889cf82598882892f60875b50e01b64b33e395b1"
+    },
+    "eligible_without_method_filename": {
+      "count": 793,
+      "sorted_paths_sha256": "c39f229626428415e2d30de808a1c40d1509b6fbbb2020e8adb8ff37b273aa4a"
+    },
+    "failed_paths": {
+      "count": 3,
+      "sorted_paths_sha256": "1d364054b5fb8fade7be03d0f1781ffd330db619e62d795c5882c8092c3d8037"
+    },
+    "file_names": {
+      "count": 9113,
+      "sorted_paths_sha256": "23452c2aedd56bdad5cc0466889cf82598882892f60875b50e01b64b33e395b1"
+    },
+    "file_names_in_manifest": {
+      "count": 9113,
+      "sorted_paths_sha256": "23452c2aedd56bdad5cc0466889cf82598882892f60875b50e01b64b33e395b1"
+    },
+    "manifest": {
+      "count": 13770,
+      "sorted_paths_sha256": "2ef9b2fba5ae0dd2f7b1e95ef2abf4d4f495604b1f6fd1daf48f0b6bfe2edd4b"
+    },
+    "method_source_names": {
+      "count": 8321,
+      "sorted_paths_sha256": "90052a28f4635e65bccf18eb35604fff6dd1360d5e3779a2c7e4e1a0b0bb71c9"
+    },
+    "method_source_names_in_manifest": {
+      "count": 8320,
+      "sorted_paths_sha256": "1296484bee88db97ea1fdddef6809c20d80c8c8d949fe203e87785dfa9b2687e"
+    },
+    "namespace_block_source_names": {
+      "count": 9111,
+      "sorted_paths_sha256": "3cc1157a0d5ace593610d39136a96f4e64aabfd752ab1ceeb8fce301deb97e54"
+    },
+    "namespace_block_source_names_in_manifest": {
+      "count": 9110,
+      "sorted_paths_sha256": "6005d2dc513e659e7781f7a1274a84d8dea22ecbf79adffc30fd27c18d4e7f12"
+    },
+    "package_info_without_method_filename": {
+      "count": 754,
+      "sorted_paths_sha256": "10d3aad12b719a7dd7fb8f5eb51288bd4a2eabdfe241c236fce4038e5696a4a1"
+    }
+  },
+  "primary_sources": {
+    "default_excludes": "https://github.com/joernio/joern/blob/v4.0.689/joern-cli/frontends/x2cpg/src/main/scala/io/joern/x2cpg/frontendspecific/javasrc2cpg/package.scala",
+    "exclude_override": "https://github.com/joernio/joern/blob/v4.0.689/joern-cli/frontends/x2cpg/src/main/scala/io/joern/x2cpg/X2Cpg.scala",
+    "file_and_ast_creation": "https://github.com/joernio/joern/blob/v4.0.689/joern-cli/frontends/javasrc2cpg/src/main/scala/io/joern/javasrc2cpg/astcreation/AstCreator.scala",
+    "global_namespace": "https://github.com/joernio/joern/blob/v4.0.689/joern-cli/frontends/x2cpg/src/main/scala/io/joern/x2cpg/passes/frontend/MetaDataPass.scala",
+    "source_selection": "https://github.com/joernio/joern/blob/v4.0.689/joern-cli/frontends/javasrc2cpg/src/main/scala/io/joern/javasrc2cpg/util/SourceParser.scala"
+  },
+  "schema_version": 1,
+  "scope_note": "FILE or METHOD path presence does not prove AST or language-construct completeness.",
+  "set_hash_encoding": "Sorted distinct path strings, UTF-8, LF separator and final LF for nonempty sets.",
+  "source_commit": "2220907d3119897b8bd58cbc3c926787cd05ed2c",
+  "source_completeness": "not_established",
+  "source_set_counts": [
+    {
+      "default_excluded": 353,
+      "eligible": 8209,
+      "file_names": 8209,
+      "manifest_files": 8562,
+      "method_source_names": 7416,
+      "namespace_block_source_names": 8206,
+      "source_bytes": 57461423,
+      "source_set": "src/main/java"
+    },
+    {
+      "default_excluded": 4259,
+      "eligible": 0,
+      "file_names": 0,
+      "manifest_files": 4259,
+      "method_source_names": 0,
+      "namespace_block_source_names": 0,
+      "source_bytes": 52616431,
+      "source_set": "src/test/java"
+    },
+    {
+      "default_excluded": 1,
+      "eligible": 819,
+      "file_names": 819,
+      "manifest_files": 820,
+      "method_source_names": 819,
+      "namespace_block_source_names": 819,
+      "source_bytes": 14150479,
+      "source_set": "src/internalClusterTest/java"
+    },
+    {
+      "default_excluded": 0,
+      "eligible": 18,
+      "file_names": 18,
+      "manifest_files": 18,
+      "method_source_names": 18,
+      "namespace_block_source_names": 18,
+      "source_bytes": 134184,
+      "source_set": "src/javaRestTest/java"
+    },
+    {
+      "default_excluded": 6,
+      "eligible": 0,
+      "file_names": 0,
+      "manifest_files": 6,
+      "method_source_names": 0,
+      "namespace_block_source_names": 0,
+      "source_bytes": 19813,
+      "source_set": "src/testFixtures/java"
+    },
+    {
+      "default_excluded": 2,
+      "eligible": 52,
+      "file_names": 52,
+      "manifest_files": 54,
+      "method_source_names": 52,
+      "namespace_block_source_names": 52,
+      "source_bytes": 118865,
+      "source_set": "src/yamlRestTest/java"
+    },
+    {
+      "default_excluded": 36,
+      "eligible": 15,
+      "file_names": 15,
+      "manifest_files": 51,
+      "method_source_names": 15,
+      "namespace_block_source_names": 15,
+      "source_bytes": 163326,
+      "source_set": "other_tracked_java"
+    }
+  ],
+  "source_set_note": "Literal source-set paths; main source sets can contain test tools and benchmarks.",
+  "status": "audited"
+}

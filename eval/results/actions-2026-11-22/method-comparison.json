@@ -1,0 +1,668 @@
+{
+  "baseline_method_commit": "f8bb418fc3eeb514f4b1dfc1fdce8040470fe3e8",
+  "counts": {
+    "entrypoints": 89,
+    "entrypoints_error": 0,
+    "templates": 106
+  },
+  "coverage": {
+    "entrypoints": 89,
+    "log_points": 106,
+    "lost": 23,
+    "pooled_lost": 77,
+    "pooled_lost_callee": 77,
+    "pooled_lost_entry": 0,
+    "pooled_reachable": 123,
+    "pooled_visible": 46,
+    "reachable": 69,
+    "visible": 46,
+    "zero_log": 60
+  },
+  "environment": {
+    "commit": "c8fdad395069096fda4d9110455992933d7bd49a",
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "cpu_models": [
+      "Intel(R) Xeon(R) 6975P-C"
+    ],
+    "harness_sha256": "844f1bf33a0e366a593ad035577f2712e1993849c464de36b40094b3b6573d80",
+    "logical_cpus": 4,
+    "memory_total_bytes": 16464306176,
+    "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39",
+    "python": "3.12.16 (main, Oct 26 2026, 02:50:49) [GCC 13.3.0]",
+    "python_dont_write_bytecode": "1",
+    "python_hash_seed": "0",
+    "recorded_at_utc": "2026-11-22T12:28:33.648584+00:00",
+    "runner": {
+      "GITHUB_REF": "refs/heads/experiment/opensearch-controlled-benchmark",
+      "GITHUB_REPOSITORY": "moleus/cpg_rca",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_RUN_ID": "45022293329",
+      "GITHUB_SHA": "c8fdad395069096fda4d9110455992933d7bd49a",
+      "ImageOS": "ubuntu24",
+      "ImageVersion": "20261116.133.1",
+      "RUNNER_ARCH": "X64",
+      "RUNNER_OS": "Linux"
+    },
+    "tracked_changes": "",
+    "versions": {
+      "networkx": "3.6.1",
+      "psutil": "7.2.2",
+      "pydot": "4.0.1",
+      "pyparsing": "3.3.2"
+    }
+  },
+  "equality_scope": "Every byte of every generated file, including all FLOW/FSM JSON, trie and index. No normalization.",
+  "experiment": "method_edge_scan",
+  "file_cache": "SHA256 reads the same DOT before each sample. OS file cache is warm; Python processes are new.",
+  "graph": {
+    "edges": 333948,
+    "nodes": 45756
+  },
+  "input": {
+    "dot_bytes": 32222693,
+    "dot_sha256": "a9b60f75f8ff4181d445d68b3343cb7271da829f854f35f37e3bce0026c2e790",
+    "source_manifest_sha256": "a68cd589beb3e5a6439cae123f02d92a314ad269a16222ea92973cabc0189410"
+  },
+  "limits": {
+    "max_rss_mib": 4096,
+    "per_process_timeout_sec": 600
+  },
+  "order": [
+    {
+      "pair": 1,
+      "variant": "baseline"
+    },
+    {
+      "pair": 1,
+      "variant": "local"
+    },
+    {
+      "pair": 2,
+      "variant": "local"
+    },
+    {
+      "pair": 2,
+      "variant": "baseline"
+    },
+    {
+      "pair": 3,
+      "variant": "baseline"
+    },
+    {
+      "pair": 3,
+      "variant": "local"
+    }
+  ],
+  "reference_run": 1,
+  "repeats_per_variant": 3,
+  "runs": [
+    {
+      "command_report": "commands/01-baseline.json",
+      "equality": {
+        "changed": [],
+        "equal": true,
+        "extra": [],
+        "files": 180,
+        "missing": []
+      },
+      "metrics": {
+        "coverage.cpu_sec": 0.03514354400000741,
+        "coverage.rss_sampled_peak_bytes": 335204352,
+        "coverage.wall_sec": 0.035048853000006375,
+        "flow_and_fsm.cpu_sec": 65.25963514600001,
+        "flow_and_fsm.rss_sampled_peak_bytes": 335204352,
+        "flow_and_fsm.wall_sec": 65.07867606,
+        "load_dot.cpu_sec": 3.145578361,
+        "load_dot.rss_sampled_peak_bytes": 359383040,
+        "load_dot.wall_sec": 3.1365338799999876,
+        "templates_and_trie.cpu_sec": 0.08001342199999995,
+        "templates_and_trie.rss_sampled_peak_bytes": 329170944,
+        "templates_and_trie.wall_sec": 0.07965344299999799,
+        "total.cpu_sec": 69.44958700000001,
+        "total.rss_sampled_peak_bytes": 359370752,
+        "total.wall_sec": 69.40457055299999
+      },
+      "pair": 1,
+      "run": 1,
+      "status": "ok",
+      "variant": "baseline"
+    },
+    {
+      "command_report": "commands/02-local.json",
+      "equality": {
+        "changed": [],
+        "equal": true,
+        "extra": [],
+        "files": 180,
+        "missing": []
+      },
+      "metrics": {
+        "coverage.cpu_sec": 0.034530116,
+        "coverage.rss_sampled_peak_bytes": 338612224,
+        "coverage.wall_sec": 0.03446535699998776,
+        "flow_and_fsm.cpu_sec": 2.1590956859999997,
+        "flow_and_fsm.rss_sampled_peak_bytes": 338612224,
+        "flow_and_fsm.wall_sec": 2.15257843400002,
+        "load_dot.cpu_sec": 3.068129316,
+        "load_dot.rss_sampled_peak_bytes": 359776256,
+        "load_dot.wall_sec": 3.0601101510000035,
+        "templates_and_trie.cpu_sec": 0.07520052399999999,
+        "templates_and_trie.rss_sampled_peak_bytes": 329572352,
+        "templates_and_trie.wall_sec": 0.07501969300000155,
+        "total.cpu_sec": 6.28796399999999,
+        "total.rss_sampled_peak_bytes": 359776256,
+        "total.wall_sec": 6.314736710000005
+      },
+      "pair": 1,
+      "run": 2,
+      "status": "ok",
+      "variant": "local"
+    },
+    {
+      "command_report": "commands/03-local.json",
+      "equality": {
+        "changed": [],
+        "equal": true,
+        "extra": [],
+        "files": 180,
+        "missing": []
+      },
+      "metrics": {
+        "coverage.cpu_sec": 0.034802871000000124,
+        "coverage.rss_sampled_peak_bytes": 337502208,
+        "coverage.wall_sec": 0.034653348999995615,
+        "flow_and_fsm.cpu_sec": 2.2358163259999997,
+        "flow_and_fsm.rss_sampled_peak_bytes": 338493440,
+        "flow_and_fsm.wall_sec": 2.22912730500002,
+        "load_dot.cpu_sec": 3.089208928,
+        "load_dot.rss_sampled_peak_bytes": 359682048,
+        "load_dot.wall_sec": 3.080595004999992,
+        "templates_and_trie.cpu_sec": 0.07850896799999996,
+        "templates_and_trie.rss_sampled_peak_bytes": 329293824,
+        "templates_and_trie.wall_sec": 0.07831288299999528,
+        "total.cpu_sec": 6.417134000000009,
+        "total.rss_sampled_peak_bytes": 359682048,
+        "total.wall_sec": 6.415058256000009
+      },
+      "pair": 2,
+      "run": 3,
+      "status": "ok",
+      "variant": "local"
+    },
+    {
+      "command_report": "commands/04-baseline.json",
+      "equality": {
+        "changed": [],
+        "equal": true,
+        "extra": [],
+        "files": 180,
+        "missing": []
+      },
+      "metrics": {
+        "coverage.cpu_sec": 0.034738637999993216,
+        "coverage.rss_sampled_peak_bytes": 335130624,
+        "coverage.wall_sec": 0.03464136299999154,
+        "flow_and_fsm.cpu_sec": 65.38742014,
+        "flow_and_fsm.rss_sampled_peak_bytes": 335130624,
+        "flow_and_fsm.wall_sec": 65.189465173,
+        "load_dot.cpu_sec": 3.1277204000000003,
+        "load_dot.rss_sampled_peak_bytes": 359399424,
+        "load_dot.wall_sec": 3.119036207000022,
+        "templates_and_trie.cpu_sec": 0.07698515299999986,
+        "templates_and_trie.rss_sampled_peak_bytes": 329011200,
+        "templates_and_trie.wall_sec": 0.07681370000000243,
+        "total.cpu_sec": 69.62092799999999,
+        "total.rss_sampled_peak_bytes": 359399424,
+        "total.wall_sec": 69.44612510600001
+      },
+      "pair": 2,
+      "run": 4,
+      "status": "ok",
+      "variant": "baseline"
+    },
+    {
+      "command_report": "commands/05-baseline.json",
+      "equality": {
+        "changed": [],
+        "equal": true,
+        "extra": [],
+        "files": 180,
+        "missing": []
+      },
+      "metrics": {
+        "coverage.cpu_sec": 0.03479064799999776,
+        "coverage.rss_sampled_peak_bytes": 336195584,
+        "coverage.wall_sec": 0.03474762199999759,
+        "flow_and_fsm.cpu_sec": 65.618839833,
+        "flow_and_fsm.rss_sampled_peak_bytes": 336195584,
+        "flow_and_fsm.wall_sec": 65.40435508400003,
+        "load_dot.cpu_sec": 3.1431669600000003,
+        "load_dot.rss_sampled_peak_bytes": 359354368,
+        "load_dot.wall_sec": 3.1330984100000023,
+        "templates_and_trie.cpu_sec": 0.07793829399999996,
+        "templates_and_trie.rss_sampled_peak_bytes": 329175040,
+        "templates_and_trie.wall_sec": 0.077607831000023,
+        "total.cpu_sec": 69.877266,
+        "total.rss_sampled_peak_bytes": 359358464,
+        "total.wall_sec": 69.670061272
+      },
+      "pair": 3,
+      "run": 5,
+      "status": "ok",
+      "variant": "baseline"
+    },
+    {
+      "command_report": "commands/06-local.json",
+      "equality": {
+        "changed": [],
+        "equal": true,
+        "extra": [],
+        "files": 180,
+        "missing": []
+      },
+      "metrics": {
+        "coverage.cpu_sec": 0.03526795800000038,
+        "coverage.rss_sampled_peak_bytes": 338661376,
+        "coverage.wall_sec": 0.035056792999967,
+        "flow_and_fsm.cpu_sec": 2.2839145090000006,
+        "flow_and_fsm.rss_sampled_peak_bytes": 338669568,
+        "flow_and_fsm.wall_sec": 2.2752366170000187,
+        "load_dot.cpu_sec": 3.19605329,
+        "load_dot.rss_sampled_peak_bytes": 359784448,
+        "load_dot.wall_sec": 3.186753925000005,
+        "templates_and_trie.cpu_sec": 0.07852499200000018,
+        "templates_and_trie.rss_sampled_peak_bytes": 329601024,
+        "templates_and_trie.wall_sec": 0.078277393999997,
+        "total.cpu_sec": 6.618395000000005,
+        "total.rss_sampled_peak_bytes": 359784448,
+        "total.wall_sec": 6.648616968999988
+      },
+      "pair": 3,
+      "run": 6,
+      "status": "ok",
+      "variant": "local"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "snapshots",
+  "source_commit": "2220907d3119897b8bd58cbc3c926787cd05ed2c",
+  "status": "ok",
+  "summary": {
+    "baseline": {
+      "coverage.cpu_sec": {
+        "count": 3,
+        "max": 0.03514354400000741,
+        "median": 0.03479064799999776,
+        "min": 0.034738637999993216,
+        "values": [
+          0.03514354400000741,
+          0.034738637999993216,
+          0.03479064799999776
+        ]
+      },
+      "coverage.rss_sampled_peak_bytes": {
+        "count": 3,
+        "max": 336195584,
+        "median": 335204352,
+        "min": 335130624,
+        "values": [
+          335204352,
+          335130624,
+          336195584
+        ]
+      },
+      "coverage.wall_sec": {
+        "count": 3,
+        "max": 0.035048853000006375,
+        "median": 0.03474762199999759,
+        "min": 0.03464136299999154,
+        "values": [
+          0.035048853000006375,
+          0.03464136299999154,
+          0.03474762199999759
+        ]
+      },
+      "flow_and_fsm.cpu_sec": {
+        "count": 3,
+        "max": 65.618839833,
+        "median": 65.38742014,
+        "min": 65.25963514600001,
+        "values": [
+          65.25963514600001,
+          65.38742014,
+          65.618839833
+        ]
+      },
+      "flow_and_fsm.rss_sampled_peak_bytes": {
+        "count": 3,
+        "max": 336195584,
+        "median": 335204352,
+        "min": 335130624,
+        "values": [
+          335204352,
+          335130624,
+          336195584
+        ]
+      },
+      "flow_and_fsm.wall_sec": {
+        "count": 3,
+        "max": 65.40435508400003,
+        "median": 65.189465173,
+        "min": 65.07867606,
+        "values": [
+          65.07867606,
+          65.189465173,
+          65.40435508400003
+        ]
+      },
+      "load_dot.cpu_sec": {
+        "count": 3,
+        "max": 3.145578361,
+        "median": 3.1431669600000003,
+        "min": 3.1277204000000003,
+        "values": [
+          3.145578361,
+          3.1277204000000003,
+          3.1431669600000003
+        ]
+      },
+      "load_dot.rss_sampled_peak_bytes": {
+        "count": 3,
+        "max": 359399424,
+        "median": 359383040,
+        "min": 359354368,
+        "values": [
+          359383040,
+          359399424,
+          359354368
+        ]
+      },
+      "load_dot.wall_sec": {
+        "count": 3,
+        "max": 3.1365338799999876,
+        "median": 3.1330984100000023,
+        "min": 3.119036207000022,
+        "values": [
+          3.1365338799999876,
+          3.119036207000022,
+          3.1330984100000023
+        ]
+      },
+      "templates_and_trie.cpu_sec": {
+        "count": 3,
+        "max": 0.08001342199999995,
+        "median": 0.07793829399999996,
+        "min": 0.07698515299999986,
+        "values": [
+          0.08001342199999995,
+          0.07698515299999986,
+          0.07793829399999996
+        ]
+      },
+      "templates_and_trie.rss_sampled_peak_bytes": {
+        "count": 3,
+        "max": 329175040,
+        "median": 329170944,
+        "min": 329011200,
+        "values": [
+          329170944,
+          329011200,
+          329175040
+        ]
+      },
+      "templates_and_trie.wall_sec": {
+        "count": 3,
+        "max": 0.07965344299999799,
+        "median": 0.077607831000023,
+        "min": 0.07681370000000243,
+        "values": [
+          0.07965344299999799,
+          0.07681370000000243,
+          0.077607831000023
+        ]
+      },
+      "total.cpu_sec": {
+        "count": 3,
+        "max": 69.877266,
+        "median": 69.62092799999999,
+        "min": 69.44958700000001,
+        "values": [
+          69.44958700000001,
+          69.62092799999999,
+          69.877266
+        ]
+      },
+      "total.rss_sampled_peak_bytes": {
+        "count": 3,
+        "max": 359399424,
+        "median": 359370752,
+        "min": 359358464,
+        "values": [
+          359370752,
+          359399424,
+          359358464
+        ]
+      },
+      "total.wall_sec": {
+        "count": 3,
+        "max": 69.670061272,
+        "median": 69.44612510600001,
+        "min": 69.40457055299999,
+        "values": [
+          69.40457055299999,
+          69.44612510600001,
+          69.670061272
+        ]
+      }
+    },
+    "local": {
+      "coverage.cpu_sec": {
+        "count": 3,
+        "max": 0.03526795800000038,
+        "median": 0.034802871000000124,
+        "min": 0.034530116,
+        "values": [
+          0.034530116,
+          0.034802871000000124,
+          0.03526795800000038
+        ]
+      },
+      "coverage.rss_sampled_peak_bytes": {
+        "count": 3,
+        "max": 338661376,
+        "median": 338612224,
+        "min": 337502208,
+        "values": [
+          338612224,
+          337502208,
+          338661376
+        ]
+      },
+      "coverage.wall_sec": {
+        "count": 3,
+        "max": 0.035056792999967,
+        "median": 0.034653348999995615,
+        "min": 0.03446535699998776,
+        "values": [
+          0.03446535699998776,
+          0.034653348999995615,
+          0.035056792999967
+        ]
+      },
+      "flow_and_fsm.cpu_sec": {
+        "count": 3,
+        "max": 2.2839145090000006,
+        "median": 2.2358163259999997,
+        "min": 2.1590956859999997,
+        "values": [
+          2.1590956859999997,
+          2.2358163259999997,
+          2.2839145090000006
+        ]
+      },
+      "flow_and_fsm.rss_sampled_peak_bytes": {
+        "count": 3,
+        "max": 338669568,
+        "median": 338612224,
+        "min": 338493440,
+        "values": [
+          338612224,
+          338493440,
+          338669568
+        ]
+      },
+      "flow_and_fsm.wall_sec": {
+        "count": 3,
+        "max": 2.2752366170000187,
+        "median": 2.22912730500002,
+        "min": 2.15257843400002,
+        "values": [
+          2.15257843400002,
+          2.22912730500002,
+          2.2752366170000187
+        ]
+      },
+      "load_dot.cpu_sec": {
+        "count": 3,
+        "max": 3.19605329,
+        "median": 3.089208928,
+        "min": 3.068129316,
+        "values": [
+          3.068129316,
+          3.089208928,
+          3.19605329
+        ]
+      },
+      "load_dot.rss_sampled_peak_bytes": {
+        "count": 3,
+        "max": 359784448,
+        "median": 359776256,
+        "min": 359682048,
+        "values": [
+          359776256,
+          359682048,
+          359784448
+        ]
+      },
+      "load_dot.wall_sec": {
+        "count": 3,
+        "max": 3.186753925000005,
+        "median": 3.080595004999992,
+        "min": 3.0601101510000035,
+        "values": [
+          3.0601101510000035,
+          3.080595004999992,
+          3.186753925000005
+        ]
+      },
+      "templates_and_trie.cpu_sec": {
+        "count": 3,
+        "max": 0.07852499200000018,
+        "median": 0.07850896799999996,
+        "min": 0.07520052399999999,
+        "values": [
+          0.07520052399999999,
+          0.07850896799999996,
+          0.07852499200000018
+        ]
+      },
+      "templates_and_trie.rss_sampled_peak_bytes": {
+        "count": 3,
+        "max": 329601024,
+        "median": 329572352,
+        "min": 329293824,
+        "values": [
+          329572352,
+          329293824,
+          329601024
+        ]
+      },
+      "templates_and_trie.wall_sec": {
+        "count": 3,
+        "max": 0.07831288299999528,
+        "median": 0.078277393999997,
+        "min": 0.07501969300000155,
+        "values": [
+          0.07501969300000155,
+          0.07831288299999528,
+          0.078277393999997
+        ]
+      },
+      "total.cpu_sec": {
+        "count": 3,
+        "max": 6.618395000000005,
+        "median": 6.417134000000009,
+        "min": 6.28796399999999,
+        "values": [
+          6.28796399999999,
+          6.417134000000009,
+          6.618395000000005
+        ]
+      },
+      "total.rss_sampled_peak_bytes": {
+        "count": 3,
+        "max": 359784448,
+        "median": 359776256,
+        "min": 359682048,
+        "values": [
+          359776256,
+          359682048,
+          359784448
+        ]
+      },
+      "total.wall_sec": {
+        "count": 3,
+        "max": 6.648616968999988,
+        "median": 6.415058256000009,
+        "min": 6.314736710000005,
+        "values": [
+          6.314736710000005,
+          6.415058256000009,
+          6.648616968999988
+        ]
+      }
+    },
+    "note": "Completed samples only. No confidence interval or cold-cache claim. Check status and sample counts.",
+    "paired_ratios": [
+      {
+        "baseline_divided_by_local": {
+          "flow_and_fsm.wall_sec": 30.232894203565824,
+          "total.wall_sec": 10.990889048959245
+        },
+        "pair": 1
+      },
+      {
+        "baseline_divided_by_local": {
+          "flow_and_fsm.wall_sec": 29.24438861198168,
+          "total.wall_sec": 10.825486275365776
+        },
+        "pair": 2
+      },
+      {
+        "baseline_divided_by_local": {
+          "flow_and_fsm.wall_sec": 28.746177252649012,
+          "total.wall_sec": 10.478880283951597
+        },
+        "pair": 3
+      }
+    ]
+  },
+  "variant_commit": "c8fdad395069096fda4d9110455992933d7bd49a",
+  "variants": {
+    "baseline": {
+      "changed_files": [
+        "src/offline/method.py"
+      ],
+      "method_sha256": "be5d4c5a99aa58ca25b809feb56597d34c194a297d541cf6c5987df0bd5e5927"
+    },
+    "local": {
+      "changed_files": [],
+      "method_sha256": "88e608e05b00e0be97140927082fac5a15b508e6e5bb57fe8a3a7b0400a648e7"
+    }
+  }
+}

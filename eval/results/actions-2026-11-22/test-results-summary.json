@@ -1,0 +1,72 @@
+[
+  {
+    "run_id": 45021824724,
+    "label": "integration measured dependencies",
+    "suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "207",
+        "time": "15.832"
+      }
+    ]
+  },
+  {
+    "run_id": 45021824724,
+    "label": "integration declared dependencies",
+    "suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "207",
+        "time": "15.154"
+      }
+    ]
+  },
+  {
+    "run_id": 45023212719,
+    "label": "compact history final",
+    "suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "228",
+        "time": "15.843"
+      }
+    ]
+  },
+  {
+    "run_id": 45022846907,
+    "label": "edge projection",
+    "suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "214",
+        "time": "18.396"
+      }
+    ]
+  },
+  {
+    "run_id": 45025027002,
+    "label": "active hypothesis index",
+    "suites": [
+      {
+        "name": "pytest",
+        "errors": "0",
+        "failures": "0",
+        "skipped": "0",
+        "tests": "253",
+        "time": "18.803"
+      }
+    ]
+  }
+]

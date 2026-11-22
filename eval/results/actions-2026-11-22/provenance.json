@@ -1,0 +1,704 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-22",
+  "repository": "https://github.com/moleus/cpg_rca",
+  "upstream_base_commit": "f8bb418fc3eeb514f4b1dfc1fdce8040470fe3e8",
+  "opensearch_source_commit": "2220907d3119897b8bd58cbc3c926787cd05ed2c",
+  "joern_version": "v4.0.689",
+  "joern_archive_sha256": "c13f0b6adbb1ea2fbf94c046e42ae023394f150f855ca6ca19ef20e20a1805b0",
+  "publication_note": "API-created commits have different IDs from source worktree commits. Every recorded remote tree was checked against the exact local git tree before the branch was updated.",
+  "initial_publication": {
+    "repository": "moleus/cpg_rca",
+    "initial_integration": {
+      "branch": "research/rca-validation-2026-11-22",
+      "local": "b168e979006c6f5ae9c313099fc98dc8d2681a6c",
+      "remote": "1f464cdf3d7c2748bd13d3fadccc561dec77f6f1",
+      "tree": "bafbd0161f7b22b5e016f232ef69663bb5890c8c",
+      "tree_verified": true
+    },
+    "fixes": [
+      {
+        "branch": "fix/template-wildcard-boundaries",
+        "local": "3157a1b8c2c36451661a177ac3dfa5032492b58d",
+        "remote": "340c243f3401d002b6c2e9e68347ed991e480274",
+        "tree": "80bed50f35b7617e054e65e148c4b4c2ac231748",
+        "tree_verified": true
+      },
+      {
+        "branch": "fix/coverage-regression-check",
+        "local": "5f85a8d0c145960b2cc4739cbb71a53a99241217",
+        "remote": "d09952ac313a2541a222226fd5cad2ae619cdf6a",
+        "tree": "a183e2b51908e767683f7fa6b85a976dd4ecb5cb",
+        "tree_verified": true
+      },
+      {
+        "branch": "fix/csharp-console-log",
+        "local": "b3f606c6d20740077ca8811152eec03e6f1c92c0",
+        "remote": "6580dd30a411b5f3e1a579f8e8fdc94c9e43f363",
+        "tree": "ace1e740f9c5e00079c518c435c0ef8458d3c3df",
+        "tree_verified": true
+      },
+      {
+        "branch": "fix/evaluation-completeness",
+        "local": "a3846f0cf55670580e1a548a1041304b1eb99b27",
+        "remote": "0818419bdff43b6d464c75ef140781b8fc7d33e2",
+        "tree": "80192e0ff1b291d6f6dd1b0ecff7ac528b5c2b4f",
+        "tree_verified": true
+      },
+      {
+        "branch": "fix/explicit-log-correlation",
+        "local": "15a891e51d394cb157b707c8b2e760bf3863f24b",
+        "remote": "48085782c69b19d649f04957968392f5e95df47e",
+        "tree": "881e3bc4caa3199559e1cb4008c6c783a421ea83",
+        "tree_verified": true
+      },
+      {
+        "branch": "fix/local-method-edge-scan",
+        "local": "a025eb6c566de56e10ebe9b9190ddcbe02baf4de",
+        "remote": "b1fef6ec5db06cc051c3645d982a5d553f32c8d1",
+        "tree": "4e67dcaadb7eab24b4ecb24d5dbddbfa24e969dc",
+        "tree_verified": true
+      },
+      {
+        "branch": "fix/method-scoped-conditions",
+        "local": "14365aea52ed5af4ab12d234b5e93f202dc94575",
+        "remote": "0cede4cb9037bb327f85457a46d40b5ae2ab0f84",
+        "tree": "1e1bd9939fbe164ec388a2a6d3260fbde1b9cf58",
+        "tree_verified": true
+      },
+      {
+        "branch": "fix/builder-exit-status",
+        "local": "b0ab649f4126bd6df4c35ca424182a61340b2084",
+        "remote": "6df0d373cfcb6decbccbcd285c2ac9818d787332",
+        "tree": "09bb907b5e88a21204a4530801768399105a7bf8",
+        "tree_verified": true
+      }
+    ]
+  },
+  "experiment_publications": [
+    {
+      "name": "controlled",
+      "branch": "experiment/opensearch-controlled-benchmark",
+      "local": "64ae725bf561d1d2a58435128de1d0b011ffa4b0",
+      "remote": "c8fdad395069096fda4d9110455992933d7bd49a",
+      "tree": "c25d99a0d9bba0a15dabaf3137bd3135e73f03d3",
+      "tree_verified": true
+    },
+    {
+      "name": "projection",
+      "branch": "experiment/cpg-edge-projection",
+      "local": "33170f3c097362922d25439b643db3f6ac97153b",
+      "remote": "e5815b0e2378dcb2eeeaa7d68726d03efdd2a5e2",
+      "tree": "a1698ae6a35618effb315a1e0beef3340724c8fc",
+      "tree_verified": true
+    },
+    {
+      "name": "java-source",
+      "branch": "experiment/java-frontend-comparison",
+      "local": "7aaf0119c6cf371adc61d173e48a6b7c6bd204b3",
+      "remote": "5a848b103fdaddf9d077cadfd7295612281619c8",
+      "tree": "71f341628a78ee29a10f4c551861564519ed2002",
+      "tree_verified": true
+    },
+    {
+      "name": "java-bytecode",
+      "branch": "experiment/java-frontend-comparison",
+      "local": "ae286713e4735b73522685a1acdd7842159276ef",
+      "remote": "bb44e9878330d9efad0c79b4844b8104e2bc1c2e",
+      "tree": "0d4af1a2eb8dcfd87ac27fd0e9a58d7b9262d42b",
+      "tree_verified": true
+    },
+    {
+      "name": "compact-initial",
+      "branch": "experiment/compact-runtime-history",
+      "local": "d34a41f99c3e9fe63914d2319fe0bc63efd67e48",
+      "remote": "6ea7478df909ddfcc1565706b342fb1dbdaa2b27",
+      "tree": "6985201ed67469de2e93882476f3b201d59637d0",
+      "tree_verified": true
+    },
+    {
+      "name": "compact-final",
+      "branch": "experiment/compact-runtime-history",
+      "local": "77f5f54ec1391974069db245679373de67d4389f",
+      "remote": "2c40d86bcf4f36d753bc55937c8867bf17da9764",
+      "tree": "2ac3930cae6aabbc1bd2d8f969491d3297216eb5",
+      "tree_verified": true
+    },
+    {
+      "name": "large-scale",
+      "branch": "experiment/opensearch-large-scale",
+      "local": "e58f60c8b4593f9ccc07eb4120c60967861075b8",
+      "remote": "d648dd4de00345af7cf0d2f0309b07795ede8879",
+      "tree": "61c47d04872ed5df52d1cc415930f229f5084146",
+      "tree_verified": true
+    },
+    {
+      "name": "active-index",
+      "branch": "experiment/active-hypothesis-index",
+      "local": "6a938f9649042ebf81c84952ee1fa1ea532c1678",
+      "remote": "3971f86be9266db3d1bf6f8a54ed762070081c5c",
+      "tree": "734069deb6a95442264d7e27e245da1804c448f4",
+      "tree_verified": true
+    },
+    {
+      "name": "active-index-docs",
+      "branch": "experiment/active-hypothesis-index",
+      "local": "e2fa2130c09c784a6c33a7badcc66628c1075fb2",
+      "remote": "057847c01087762b362f5622e2dd69cb01aee8fc",
+      "tree": "aa1b5040f968062774f637d8070fbc93040661ee",
+      "tree_verified": true
+    },
+    {
+      "name": "native-overlays",
+      "branch": "experiment/native-overlay-stages",
+      "local": "83e31bb0b2e61a443d096fd16bbc72329cd52e44",
+      "remote": "d2e3e334efadac65b56b60ba645246fc74127e4e",
+      "tree": "b5076fea36a5de1387e1985c0b8e042ca63e2e0b",
+      "tree_verified": true
+    }
+  ],
+  "measurement_runs": [
+    {
+      "id": 45025461098,
+      "name": "Explicit overlays on saved OpenSearch native CPG",
+      "branch": "experiment/native-overlay-stages",
+      "commit": "d2e3e334efadac65b56b60ba645246fc74127e4e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/moleus/cpg_rca/actions/runs/45025461098",
+      "created_at": "2026-11-22T13:03:27Z",
+      "updated_at": "2026-11-22T13:07:11Z",
+      "run_attempt": 1
+    },
+    {
+      "id": 45025027002,
+      "name": "Active hypothesis index experiment",
+      "branch": "experiment/active-hypothesis-index",
+      "commit": "3971f86be9266db3d1bf6f8a54ed762070081c5c",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/moleus/cpg_rca/actions/runs/45025027002",
+      "created_at": "2026-11-22T12:58:37Z",
+      "updated_at": "2026-11-22T13:02:08Z",
+      "run_attempt": 1
+    },
+    {
+      "id": 45024003121,
+      "name": "Full OpenSearch native CPG feasibility",
+      "branch": "experiment/opensearch-large-scale",
+      "commit": "d648dd4de00345af7cf0d2f0309b07795ede8879",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/moleus/cpg_rca/actions/runs/45024003121",
+      "created_at": "2026-11-22T12:46:21Z",
+      "updated_at": "2026-11-22T12:51:51Z",
+      "run_attempt": 1
+    },
+    {
+      "id": 45023212719,
+      "name": "Compact runtime history experiment",
+      "branch": "experiment/compact-runtime-history",
+      "commit": "2c40d86bcf4f36d753bc55937c8867bf17da9764",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/moleus/cpg_rca/actions/runs/45023212719",
+      "created_at": "2026-11-22T12:37:03Z",
+      "updated_at": "2026-11-22T12:38:19Z",
+      "run_attempt": 1
+    },
+    {
+      "id": 45023047806,
+      "name": "Java bytecode fixture probe",
+      "branch": "experiment/java-frontend-comparison",
+      "commit": "bb44e9878330d9efad0c79b4844b8104e2bc1c2e",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/moleus/cpg_rca/actions/runs/45023047806",
+      "created_at": "2026-11-22T12:35:11Z",
+      "updated_at": "2026-11-22T12:36:24Z",
+      "run_attempt": 1
+    },
+    {
+      "id": 45022846907,
+      "name": "CPG edge projection experiment",
+      "branch": "experiment/cpg-edge-projection",
+      "commit": "e5815b0e2378dcb2eeeaa7d68726d03efdd2a5e2",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/moleus/cpg_rca/actions/runs/45022846907",
+      "created_at": "2026-11-22T12:32:54Z",
+      "updated_at": "2026-11-22T12:35:38Z",
+      "run_attempt": 1
+    },
+    {
+      "id": 45022463665,
+      "name": "Java frontend dependency comparison",
+      "branch": "experiment/java-frontend-comparison",
+      "commit": "5a848b103fdaddf9d077cadfd7295612281619c8",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/moleus/cpg_rca/actions/runs/45022463665",
+      "created_at": "2026-11-22T12:28:40Z",
+      "updated_at": "2026-11-22T12:30:27Z",
+      "run_attempt": 1
+    },
+    {
+      "id": 45022293329,
+      "name": "Controlled OpenSearch comparison",
+      "branch": "experiment/opensearch-controlled-benchmark",
+      "commit": "c8fdad395069096fda4d9110455992933d7bd49a",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/moleus/cpg_rca/actions/runs/45022293329",
+      "created_at": "2026-11-22T12:26:36Z",
+      "updated_at": "2026-11-22T12:32:28Z",
+      "run_attempt": 1
+    },
+    {
+      "id": 45022240714,
+      "name": "Compact runtime history experiment",
+      "branch": "experiment/compact-runtime-history",
+      "commit": "6ea7478df909ddfcc1565706b342fb1dbdaa2b27",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/moleus/cpg_rca/actions/runs/45022240714",
+      "created_at": "2026-11-22T12:25:57Z",
+      "updated_at": "2026-11-22T12:27:21Z",
+      "run_attempt": 1
+    },
+    {
+      "id": 45021824724,
+      "name": "Python regression tests",
+      "branch": "research/rca-validation-2026-11-22",
+      "commit": "1f464cdf3d7c2748bd13d3fadccc561dec77f6f1",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/moleus/cpg_rca/actions/runs/45021824724",
+      "created_at": "2026-11-22T12:21:07Z",
+      "updated_at": "2026-11-22T12:21:57Z",
+      "run_attempt": 1
+    },
+    {
+      "id": 45021824719,
+      "name": "OpenSearch CPG benchmark",
+      "branch": "research/rca-validation-2026-11-22",
+      "commit": "1f464cdf3d7c2748bd13d3fadccc561dec77f6f1",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/moleus/cpg_rca/actions/runs/45021824719",
+      "created_at": "2026-11-22T12:21:07Z",
+      "updated_at": "2026-11-22T12:23:00Z",
+      "run_attempt": 1
+    }
+  ],
+  "downloaded_artifacts": [
+    {
+      "run_id": 45021824719,
+      "id": 14753837421,
+      "name": "opensearch-cpg-snapshots-joern-45021824719",
+      "size_in_bytes": 20899,
+      "digest": "sha256:8996d91cb1c5d0ae14bdd925fac0e9c1a32c0e28bbbe3e4b36e255abfe14ce6f",
+      "created_at": "2026-11-22T12:22:56Z",
+      "expires_at": "2026-12-06T12:22:54Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45021824719/artifact.zip"
+    },
+    {
+      "run_id": 45021824724,
+      "id": 14753783713,
+      "name": "python-tests-declared-45021824724",
+      "size_in_bytes": 3058,
+      "digest": "sha256:3c4647f3a9cc76583a5ed634ac4b1f5d67396d02524971708f146206e0b440af",
+      "created_at": "2026-11-22T12:21:54Z",
+      "expires_at": "2026-12-06T12:21:54Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45021824724/declared/artifact.zip"
+    },
+    {
+      "run_id": 45021824724,
+      "id": 14754017674,
+      "name": "python-tests-measured-45021824724",
+      "size_in_bytes": 3084,
+      "digest": "sha256:2dc83204f2872d6527850415ec410e933f36f32620ace17a7c6122fffdfe3d50",
+      "created_at": "2026-11-22T12:21:46Z",
+      "expires_at": "2026-12-06T12:21:45Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45021824724/measured/artifact.zip"
+    },
+    {
+      "run_id": 45022240714,
+      "id": 14754277697,
+      "name": "compact-history-45022240714",
+      "size_in_bytes": 55678,
+      "digest": "sha256:9a08851733fe6b7ff129b73d2f3de41a7b6f764f5aaa609a01e4c4bbe3e603e6",
+      "created_at": "2026-11-22T12:27:19Z",
+      "expires_at": "2026-12-06T12:27:18Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45022240714/artifact.zip"
+    },
+    {
+      "run_id": 45022293329,
+      "id": 14754367510,
+      "name": "controlled-inputs-45022293329-1",
+      "size_in_bytes": 2763752,
+      "digest": "sha256:85057f646afedf314925e8958b0a1e21c8032c980806104fd482a4effb9dc8fc",
+      "created_at": "2026-11-22T12:28:12Z",
+      "expires_at": "2026-12-06T12:28:10Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45022293329/controlled-inputs-45022293329-1/artifact.zip"
+    },
+    {
+      "run_id": 45022293329,
+      "id": 14754710428,
+      "name": "controlled-methods-45022293329-1",
+      "size_in_bytes": 4991722,
+      "digest": "sha256:cb0287baee6bb8fee693ef0c84d4cacf614b9986fef2d72f1ecf94531f1c927f",
+      "created_at": "2026-11-22T12:32:25Z",
+      "expires_at": "2026-12-06T12:32:23Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45022293329/controlled-methods-45022293329-1/artifact.zip"
+    },
+    {
+      "run_id": 45022293329,
+      "id": 14753759757,
+      "name": "controlled-preparation-45022293329-1",
+      "size_in_bytes": 2022,
+      "digest": "sha256:00e5639a5f1e0ce906f9d4444d3620a1a4bb544a98f314e4a803b79b0415775e",
+      "created_at": "2026-11-22T12:28:13Z",
+      "expires_at": "2026-12-06T12:28:12Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45022293329/controlled-preparation-45022293329-1/artifact.zip"
+    },
+    {
+      "run_id": 45022293329,
+      "id": 14754138595,
+      "name": "controlled-readers-45022293329-1",
+      "size_in_bytes": 86960,
+      "digest": "sha256:cd274fea0922b1e3c0f162453c3a77d3ce58f1327dd4163aff45c04f7e82ab51",
+      "created_at": "2026-11-22T12:29:11Z",
+      "expires_at": "2026-12-06T12:29:10Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45022293329/controlled-readers-45022293329-1/artifact.zip"
+    },
+    {
+      "run_id": 45022463665,
+      "id": 14754288280,
+      "name": "java-frontend-comparison-45022463665",
+      "size_in_bytes": 140348,
+      "digest": "sha256:ee31f8264f54d76bb33ab850f1f4c6d01ec593bc313f25a41892a3e42dff3e4a",
+      "created_at": "2026-11-22T12:30:23Z",
+      "expires_at": "2026-12-06T12:30:21Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45022463665/artifact.zip"
+    },
+    {
+      "run_id": 45022846907,
+      "id": 14754119650,
+      "name": "cpg-edge-projection-45022846907",
+      "size_in_bytes": 6779208,
+      "digest": "sha256:2c3d7aa980d4dc5918bcd2d9f09a7be64a2b9166d949a6c7d0174956e999b2ac",
+      "created_at": "2026-11-22T12:35:36Z",
+      "expires_at": "2026-12-06T12:35:34Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45022846907/artifact.zip"
+    },
+    {
+      "run_id": 45023047806,
+      "id": 14753794198,
+      "name": "java-bytecode-fixtures-45023047806",
+      "size_in_bytes": 35776,
+      "digest": "sha256:d4f8118cba445aa520581824c4601c8c4ba214d536aa72c9d01bec5efaec7173",
+      "created_at": "2026-11-22T12:36:21Z",
+      "expires_at": "2026-12-06T12:36:20Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45023047806/artifact.zip"
+    },
+    {
+      "run_id": 45023212719,
+      "id": 14754144930,
+      "name": "compact-history-45023212719",
+      "size_in_bytes": 55933,
+      "digest": "sha256:e6c9369f11c649d9f98cb62071d049160bf07ad4f113d34b2318771e23ecba82",
+      "created_at": "2026-11-22T12:38:16Z",
+      "expires_at": "2026-12-06T12:38:14Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45023212719/artifact.zip"
+    },
+    {
+      "run_id": 45024003121,
+      "id": 14755501306,
+      "name": "opensearch-full-native-graph-45024003121-1",
+      "size_in_bytes": 71079936,
+      "digest": "sha256:1417e593b921e76723ce24c7b864b2e94a3daf028f15255ff5305c5eb67b5a48",
+      "created_at": "2026-11-22T12:51:48Z",
+      "expires_at": "2026-12-06T12:51:47Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45024003121/graph/artifact.zip"
+    },
+    {
+      "run_id": 45024003121,
+      "id": 14754638970,
+      "name": "opensearch-full-native-results-45024003121-1",
+      "size_in_bytes": 872212,
+      "digest": "sha256:487d76e5e48cab9fa9a22071a66f3127b51166c7c92c450cb222184960e04435",
+      "created_at": "2026-11-22T12:51:47Z",
+      "expires_at": "2026-12-06T12:51:46Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45024003121/results/artifact.zip"
+    },
+    {
+      "run_id": 45025027002,
+      "id": 14755009350,
+      "name": "active-hypothesis-index-45025027002",
+      "size_in_bytes": 56670,
+      "digest": "sha256:05b64d533d74b95a354016159a1c385a4351acc68117ca157d850881b17a121c",
+      "created_at": "2026-11-22T13:02:06Z",
+      "expires_at": "2026-12-06T13:02:05Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45025027002/artifact.zip"
+    },
+    {
+      "run_id": 45025461098,
+      "id": 14755796595,
+      "name": "opensearch-native-overlays-45025461098-1",
+      "size_in_bytes": 21031,
+      "digest": "sha256:d20f742a1af4216cabdff8fcb5ba566ceb5d6887dc6baa8e0ac0f57bf196999d",
+      "created_at": "2026-11-22T13:07:07Z",
+      "expires_at": "2026-12-06T13:07:06Z",
+      "expired": false,
+      "download_sha256_verified": true,
+      "local_archive_path": "45025461098/artifact.zip"
+    }
+  ],
+  "byte_equal_result_copies": [
+    {
+      "file": "method-comparison.json",
+      "original_evidence_path": "actions/45022293329/controlled-methods-45022293329-1/extracted/comparison.json",
+      "sha256": "d501746fc098c8c0c46fa5ffcc2e85169ba95705120d6cce22cdc12105ed3098",
+      "byte_equal": true
+    },
+    {
+      "file": "reader-equivalence.json",
+      "original_evidence_path": "actions/45022293329/controlled-readers-45022293329-1/extracted/readers.json",
+      "sha256": "9f9c690e0220e0482914b6e656a6c96aacb66fed9feae70c187082792c987fdb",
+      "byte_equal": true
+    },
+    {
+      "file": "compact-history.json",
+      "original_evidence_path": "actions/45023212719/extracted/compact-history.json",
+      "sha256": "95df9ecc5940fd5ec4762b8345b0a5ce514a43754760ab2f1d2fedf2bc823132",
+      "byte_equal": true
+    },
+    {
+      "file": "active-index.json",
+      "original_evidence_path": "actions/45025027002/extracted/active-index.json",
+      "sha256": "2e4ddf82232900276602b3a65eaba70c39728a46f1d37e3d878d3b05f7b9766f",
+      "byte_equal": true
+    },
+    {
+      "file": "edge-projection.json",
+      "original_evidence_path": "actions/45022846907/extracted/comparison/comparison.json",
+      "sha256": "bed4a41162e4d08345a92c849c469753c9367f65eedea73dbd61ba1d0f5e1342",
+      "byte_equal": true
+    },
+    {
+      "file": "java-source-comparison.json",
+      "original_evidence_path": "actions/45022463665/extracted/java-frontend/comparison.json",
+      "sha256": "e85a10477277c4942db45b15ee245a9a638b963ac34a07ae6400800e800cfa11",
+      "byte_equal": true
+    },
+    {
+      "file": "java-bytecode-summary.json",
+      "original_evidence_path": "actions/45023047806/extracted/java-bytecode/summary.json",
+      "sha256": "35974653f603b378027f963e56475401f775c0ea012e3e7285e649e470678e1a",
+      "byte_equal": true
+    },
+    {
+      "file": "opensearch-initial-summary.json",
+      "original_evidence_path": "actions/45021824719/extracted/opensearch/summary.json",
+      "sha256": "c304df8708e544db178047f514b1bdc3194da7743d256d16888b0f7d7bb29c7a",
+      "byte_equal": true
+    },
+    {
+      "file": "opensearch-initial-pipeline.json",
+      "original_evidence_path": "actions/45021824719/extracted/opensearch/pipeline/benchmark.json",
+      "sha256": "4f6f0b7bce609a78aff30ee64336a28651593e01be3a3bf76162580376b29532",
+      "byte_equal": true
+    },
+    {
+      "file": "opensearch-full-overlays.json",
+      "original_evidence_path": "actions/45025461098/extracted/native-overlays/summary.json",
+      "sha256": "5e4d9f0a8db7edaf2a16b54ea4c7ba65bcb2722aff7ccc2e7fac417bdd76272b",
+      "byte_equal": true
+    }
+  ],
+  "derived_results": {
+    "opensearch-full-native-summary.json": "Original summary has only the long method_source_names array moved to raw evidence; all measured values are unchanged.",
+    "bundled-projection.json": "Ten original service comparison JSON objects combined into one result.",
+    "test-results-summary.json": "Selected suite attributes copied from the original JUnit XML files."
+  },
+  "local_diagnostics": [
+    "opensearch-source-scope-audit.json",
+    "local-notifier-overlay-stages.json",
+    "local-script-jvm-limits.json"
+  ],
+  "raw_evidence_archives": [
+    {
+      "file": "public-actions-evidence-01.tar.xz",
+      "sha256": "bbc2f527f383cabf93cb88bec49b469b84fbb91e9514694dc9acc49e1f4ded46",
+      "bytes": 2547316,
+      "files": 3965,
+      "source_file_bytes": 170831718,
+      "run_ids": [
+        45021824719,
+        45021824724,
+        45022240714,
+        45022293329,
+        45022463665,
+        45022846907,
+        45023047806,
+        45023212719
+      ],
+      "compression": "xz, preset 6",
+      "content_note": "Downloaded public Actions artifact files. Original ZIP archives and full native CPG binaries are excluded.",
+      "duplicate_storage": "Identical files use internal tar hard links; all paths and hashes remain in ARCHIVE-MANIFEST.json."
+    },
+    {
+      "file": "public-actions-evidence-02.tar.xz",
+      "sha256": "ae2b2fe20f136aa55583adbd331da6bfa00408941a28bb73eda64d3b74e9b7db",
+      "bytes": 751828,
+      "files": 205,
+      "source_file_bytes": 7713546,
+      "run_ids": [
+        45024003121,
+        45025027002,
+        45025461098
+      ],
+      "compression": "xz, preset 6",
+      "local_evidence": [
+        "full-native-scope-query",
+        "notifier-overlays"
+      ],
+      "content_note": "Downloaded public Actions artifact files and explicitly selected local public experiments. Original ZIP archives and native CPG binaries are excluded.",
+      "duplicate_storage": "Identical files use internal tar hard links; all paths and hashes remain in ARCHIVE-MANIFEST.json."
+    }
+  ],
+  "files": [
+    {
+      "file": "active-index.json",
+      "bytes": 38894,
+      "sha256": "2e4ddf82232900276602b3a65eaba70c39728a46f1d37e3d878d3b05f7b9766f"
+    },
+    {
+      "file": "bundled-projection.json",
+      "bytes": 112884,
+      "sha256": "90326e4831300511dda0accbc82a6ff8aecf60ab08079df273a85a5518129103"
+    },
+    {
+      "file": "compact-history.json",
+      "bytes": 37610,
+      "sha256": "95df9ecc5940fd5ec4762b8345b0a5ce514a43754760ab2f1d2fedf2bc823132"
+    },
+    {
+      "file": "edge-projection.json",
+      "bytes": 23129,
+      "sha256": "bed4a41162e4d08345a92c849c469753c9367f65eedea73dbd61ba1d0f5e1342"
+    },
+    {
+      "file": "java-bytecode-summary.json",
+      "bytes": 25934,
+      "sha256": "35974653f603b378027f963e56475401f775c0ea012e3e7285e649e470678e1a"
+    },
+    {
+      "file": "java-source-comparison.json",
+      "bytes": 421623,
+      "sha256": "e85a10477277c4942db45b15ee245a9a638b963ac34a07ae6400800e800cfa11"
+    },
+    {
+      "file": "local-notifier-overlay-stages.json",
+      "bytes": 36814,
+      "sha256": "dbf1ae49db5b5910fb77f84c549ccb820c1759b9a11faf1a4bfbbccefad7d14f"
+    },
+    {
+      "file": "local-script-jvm-limits.json",
+      "bytes": 630,
+      "sha256": "a65251dc5e11e67c9a8585e431cffddcaa868a72ca1ef36a669161e4405accad"
+    },
+    {
+      "file": "method-comparison.json",
+      "bytes": 18560,
+      "sha256": "d501746fc098c8c0c46fa5ffcc2e85169ba95705120d6cce22cdc12105ed3098"
+    },
+    {
+      "file": "opensearch-full-native-summary.json",
+      "bytes": 8589,
+      "sha256": "6fd1b3effad7c3af61a6e91d6e2516ef4cba189a08d27689eddb8e6e10c15453"
+    },
+    {
+      "file": "opensearch-full-overlays.json",
+      "bytes": 43571,
+      "sha256": "5e4d9f0a8db7edaf2a16b54ea4c7ba65bcb2722aff7ccc2e7fac417bdd76272b"
+    },
+    {
+      "file": "opensearch-initial-pipeline.json",
+      "bytes": 9684,
+      "sha256": "4f6f0b7bce609a78aff30ee64336a28651593e01be3a3bf76162580376b29532"
+    },
+    {
+      "file": "opensearch-initial-summary.json",
+      "bytes": 4208,
+      "sha256": "c304df8708e544db178047f514b1bdc3194da7743d256d16888b0f7d7bb29c7a"
+    },
+    {
+      "file": "opensearch-source-scope-audit.json",
+      "bytes": 20265,
+      "sha256": "9233df7d6be1c0da5260273bcb21355e2fadb40b98c5ba6a252d03730228ccb6"
+    },
+    {
+      "file": "public-actions-evidence-01.tar.xz",
+      "bytes": 2547316,
+      "sha256": "bbc2f527f383cabf93cb88bec49b469b84fbb91e9514694dc9acc49e1f4ded46"
+    },
+    {
+      "file": "public-actions-evidence-01.tar.xz.json",
+      "bytes": 642,
+      "sha256": "80526cbe137fcd362411b7ef1b219428ae2d375d665a7a939cf9b055058a89a9"
+    },
+    {
+      "file": "public-actions-evidence-02.tar.xz",
+      "bytes": 751828,
+      "sha256": "ae2b2fe20f136aa55583adbd331da6bfa00408941a28bb73eda64d3b74e9b7db"
+    },
+    {
+      "file": "public-actions-evidence-02.tar.xz.json",
+      "bytes": 679,
+      "sha256": "7e75c1b079ad6c6997967085a57265f9989650e1b3d3cdd03777b23289f66b8e"
+    },
+    {
+      "file": "reader-equivalence.json",
+      "bytes": 16475,
+      "sha256": "9f9c690e0220e0482914b6e656a6c96aacb66fed9feae70c187082792c987fdb"
+    },
+    {
+      "file": "test-results-summary.json",
+      "bytes": 1318,
+      "sha256": "d73c14d818d8db3a178120a983a85d740793349c0f5f5201ee0120606e4c7d27"
+    }
+  ],
+  "limits": "No incident-level RCA accuracy claim. Full source input uses default Java exclusions. Native graph artifacts are subject to Actions retention; compact evidence archives exclude native CPG binaries."
+}

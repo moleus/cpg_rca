@@ -1,0 +1,712 @@
+{
+  "baseline_unchanged": true,
+  "compiler": "javac 21.0.13",
+  "cpg_completeness": "not_established",
+  "environment": {
+    "java": "/usr/lib/jvm/temurin-21-jdk-amd64/bin/java",
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+    "python": "3.12.16"
+  },
+  "experiment": "compiled_standard_library_fixtures_only",
+  "harness_sha256": "aaadebff4669958b5856105ffe8ed06df943dfd29ba731e522a6b7d40f102fe0",
+  "joern_archive_sha256": "c13f0b6adbb1ea2fbf94c046e42ae023394f150f855ca6ca19ef20e20a1805b0",
+  "joern_version": "v4.0.689",
+  "limitations": [
+    "Only two standard-library fixtures are compiled. OpenSearch is not compiled or evaluated by this route.",
+    "Compilation uses the JDK javac ToolProvider with source/target 21; every class must have major version 65.",
+    "Compiler and disassembler timings include the Java source-launcher helper overhead.",
+    "Bytecode can add compiler-generated methods and lose source structure. Counts are not directly equivalent to source frontend counts.",
+    "Operation nodes and AST owners are inspected; this is not complete CFG, data-flow, or semantic equivalence.",
+    "One diagnostic run per fixture; no statistical speedup or runtime RCA accuracy claim."
+  ],
+  "measurement_status": "complete",
+  "quality_gate_status": "passed",
+  "results": [
+    {
+      "case": "yield",
+      "compiled_classes": [
+        {
+          "bytes": 461,
+          "major": 65,
+          "minor": 0,
+          "path": "YieldRepro.class",
+          "sha256": "a0264dcfb4c29d0dc2a8287c7008cca309e1fd6223624547d0711edb4061d5b1"
+        }
+      ],
+      "counts": {
+        "bytecode_evidence": {
+          "integer_add_instruction": false,
+          "lambda_method_names": [],
+          "long_xor_instruction": true
+        },
+        "call_count": 4,
+        "call_names": {
+          "<init>": 1,
+          "<operator>.assignment": 2,
+          "<operator>.xor": 1
+        },
+        "control_structures": {
+          "SWITCH": 1
+        },
+        "dot_sha256": "9d5ee539dd56aec5c5a17828d494b66f217be406ab731d92a36b5b6702bccb9f",
+        "edges": 287,
+        "graph_stage": "shared_joern_export_with_its_default_overlays",
+        "internal_method_count": 2,
+        "labels": {
+          "BLOCK": 5,
+          "CALL": 4,
+          "CONTROL_STRUCTURE": 1,
+          "FILE": 2,
+          "IDENTIFIER": 6,
+          "JUMP_TARGET": 2,
+          "LITERAL": 2,
+          "META_DATA": 1,
+          "METHOD": 5,
+          "METHOD_PARAMETER_IN": 8,
+          "METHOD_PARAMETER_OUT": 8,
+          "METHOD_RETURN": 5,
+          "MODIFIER": 2,
+          "NAMESPACE": 2,
+          "NAMESPACE_BLOCK": 2,
+          "RETURN": 2,
+          "TYPE": 6,
+          "TYPE_DECL": 6,
+          "UNKNOWN": 1
+        },
+        "log_call_candidate_count": 0,
+        "log_call_candidates": [],
+        "log_call_definition": "CALL NAME lowercased in src.offline.log.LOG_METHOD_NAMES; this is a name heuristic, not a source-site oracle",
+        "method_count": 5,
+        "methods": [
+          {
+            "filename": "/tmp/jimple2cpg-15708688349467243206/YieldRepro.class",
+            "full_name": "YieldRepro.<init>:void()",
+            "is_external": false,
+            "line": "1",
+            "name": "<init>"
+          },
+          {
+            "filename": "/tmp/jimple2cpg-15708688349467243206/YieldRepro.class",
+            "full_name": "YieldRepro.apply:long(int,long)",
+            "is_external": false,
+            "line": "3",
+            "name": "apply"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "<operator>.assignment",
+            "is_external": true,
+            "line": "",
+            "name": "<operator>.assignment"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "<operator>.xor",
+            "is_external": true,
+            "line": "",
+            "name": "<operator>.xor"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "java.lang.Object.<init>:void()",
+            "is_external": true,
+            "line": "",
+            "name": "<init>"
+          }
+        ],
+        "nodes": 70,
+        "operation_evidence": {
+          "addition_in_lambda_body": false,
+          "operator_and_lambda_calls": [
+            {
+              "code": "bits ^ 1L",
+              "line": "5",
+              "name": "<operator>.xor",
+              "owner_full_name": "YieldRepro.apply:long(int,long)",
+              "owner_name": "apply"
+            }
+          ],
+          "scope": "Observed operation nodes and their AST method owners; not full semantic equivalence.",
+          "xor_in_apply": true
+        },
+        "schema_version": 1,
+        "unknown_nodes": [
+          {
+            "code": "goto 4",
+            "line_number": "5",
+            "parser_type_name": "<empty>"
+          }
+        ]
+      },
+      "cpg_completeness": "not_established",
+      "diagnostics": {
+        "error_lines": 0,
+        "failed_to_process_reported_names": [],
+        "failed_to_process_warning_lines": 0,
+        "linkage_error_names": [],
+        "note": "Warnings can repeat. Reported basenames do not always identify unique paths.",
+        "parse_problem_reported_names": [],
+        "parse_problem_warning_lines": 0,
+        "unknown_statement_types": {},
+        "unknown_statement_warning_lines": 0,
+        "unparsable_statement_warning_lines": 0,
+        "warning_lines": 0
+      },
+      "quality_gates": {
+        "checks": {
+          "cpg_has_xor_in_apply": true,
+          "javap_has_lxor": true
+        },
+        "scope": "Named fixture operations only; UNKNOWN nodes are retained and full graph equivalence is not established.",
+        "status": "passed"
+      },
+      "route": "javac_then_bundled_jimple2cpg",
+      "source": {
+        "bytes": 229,
+        "repository_path": "eval/fixtures/java/YieldRepro.java",
+        "sha256": "72cc77188f2d5710aefac2278ef3e80912a0ff39b5beead8a63bef896929f130"
+      },
+      "stages": {
+        "compile": {
+          "aggregate_rss_sampled_peak_bytes": 94093312,
+          "command": [
+            "/usr/lib/jvm/temurin-21-jdk-amd64/bin/java",
+            "-Xmx512m",
+            "-XX:ActiveProcessorCount=2",
+            "/home/runner/work/cpg_rca/cpg_rca/eval/JdkTool.java",
+            "javac",
+            "-source",
+            "21",
+            "-target",
+            "21",
+            "-g",
+            "-parameters",
+            "-d",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/yield/classes",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/yield/source/YieldRepro.java"
+          ],
+          "cpu_measurement": "waited_children",
+          "cpu_system_sec": 0.08164500000000002,
+          "cpu_user_sec": 1.215599,
+          "max_aggregate_rss_bytes": 2147483648,
+          "returncode": 0,
+          "sample_interval_sec": 0.05,
+          "sampled_cpu_system_sec": 0.08,
+          "sampled_cpu_user_sec": 1.21,
+          "schema_version": 1,
+          "status": "ok",
+          "timeout_sec": 30,
+          "wall_sec": 0.6934990190000008
+        },
+        "count": {
+          "aggregate_rss_sampled_peak_bytes": 39235584,
+          "command": [
+            "/opt/hostedtoolcache/Python/3.12.16/x64/bin/python",
+            "-m",
+            "eval.java_bytecode_probe",
+            "count",
+            "--dot",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/yield/dot/export.dot",
+            "--output",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/yield/counts.json",
+            "--source-root",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/yield/source",
+            "--disassembly",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/yield/disassemble.stdout.log"
+          ],
+          "cpu_measurement": "waited_children",
+          "cpu_system_sec": 0.01610800000000001,
+          "cpu_user_sec": 0.21846400000000088,
+          "max_aggregate_rss_bytes": 2147483648,
+          "returncode": 0,
+          "sample_interval_sec": 0.05,
+          "sampled_cpu_system_sec": 0.01,
+          "sampled_cpu_user_sec": 0.19,
+          "schema_version": 1,
+          "status": "ok",
+          "timeout_sec": 30,
+          "wall_sec": 0.26760375599999975
+        },
+        "disassemble": {
+          "aggregate_rss_sampled_peak_bytes": 96157696,
+          "command": [
+            "/usr/lib/jvm/temurin-21-jdk-amd64/bin/java",
+            "-Xmx512m",
+            "-XX:ActiveProcessorCount=2",
+            "/home/runner/work/cpg_rca/cpg_rca/eval/JdkTool.java",
+            "javap",
+            "-classpath",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/yield/classes",
+            "-p",
+            "-c",
+            "YieldRepro"
+          ],
+          "cpu_measurement": "waited_children",
+          "cpu_system_sec": 0.07658699999999996,
+          "cpu_user_sec": 1.1336869999999997,
+          "max_aggregate_rss_bytes": 2147483648,
+          "returncode": 0,
+          "sample_interval_sec": 0.05,
+          "sampled_cpu_system_sec": 0.07,
+          "sampled_cpu_user_sec": 1.13,
+          "schema_version": 1,
+          "status": "ok",
+          "timeout_sec": 30,
+          "wall_sec": 0.6390628430000049
+        },
+        "export": {
+          "aggregate_rss_sampled_peak_bytes": 158298112,
+          "command": [
+            "/home/runner/work/cpg_rca/cpg_rca/temp/joern/joern-cli/joern-export",
+            "-java-home",
+            "/usr/lib/jvm/temurin-21-jdk-amd64",
+            "-J-Xmx1g",
+            "-J-XX:ActiveProcessorCount=2",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/yield/cpg.bin",
+            "--repr",
+            "all",
+            "--format",
+            "dot",
+            "--out",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/yield/dot"
+          ],
+          "cpu_measurement": "waited_children",
+          "cpu_system_sec": 0.2613709999999999,
+          "cpu_user_sec": 3.0422009999999986,
+          "max_aggregate_rss_bytes": 2147483648,
+          "returncode": 0,
+          "sample_interval_sec": 0.05,
+          "sampled_cpu_system_sec": 0.22,
+          "sampled_cpu_user_sec": 2.96,
+          "schema_version": 1,
+          "status": "ok",
+          "timeout_sec": 60,
+          "wall_sec": 1.4451018179999835
+        },
+        "parse": {
+          "aggregate_rss_sampled_peak_bytes": 179376128,
+          "command": [
+            "/home/runner/work/cpg_rca/cpg_rca/temp/joern/joern-cli/jimple2cpg",
+            "-java-home",
+            "/usr/lib/jvm/temurin-21-jdk-amd64",
+            "-J-Xmx1g",
+            "-J-XX:ActiveProcessorCount=2",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/yield/classes",
+            "--output",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/yield/cpg.bin"
+          ],
+          "cpu_measurement": "waited_children",
+          "cpu_system_sec": 0.21826100000000004,
+          "cpu_user_sec": 3.4938670000000007,
+          "max_aggregate_rss_bytes": 2147483648,
+          "returncode": 0,
+          "sample_interval_sec": 0.05,
+          "sampled_cpu_system_sec": 0.18,
+          "sampled_cpu_user_sec": 3.43,
+          "schema_version": 1,
+          "status": "ok",
+          "timeout_sec": 120,
+          "wall_sec": 1.8171617699999842
+        }
+      },
+      "status": "measurements_complete_with_graph_observations",
+      "unknown_node_count": 1
+    },
+    {
+      "case": "enum_lambda",
+      "compiled_classes": [
+        {
+          "bytes": 1963,
+          "major": 65,
+          "minor": 0,
+          "path": "EnumLambdaRepro.class",
+          "sha256": "347f3c297cf80433919638f65c69a1ac16df88c94e038feba7992025ddf32ce0"
+        }
+      ],
+      "counts": {
+        "bytecode_evidence": {
+          "integer_add_instruction": true,
+          "lambda_method_names": [
+            "lambda$static$0"
+          ],
+          "long_xor_instruction": false
+        },
+        "call_count": 36,
+        "call_names": {
+          "$values": 1,
+          "<init>": 2,
+          "<operator>.addition": 1,
+          "<operator>.alloc": 2,
+          "<operator>.assignment": 17,
+          "<operator>.cast": 2,
+          "<operator>.fieldAccess": 6,
+          "<operator>.indexAccess": 1,
+          "applyAsInt": 1,
+          "bootstrap$": 1,
+          "clone": 1,
+          "valueOf": 1
+        },
+        "control_structures": {},
+        "dot_sha256": "a8ca469819221fa76daff7914072e2772726b023e094c3dc4091017a5a17d1c4",
+        "edges": 1426,
+        "graph_stage": "shared_joern_export_with_its_default_overlays",
+        "internal_method_count": 7,
+        "labels": {
+          "BLOCK": 18,
+          "CALL": 36,
+          "FIELD_IDENTIFIER": 6,
+          "FILE": 2,
+          "IDENTIFIER": 41,
+          "LITERAL": 6,
+          "LOCAL": 10,
+          "MEMBER": 3,
+          "META_DATA": 1,
+          "METHOD": 18,
+          "METHOD_PARAMETER_IN": 29,
+          "METHOD_PARAMETER_OUT": 29,
+          "METHOD_RETURN": 18,
+          "MODIFIER": 19,
+          "NAMESPACE": 2,
+          "NAMESPACE_BLOCK": 2,
+          "RETURN": 7,
+          "TYPE": 11,
+          "TYPE_DECL": 11,
+          "TYPE_REF": 2
+        },
+        "log_call_candidate_count": 0,
+        "log_call_candidates": [],
+        "log_call_definition": "CALL NAME lowercased in src.offline.log.LOG_METHOD_NAMES; this is a name heuristic, not a source-site oracle",
+        "method_count": 18,
+        "methods": [
+          {
+            "filename": "/tmp/jimple2cpg-692054671651044054/EnumLambdaRepro.class",
+            "full_name": "EnumLambdaRepro.$values:EnumLambdaRepro[]()",
+            "is_external": false,
+            "line": "2",
+            "name": "$values"
+          },
+          {
+            "filename": "/tmp/jimple2cpg-692054671651044054/EnumLambdaRepro.class",
+            "full_name": "EnumLambdaRepro.<clinit>:void()",
+            "is_external": false,
+            "line": "3",
+            "name": "<clinit>"
+          },
+          {
+            "filename": "/tmp/jimple2cpg-692054671651044054/EnumLambdaRepro.class",
+            "full_name": "EnumLambdaRepro.<init>:void(java.lang.String,int,java.util.function.IntUnaryOperator)",
+            "is_external": false,
+            "line": "7",
+            "name": "<init>"
+          },
+          {
+            "filename": "/tmp/jimple2cpg-692054671651044054/EnumLambdaRepro.class",
+            "full_name": "EnumLambdaRepro.apply:int(int)",
+            "is_external": false,
+            "line": "12",
+            "name": "apply"
+          },
+          {
+            "filename": "/tmp/jimple2cpg-692054671651044054/EnumLambdaRepro.class",
+            "full_name": "EnumLambdaRepro.lambda$static$0:int(int)",
+            "is_external": false,
+            "line": "3",
+            "name": "lambda$static$0"
+          },
+          {
+            "filename": "/tmp/jimple2cpg-692054671651044054/EnumLambdaRepro.class",
+            "full_name": "EnumLambdaRepro.valueOf:EnumLambdaRepro(java.lang.String)",
+            "is_external": false,
+            "line": "2",
+            "name": "valueOf"
+          },
+          {
+            "filename": "/tmp/jimple2cpg-692054671651044054/EnumLambdaRepro.class",
+            "full_name": "EnumLambdaRepro.values:EnumLambdaRepro[]()",
+            "is_external": false,
+            "line": "2",
+            "name": "values"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "<operator>.addition",
+            "is_external": true,
+            "line": "",
+            "name": "<operator>.addition"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "<operator>.alloc",
+            "is_external": true,
+            "line": "",
+            "name": "<operator>.alloc"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "<operator>.assignment",
+            "is_external": true,
+            "line": "",
+            "name": "<operator>.assignment"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "<operator>.cast",
+            "is_external": true,
+            "line": "",
+            "name": "<operator>.cast"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "<operator>.fieldAccess",
+            "is_external": true,
+            "line": "",
+            "name": "<operator>.fieldAccess"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "<operator>.indexAccess",
+            "is_external": true,
+            "line": "",
+            "name": "<operator>.indexAccess"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "EnumLambdaRepro$lambda_static_0__1.bootstrap$:java.util.function.IntUnaryOperator()",
+            "is_external": true,
+            "line": "",
+            "name": "bootstrap$"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "java.lang.Enum.<init>:void(java.lang.String,int)",
+            "is_external": true,
+            "line": "",
+            "name": "<init>"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "java.lang.Enum.valueOf:java.lang.Enum(java.lang.Class,java.lang.String)",
+            "is_external": true,
+            "line": "",
+            "name": "valueOf"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "java.lang.Object.clone:java.lang.Object()",
+            "is_external": true,
+            "line": "",
+            "name": "clone"
+          },
+          {
+            "filename": "<empty>",
+            "full_name": "java.util.function.IntUnaryOperator.applyAsInt:int(int)",
+            "is_external": true,
+            "line": "",
+            "name": "applyAsInt"
+          }
+        ],
+        "nodes": 271,
+        "operation_evidence": {
+          "addition_in_lambda_body": true,
+          "operator_and_lambda_calls": [
+            {
+              "code": "value + 1",
+              "line": "4",
+              "name": "<operator>.addition",
+              "owner_full_name": "EnumLambdaRepro.lambda$static$0:int(int)",
+              "owner_name": "lambda$static$0"
+            },
+            {
+              "code": "value = value + 1",
+              "line": "4",
+              "name": "<operator>.assignment",
+              "owner_full_name": "EnumLambdaRepro.lambda$static$0:int(int)",
+              "owner_name": "lambda$static$0"
+            }
+          ],
+          "scope": "Observed operation nodes and their AST method owners; not full semantic equivalence.",
+          "xor_in_apply": false
+        },
+        "schema_version": 1,
+        "unknown_nodes": []
+      },
+      "cpg_completeness": "not_established",
+      "diagnostics": {
+        "error_lines": 0,
+        "failed_to_process_reported_names": [],
+        "failed_to_process_warning_lines": 0,
+        "linkage_error_names": [],
+        "note": "Warnings can repeat. Reported basenames do not always identify unique paths.",
+        "parse_problem_reported_names": [],
+        "parse_problem_warning_lines": 0,
+        "unknown_statement_types": {},
+        "unknown_statement_warning_lines": 0,
+        "unparsable_statement_warning_lines": 0,
+        "warning_lines": 0
+      },
+      "quality_gates": {
+        "checks": {
+          "cpg_has_addition_in_that_lambda": true,
+          "javap_has_iadd": true,
+          "javap_has_lambda_method": true
+        },
+        "scope": "Named fixture operations only; UNKNOWN nodes are retained and full graph equivalence is not established.",
+        "status": "passed"
+      },
+      "route": "javac_then_bundled_jimple2cpg",
+      "source": {
+        "bytes": 319,
+        "repository_path": "eval/fixtures/java/enum_lambda/EnumLambdaRepro.java",
+        "sha256": "03982a9ca21ec8ed718dee97bbdf3d2b4d79f32da7d616b7f10179e3621cf2bc"
+      },
+      "stages": {
+        "compile": {
+          "aggregate_rss_sampled_peak_bytes": 95240192,
+          "command": [
+            "/usr/lib/jvm/temurin-21-jdk-amd64/bin/java",
+            "-Xmx512m",
+            "-XX:ActiveProcessorCount=2",
+            "/home/runner/work/cpg_rca/cpg_rca/eval/JdkTool.java",
+            "javac",
+            "-source",
+            "21",
+            "-target",
+            "21",
+            "-g",
+            "-parameters",
+            "-d",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/enum_lambda/classes",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/enum_lambda/source/EnumLambdaRepro.java"
+          ],
+          "cpu_measurement": "waited_children",
+          "cpu_system_sec": 0.067492,
+          "cpu_user_sec": 1.3226449999999996,
+          "max_aggregate_rss_bytes": 2147483648,
+          "returncode": 0,
+          "sample_interval_sec": 0.05,
+          "sampled_cpu_system_sec": 0.05,
+          "sampled_cpu_user_sec": 1.24,
+          "schema_version": 1,
+          "status": "ok",
+          "timeout_sec": 30,
+          "wall_sec": 0.6413221939999971
+        },
+        "count": {
+          "aggregate_rss_sampled_peak_bytes": 39800832,
+          "command": [
+            "/opt/hostedtoolcache/Python/3.12.16/x64/bin/python",
+            "-m",
+            "eval.java_bytecode_probe",
+            "count",
+            "--dot",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/enum_lambda/dot/export.dot",
+            "--output",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/enum_lambda/counts.json",
+            "--source-root",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/enum_lambda/source",
+            "--disassembly",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/enum_lambda/disassemble.stdout.log"
+          ],
+          "cpu_measurement": "waited_children",
+          "cpu_system_sec": 0.028085999999999833,
+          "cpu_user_sec": 0.1986130000000017,
+          "max_aggregate_rss_bytes": 2147483648,
+          "returncode": 0,
+          "sample_interval_sec": 0.05,
+          "sampled_cpu_system_sec": 0.02,
+          "sampled_cpu_user_sec": 0.18,
+          "schema_version": 1,
+          "status": "ok",
+          "timeout_sec": 30,
+          "wall_sec": 0.262328459999992
+        },
+        "disassemble": {
+          "aggregate_rss_sampled_peak_bytes": 96116736,
+          "command": [
+            "/usr/lib/jvm/temurin-21-jdk-amd64/bin/java",
+            "-Xmx512m",
+            "-XX:ActiveProcessorCount=2",
+            "/home/runner/work/cpg_rca/cpg_rca/eval/JdkTool.java",
+            "javap",
+            "-classpath",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/enum_lambda/classes",
+            "-p",
+            "-c",
+            "EnumLambdaRepro"
+          ],
+          "cpu_measurement": "waited_children",
+          "cpu_system_sec": 0.069855,
+          "cpu_user_sec": 1.1575990000000012,
+          "max_aggregate_rss_bytes": 2147483648,
+          "returncode": 0,
+          "sample_interval_sec": 0.05,
+          "sampled_cpu_system_sec": 0.06,
+          "sampled_cpu_user_sec": 1.11,
+          "schema_version": 1,
+          "status": "ok",
+          "timeout_sec": 30,
+          "wall_sec": 0.5882972429999995
+        },
+        "export": {
+          "aggregate_rss_sampled_peak_bytes": 164401152,
+          "command": [
+            "/home/runner/work/cpg_rca/cpg_rca/temp/joern/joern-cli/joern-export",
+            "-java-home",
+            "/usr/lib/jvm/temurin-21-jdk-amd64",
+            "-J-Xmx1g",
+            "-J-XX:ActiveProcessorCount=2",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/enum_lambda/cpg.bin",
+            "--repr",
+            "all",
+            "--format",
+            "dot",
+            "--out",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/enum_lambda/dot"
+          ],
+          "cpu_measurement": "waited_children",
+          "cpu_system_sec": 0.23580899999999994,
+          "cpu_user_sec": 3.4816789999999997,
+          "max_aggregate_rss_bytes": 2147483648,
+          "returncode": 0,
+          "sample_interval_sec": 0.05,
+          "sampled_cpu_system_sec": 0.2,
+          "sampled_cpu_user_sec": 3.43,
+          "schema_version": 1,
+          "status": "ok",
+          "timeout_sec": 60,
+          "wall_sec": 1.6125911490000249
+        },
+        "parse": {
+          "aggregate_rss_sampled_peak_bytes": 202366976,
+          "command": [
+            "/home/runner/work/cpg_rca/cpg_rca/temp/joern/joern-cli/jimple2cpg",
+            "-java-home",
+            "/usr/lib/jvm/temurin-21-jdk-amd64",
+            "-J-Xmx1g",
+            "-J-XX:ActiveProcessorCount=2",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/enum_lambda/classes",
+            "--output",
+            "/home/runner/work/cpg_rca/cpg_rca/output/java-bytecode/runs/enum_lambda/cpg.bin"
+          ],
+          "cpu_measurement": "waited_children",
+          "cpu_system_sec": 0.25574200000000014,
+          "cpu_user_sec": 3.7841359999999984,
+          "max_aggregate_rss_bytes": 2147483648,
+          "returncode": 0,
+          "sample_interval_sec": 0.05,
+          "sampled_cpu_system_sec": 0.21000000000000002,
+          "sampled_cpu_user_sec": 3.67,
+          "schema_version": 1,
+          "status": "ok",
+          "timeout_sec": 120,
+          "wall_sec": 1.8242616680000197
+        }
+      },
+      "status": "measurements_complete",
+      "unknown_node_count": 0
+    }
+  ],
+  "runtime_version": "openjdk version \"21.0.13\" 2026-10-20 LTS\nOpenJDK Runtime Environment Temurin-21.0.13+9 (build 21.0.13+9-LTS)\nOpenJDK 64-Bit Server VM Temurin-21.0.13+9 (build 21.0.13+9-LTS, mixed mode, sharing)",
+  "schema_version": 1,
+  "status": "fixture_quality_gates_passed"
+}

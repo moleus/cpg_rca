@@ -1,5 +1,15 @@
 # Root Cause Analysis on Code Property Graph
 
+## Research results: 22 November 2026
+
+The [GitHub Actions report](docs/research/2026-11-22-actions.md) records controlled
+OpenSearch measurements, exact artifact comparisons, runtime memory results,
+and Java frontend limits. The [next-issue plan](docs/research/2026-11-22-next-issues.md)
+defines scope and acceptance criteria for the next work. Experimental modes
+remain on separate branches linked from the report.
+The [architecture proposal](docs/research/2026-11-22-architecture.md) explains
+the next export format, the agent API, and the evaluation plan.
+
 ## Table of Contents
 
 - [Table of Contents](#table-of-contents)
@@ -20,7 +30,8 @@
 - [Core Modules](#core-modules)
 - [Notebook: interactive exploration](#notebook-interactive-exploration)
 - [Log observability coverage](#log-observability-coverage)
-- [Notes and Known Limitations](#notes-and-known-limitations)
+- [Request correlation for runtime logs](#request-correlation-for-runtime-logs)
+- [Runtime evidence limits](#runtime-evidence-limits)
 
 ## Description
 
@@ -36,7 +47,7 @@ This project consumes CPGs exported from [Joern](https://cpg.joern.io) (as DOT f
 
 For each service with a pre-built CPG, the pipeline performs three independent extraction steps:
 
-1. **Log Trie** — every logger call (`log.Error`, `logrus.Warn`, `System.out.println`, etc.) reachable from a `CALL` node is traced backwards through `REACHINGDEF` (data-flow) edges to reconstruct its static message template (e.g. `failed to fetch the hostname for the pod <*>`). All templates are indexed into a prefix trie for fast matching against runtime log lines.
+1. **Log Trie** — every logger call (`log.Error`, `logrus.Warn`, `System.out.println`, etc.) reachable from a `CALL` node is traced backwards through `REACHING_DEF` (data-flow) edges to reconstruct its static message template (e.g. `failed to fetch the hostname for the pod <*>`). All templates are indexed into a prefix trie for fast matching against runtime log lines.
 2. **FLOW** — starting from each structural entrypoint (a method with `in_degree = 0` in the internal call graph), the CFG is walked forward to build a `SemanticFlowGraph` per reachable method: source-level operations (assignments, conditions, loops, calls, returns) as nodes, and control-flow transitions (including branch labels `TRUE`/`FALSE`/loop conditions) as edges.
 3. **FSM** — the `SemanticFlowGraph` of each entrypoint is compacted into a `StaticLogFSM`: a finite-state machine whose states are the *observable intervals* between one logger call and the next (or a return/dead end), and whose transitions are the logger calls themselves. This produces a compact, boundary-minimized automaton suitable for matching sequences of runtime log lines against expected static traces.
 
@@ -60,13 +71,14 @@ export.dot (Joern CPG)
 ### Project structure
 
 - `services/*` — directory with Code Property Graphs, one subfolder per service, each containing an `export.dot` (Joern DOT export).
-- `src/offline/constants.py` — CPG node/edge label strings matching the Joern DOT export schema, and project-level defaults (e.g. `DEFAULT_PROJECT_PREFIXES`).
 - `src/offline/method.py` — `MethodConstructor`: builds a complete, ordered representation (`MethodGraph`) of a single method from its CPG `METHOD` node id (parameters, return type, locals, CFG, PDG, call sites).
 - `src/offline/entrypoint.py` — `EntrypointDetector`: finds structural entrypoints using call-graph topology only (`in_degree = 0`, `out_degree ≥ 1` over internal, non-external methods).
-- `src/offline/log.py` — builds log message templates from the CPG via backward data-flow traversal, indexes them into a `TrieNode` prefix trie, and renders a Matplotlib visualization.
+- `src/offline/log.py` — builds log message templates from the CPG via backward data-flow traversal and indexes them into a `TrieNode` prefix trie.
 - `src/offline/flow.py` — `EntrypointFlow`: builds one `SemanticFlowGraph` per reachable method directly from CFG edges (no path enumeration), producing an `EntrypointFlowResult` per entrypoint.
 - `src/offline/finite_state_machine.py` — `LogFlowExtractor`: compacts a `SemanticFlowGraph` into a `StaticLogFSM` using a bounded data-flow walk between logger call boundaries.
-- `src/offline/visual.py` — Graphviz renderers for `SemanticFlowGraph` (`draw_semantic_graph_graphviz`) and `StaticLogFSM` (`draw_log_fsm_graphviz`).
+- `src/visual/trie.py` — Matplotlib renderer for the prefix trie (`visualize_trie_matplotlib`).
+- `src/visual/flow.py` — Graphviz renderer for `SemanticFlowGraph` (`draw_semantic_graph_graphviz`).
+- `src/visual/fsm.py` — Graphviz and Matplotlib renderers for `StaticLogFSM` (`draw_log_fsm_graphviz`, `visualize_log_fsm`).
 - `builder.py` — batch entry point: takes a folder of per-service CPGs and produces Trie/FLOW/FSM artifacts for every service and every entrypoint.
 - `rca.ipynb` — exploratory notebook used to prototype the pipeline interactively, service by service.
 - `output/*` — generated artifacts (see [Output Artifacts](#output-artifacts)), one subfolder per service.
@@ -169,13 +181,14 @@ Optionally, `<entrypoint>.fsm.png` (Graphviz) when `--render-graphviz` is set.
 
 | Module | Responsibility |
 |---|---|
-| `constants.py` | Joern DOT label/attribute constants; default project prefixes |
 | `method.py` | `MethodConstructor` — parses one `METHOD` node into parameters, return type, locals, CFG, PDG, call sites |
 | `entrypoint.py` | `EntrypointDetector` — topological entrypoint discovery (no naming heuristics) |
 | `log.py` | Log template extraction (`build_templates_from_cpg`) + trie construction/matching (`build_trie`, `map_logs`) |
 | `flow.py` | `EntrypointFlow` — CFG-to-semantic-graph construction (`SemanticFlowGraph`, `EntrypointFlowResult`) |
 | `finite_state_machine.py` | `LogFlowExtractor` — semantic graph to boundary-minimized FSM (`StaticLogFSM`) |
-| `visual.py` | Graphviz rendering for FLOW and FSM |
+| `src/visual/trie.py` | Matplotlib rendering for the log trie |
+| `src/visual/flow.py` | Graphviz rendering for FLOW |
+| `src/visual/fsm.py` | Graphviz and Matplotlib rendering for FSM |
 | `builder.py` | Batch CLI orchestrating all of the above across a folder of services |
 
 ## Notebook: interactive exploration

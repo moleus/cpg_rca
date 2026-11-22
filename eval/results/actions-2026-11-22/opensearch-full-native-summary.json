@@ -1,0 +1,270 @@
+{
+  "cpg": {
+    "bytes": 74131467,
+    "sha256_after_parse": "a07cfe1932801ec453057c74897eb0483c2e7e3fc02cb913dd06db28127504ab",
+    "sha256_after_query": "a07cfe1932801ec453057c74897eb0483c2e7e3fc02cb913dd06db28127504ab",
+    "sha256_before_query": "a07cfe1932801ec453057c74897eb0483c2e7e3fc02cb913dd06db28127504ab",
+    "unchanged_by_query": true
+  },
+  "cpg_archive": {
+    "compressed_bytes": 71067700,
+    "file": "native-cpg.bin.gz",
+    "input_bytes_read": 74131467,
+    "max_compressed_bytes": 200000000,
+    "native_query_completed": true,
+    "sha256": "d66ef7890bf8c07d00ada632617e7f0deb1eeca928fe4513132799d239cbd362",
+    "status": "ok",
+    "timeout_sec": 120,
+    "wall_sec": 1.3432112529999927
+  },
+  "environment": {
+    "code_commit": "d648dd4de00345af7cf0d2f0309b07795ede8879",
+    "cpu_models": [
+      "Intel(R) Xeon(R) 6975P-C"
+    ],
+    "driver_sha256": "722062433c9cffba8b9bd01338426f8abb84b350f554a55b0a4e105671400f3f",
+    "logical_cpus": 4,
+    "memory_total_bytes": 16464306176,
+    "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39",
+    "psutil": "7.2.2",
+    "python": "3.12.16 (main, Oct 26 2026, 02:50:49) [GCC 13.3.0]",
+    "python_hash_seed": "0",
+    "query_sha256": "f707192bce767302c8db2fe4f516b9285220fc4154d05c8ad3f2d1da00a358a3",
+    "runner": {
+      "GITHUB_REPOSITORY": "moleus/cpg_rca",
+      "GITHUB_RUN_ATTEMPT": "1",
+      "GITHUB_RUN_ID": "45024003121",
+      "GITHUB_SHA": "d648dd4de00345af7cf0d2f0309b07795ede8879",
+      "ImageOS": "ubuntu24",
+      "ImageVersion": "20261116.133.1",
+      "RUNNER_ARCH": "X64",
+      "RUNNER_OS": "Linux"
+    }
+  },
+  "frontend_exit_zero": true,
+  "limits": {
+    "active_processors": 4,
+    "aggregate_rss_mib": 12288,
+    "java_heap_gib": 8,
+    "parse_timeout_sec": 1200,
+    "query_timeout_sec": 300
+  },
+  "native_counts": {
+    "calls": 1354291,
+    "edges": 9367638,
+    "edges_by_label": {
+      "ARGUMENT": 2591619,
+      "AST": 4638600,
+      "BINDS": 408359,
+      "CAPTURE": 14652,
+      "CATCH_BODY": 4708,
+      "CONDITION": 61013,
+      "DO_BODY": 97,
+      "FALSE_BODY": 11973,
+      "FINALLY_BODY": 1180,
+      "FOR_BODY": 5572,
+      "FOR_INIT": 5572,
+      "FOR_UPDATE": 5572,
+      "JUMP_ARGUMENT": 2,
+      "RECEIVER": 622925,
+      "REF": 934007,
+      "TRUE_BODY": 55366,
+      "TRY_BODY": 6421
+    },
+    "external_methods": 0,
+    "loader": "Cpg.withStorage(persistOnClose=false)",
+    "log_candidate_names": [
+      "debug",
+      "error",
+      "fatal",
+      "info",
+      "log",
+      "trace",
+      "warn"
+    ],
+    "log_candidate_note": "CALL.name only; these candidates are not verified logger calls or extracted templates.",
+    "metadata": [
+      {
+        "language": "JAVASRC",
+        "overlays": [],
+        "root": "/home/runner/work/cpg_rca/cpg_rca/output/large-scale/source",
+        "version": "4.0.689"
+      }
+    ],
+    "method_source_name_count": 8321,
+    "method_source_names_note": "Distinct filenames of non-external METHOD nodes; not proof of complete file or construct coverage.",
+    "methods": 113292,
+    "name_only_log_candidates": 7465,
+    "native_load_wall_sec": 1.174016369,
+    "native_query_wall_sec": 3.943950959,
+    "nodes": 5101213,
+    "nodes_by_label": {
+      "ANNOTATION": 38158,
+      "ANNOTATION_LITERAL": 4001,
+      "ANNOTATION_PARAMETER": 4182,
+      "ANNOTATION_PARAMETER_ASSIGN": 4182,
+      "ARRAY_INITIALIZER": 160,
+      "BINDING": 408359,
+      "BLOCK": 239272,
+      "CALL": 1354291,
+      "CLOSURE_BINDING": 14652,
+      "CONTROL_STRUCTURE": 87305,
+      "FIELD_IDENTIFIER": 280473,
+      "FILE": 9113,
+      "IDENTIFIER": 1068488,
+      "IMPORT": 110592,
+      "JUMP_LABEL": 2,
+      "JUMP_TARGET": 5255,
+      "LITERAL": 272736,
+      "LOCAL": 145144,
+      "MEMBER": 45434,
+      "META_DATA": 1,
+      "METHOD": 113292,
+      "METHOD_PARAMETER_IN": 215113,
+      "METHOD_REF": 18169,
+      "METHOD_RETURN": 113292,
+      "MODIFIER": 338650,
+      "NAMESPACE_BLOCK": 9111,
+      "RETURN": 75449,
+      "TYPE": 30464,
+      "TYPE_DECL": 25498,
+      "TYPE_REF": 70349,
+      "UNKNOWN": 26
+    },
+    "overlays_added_by_query": false,
+    "rca_edge_counts": {
+      "AST": 4638600,
+      "CALL": 0,
+      "CFG": 0,
+      "REACHING_DEF": 0
+    },
+    "schema_version": 1,
+    "unknown_nodes": 26
+  },
+  "note": "Frontend exit zero and readable CPG do not establish source coverage or an RCA-ready graph.",
+  "parse": {
+    "aggregate_rss_sampled_peak_bytes": 9731850240,
+    "command": [
+      "/home/runner/work/cpg_rca/cpg_rca/temp/joern/joern-cli/javasrc2cpg",
+      "-J-Xmx8g",
+      "-J-XX:ActiveProcessorCount=4",
+      "/home/runner/work/cpg_rca/cpg_rca/output/large-scale/source",
+      "--output",
+      "/home/runner/work/cpg_rca/cpg_rca/output/large-scale/cpg.bin"
+    ],
+    "cpu_measurement": "waited_children",
+    "cpu_system_sec": 10.281232,
+    "cpu_user_sec": 786.400265,
+    "max_aggregate_rss_bytes": 12884901888,
+    "returncode": 0,
+    "sample_interval_sec": 0.05,
+    "sampled_cpu_system_sec": 10.24,
+    "sampled_cpu_user_sec": 786.37,
+    "schema_version": 1,
+    "status": "ok",
+    "timeout_sec": 1200,
+    "wall_sec": 264.346352415
+  },
+  "parser_diagnostics": {
+    "failed_to_process_reported_names": [
+      "benchmarks/src/main/java/org/opensearch/common/hash/HashFunctionBenchmark.java",
+      "server/src/main/java/org/opensearch/index/mapper/DerivedFieldSupportedTypes.java",
+      "server/src/main/java/org/opensearch/wlm/ResourceType.java"
+    ],
+    "failed_to_process_warning_lines": 3,
+    "note": "Warnings can repeat. Some names are basenames, so they do not identify unique file paths.",
+    "parse_problem_reported_names": [
+      "CalciteToOSMapperConversionUtils.java",
+      "CanMatchFilterSerializer.java",
+      "DecodedBatch.java",
+      "EarliestLatestAdapter.java",
+      "FlightErrorMapper.java",
+      "HiveShardConsumer.java",
+      "LocaleUtils.java",
+      "NestedHelper.java",
+      "Numbers.java",
+      "ParquetHiveFileReader.java",
+      "PropertyExpander.java",
+      "TermsAggregationBuilderConverter.java",
+      "ValueSource.java"
+    ],
+    "parse_problem_warning_lines": 26,
+    "unparsable_statement_warning_lines": 26,
+    "warning_lines": 291
+  },
+  "query": {
+    "aggregate_rss_sampled_peak_bytes": 2324905984,
+    "command": [
+      "/home/runner/work/cpg_rca/cpg_rca/temp/joern/joern-cli/joern",
+      "-J-Xmx8g",
+      "-J-XX:ActiveProcessorCount=4",
+      "--script",
+      "/home/runner/work/cpg_rca/cpg_rca/eval/native_cpg_summary.sc",
+      "--param",
+      "input=/home/runner/work/cpg_rca/cpg_rca/output/large-scale/cpg.bin",
+      "--param",
+      "output=/home/runner/work/cpg_rca/cpg_rca/output/large-scale/native-counts.json"
+    ],
+    "cpu_measurement": "waited_children",
+    "cpu_system_sec": 1.3187730000000002,
+    "cpu_user_sec": 27.415073000000007,
+    "max_aggregate_rss_bytes": 12884901888,
+    "returncode": 0,
+    "sample_interval_sec": 0.05,
+    "sampled_cpu_system_sec": 1.25,
+    "sampled_cpu_user_sec": 27.38,
+    "schema_version": 1,
+    "status": "ok",
+    "timeout_sec": 300,
+    "wall_sec": 11.117379707999987
+  },
+  "rca_pipeline_executed": false,
+  "result_copy_note": "Derived summary: only the long method_source_names array is moved to the raw Actions evidence archive. All measured values are unchanged.",
+  "schema_version": 1,
+  "scope": "repository",
+  "source": {
+    "java_files": 13770,
+    "path_groups": {
+      "other_tracked_java": {
+        "java_files": 51,
+        "source_bytes": 163326
+      },
+      "src/internalClusterTest/java": {
+        "java_files": 820,
+        "source_bytes": 14150479
+      },
+      "src/javaRestTest/java": {
+        "java_files": 18,
+        "source_bytes": 134184
+      },
+      "src/main/java": {
+        "java_files": 8562,
+        "source_bytes": 57461423
+      },
+      "src/test/java": {
+        "java_files": 4259,
+        "source_bytes": 52616431
+      },
+      "src/testFixtures/java": {
+        "java_files": 6,
+        "source_bytes": 19813
+      },
+      "src/yamlRestTest/java": {
+        "java_files": 54,
+        "source_bytes": 118865
+      }
+    },
+    "path_groups_note": "Literal source-set paths. Main source sets can include benchmarks and test utilities.",
+    "scope": ".",
+    "scope_kind": "all_tracked_java_sources",
+    "source_bytes": 124664521
+  },
+  "source_commit": "2220907d3119897b8bd58cbc3c926787cd05ed2c",
+  "source_completeness": "not_established",
+  "source_prepare_wall_sec": 0.9601489509999936,
+  "stages_requested": [
+    "native_java_parse",
+    "native_read_only_counts"
+  ],
+  "status": "native_graph_counted"
+}
