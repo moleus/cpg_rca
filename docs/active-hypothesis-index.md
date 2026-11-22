@@ -118,6 +118,42 @@ The push-triggered Actions workflow uses pinned actions, read-only repository
 permission, a 15-minute job limit, and bounded workers. It uploads tests,
 measurements, and failure logs. It needs no private input or secret.
 
+## Local result
+
+The measured commit is `6a938f9649042ebf81c84952ee1fa1ea532c1678`. The worktree
+was clean. All 32 bounded samples passed. Every size had matching input and
+evidence hashes. The indexed runs kept their indexes enabled through the
+complete timed stage.
+
+| Events | Scan median, s | Index median, s | Scan / index |
+| ---: | ---: | ---: | ---: |
+| 100 | 0.003305 | 0.002154 | 1.53 |
+| 1000 | 0.071804 | 0.020263 | 3.54 |
+| 5000 | 1.405219 | 0.096610 | 14.55 |
+| 20000 | 24.639528 | 0.576147 | 42.77 |
+
+Each median uses three runs without tracing. At 20,000 events, the scan times
+were 23.294, 24.640, and 29.180 seconds. Indexed times were 0.453, 0.731, and
+0.576 seconds. The host was shared. These local values are separate from the
+Actions comparison and are not production latency estimates.
+
+At 20,000 events, the separate Python allocation peaks were 14,741,368 bytes
+for scanning and 14,742,168 bytes for indexing. The difference was 800 bytes
+for this one-chain, one-active-hypothesis input. Both variants retained all
+20,000 hypotheses and all 20,000 log records. Peak Python allocation excludes
+imports and validation. Full measurement data, all repeats, and RSS scopes are
+in `eval/results/active-index/local-shared-host.json`.
+
+An additional check loaded the original store, report, and stream code from
+`77f5f54ec1391974069db245679373de67d4389f`. It compared that code with the indexed
+variant across 16 fixture cases and 84 events. JSON after every event was
+identical, including key and list order. Both dataframe exports and final
+reports were equal. The new index stayed enabled during these checks.
+`eval/results/active-index/previous-revision-equality.json` records the source
+hashes and each case. This check covers both copied and compact history. It
+is separate from the timing experiment, which compares two options on the same
+revision.
+
 ## Remaining limits
 
 - The index removes scans of unrelated retained hypotheses. An indexed query

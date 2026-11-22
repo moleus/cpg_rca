@@ -1,0 +1,179 @@
+{
+  "baseline_commit": "77f5f54ec1391974069db245679373de67d4389f",
+  "indexed_commit": "6a938f9649042ebf81c84952ee1fa1ea532c1678",
+  "baseline_sources_sha256": {
+    "src/online/stateful_chain_store.py": "2b2fd696a0816dfec6dff563680810f0f9716218f6a1de1808bc6baa168efd74",
+    "src/online/hypothesis_report.py": "161f76181dc845b2e5bd3ec7f0ab0e524d2168bd19047c06d529007ba830cb08",
+    "src/online/stream_processor.py": "87811118c2cba6a90f670b403101eb7d7e771b08b0747cf3d8b51666de970df4"
+  },
+  "indexed_sources_sha256": {
+    "src/online/stateful_chain_store.py": "c3962274571a0a8659bd77c8148fe66112e211de37bed0b1e33e96492fd66c71",
+    "src/online/hypothesis_report.py": "3f30ad232ff1e21ec0d094319e14ab71bd495f5839a6fcf836f8b4295feee450",
+    "src/online/stream_processor.py": "054dc93df82509c4d828fb077401af3779b1014f33e817c99b7fbe711af4a48d"
+  },
+  "synthetic": true,
+  "method": "Load original store/report/stream modules from git; bind original report functions; compare exact JSON after every event and both DataFrames. Normalizers, FSM and flow slicer source are unchanged.",
+  "cases": [
+    {
+      "case": "branch_loop_complete",
+      "compact_history": false,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "c1aa58a363ddb0d5f7082ca5c379be30b2f0fd5b964fcda0dca8f23408ed03d4"
+    },
+    {
+      "case": "chain_beam",
+      "compact_history": false,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "7cba0cbb74a4e0ed72012fa8fff1b4a40c1581f18f87a414cc61542432fd35da"
+    },
+    {
+      "case": "global_beam",
+      "compact_history": false,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "fc399b373b972d0c79f207f4948b3c021417930f6fae8a65eacbfbeae4a0a8c4"
+    },
+    {
+      "case": "chain_limit",
+      "compact_history": false,
+      "events": 3,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "afe6632c7de956a95f00d89e934b800898bdabbb022fc0d170b78f0cfb4b81cf"
+    },
+    {
+      "case": "expire_missing_key",
+      "compact_history": false,
+      "events": 3,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "aa6d0b4a3988ce33aebda3c36584496a422cf288fbf30151c71fed52bc479caa"
+    },
+    {
+      "case": "correlation",
+      "compact_history": false,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "e948b934dac5785fbfc148cba6bda3343672411faf0c0410b2ec0c66e48a78dd"
+    },
+    {
+      "case": "incomplete",
+      "compact_history": false,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "c5c0d9dac1c175c944a57679f843a985a917ae7ad4d4ce0643de3c6bcd6b278d"
+    },
+    {
+      "case": "dedup",
+      "compact_history": false,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "2006a3e1ff4ed5946a0d36a726f25ad852db007cfd56cc4d659abc171785e8a2"
+    },
+    {
+      "case": "branch_loop_complete",
+      "compact_history": true,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "c1aa58a363ddb0d5f7082ca5c379be30b2f0fd5b964fcda0dca8f23408ed03d4"
+    },
+    {
+      "case": "chain_beam",
+      "compact_history": true,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "7cba0cbb74a4e0ed72012fa8fff1b4a40c1581f18f87a414cc61542432fd35da"
+    },
+    {
+      "case": "global_beam",
+      "compact_history": true,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "fc399b373b972d0c79f207f4948b3c021417930f6fae8a65eacbfbeae4a0a8c4"
+    },
+    {
+      "case": "chain_limit",
+      "compact_history": true,
+      "events": 3,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "afe6632c7de956a95f00d89e934b800898bdabbb022fc0d170b78f0cfb4b81cf"
+    },
+    {
+      "case": "expire_missing_key",
+      "compact_history": true,
+      "events": 3,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "aa6d0b4a3988ce33aebda3c36584496a422cf288fbf30151c71fed52bc479caa"
+    },
+    {
+      "case": "correlation",
+      "compact_history": true,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "e948b934dac5785fbfc148cba6bda3343672411faf0c0410b2ec0c66e48a78dd"
+    },
+    {
+      "case": "incomplete",
+      "compact_history": true,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "c5c0d9dac1c175c944a57679f843a985a917ae7ad4d4ce0643de3c6bcd6b278d"
+    },
+    {
+      "case": "dedup",
+      "compact_history": true,
+      "events": 6,
+      "exact_json_equal_each_step": true,
+      "dataframes_equal_each_step": true,
+      "finalize_equal": true,
+      "index_live": true,
+      "outputs_sha256": "2006a3e1ff4ed5946a0d36a726f25ad852db007cfd56cc4d659abc171785e8a2"
+    }
+  ],
+  "status": "ok"
+}
