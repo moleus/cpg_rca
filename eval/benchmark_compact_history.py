@@ -23,7 +23,9 @@ import tracemalloc
 
 from eval.measure_command import run as run_limited
 from src.offline.finite_state_machine import ExecutionSegment, LogTransition, StaticLogFSM
-from src.online.stateful_chain_store import ExplicitHypothesisStore, _CompactPathHypothesis
+from src.online.stateful_chain_store import (
+    ExplicitHypothesisStore, _CompactPathHypothesis, _HistoryPrefix, _HistoryStep,
+)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -54,16 +56,20 @@ def storage_counts(hypotheses):
             node = hypothesis._history
             while node is not None and id(node) not in nodes:
                 nodes[id(node)] = node
-                node = node.parent
+                node = node.parent if isinstance(node, _HistoryStep) else None
+    prefixes = [node for node in nodes.values() if isinstance(node, _HistoryPrefix)]
     return {
         "hypotheses_retained": len(hypotheses),
         "active_hypotheses": sum(h.status == "active" for h in hypotheses),
-        "logical_log_references": sum(h._path_length() for h in hypotheses),
-        "retained_log_slots": sum(len(h.logs) for h in copied) + len(nodes),
-        "retained_transition_tuple_slots": sum(len(h.transition_ids) for h in copied),
-        "retained_state_tuple_slots": sum(len(h.state_path) for h in copied),
+        "logical_transition_references": sum(h._path_length() for h in hypotheses),
+        "retained_log_slots": (sum(len(h.logs) for h in copied) + len(nodes) - len(prefixes)
+                               + sum(len(prefix.log_values) for prefix in prefixes)),
+        "retained_transition_tuple_slots": (sum(len(h.transition_ids) for h in copied)
+                                            + sum(len(prefix.transition_ids) for prefix in prefixes)),
+        "retained_state_tuple_slots": (sum(len(h.state_path) for h in copied)
+                                       + sum(len(prefix.state_path) for prefix in prefixes)),
         "history_nodes": len(nodes),
-        "history_parent_links": sum(n.parent is not None for n in nodes.values()),
+        "history_parent_links": sum(isinstance(n, _HistoryStep) and n.parent is not None for n in nodes.values()),
     }
 
 

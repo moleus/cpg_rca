@@ -22,7 +22,9 @@ from __future__ import annotations
 
 import csv
 from collections import defaultdict
+from copy import deepcopy
 from dataclasses import dataclass, field
+from itertools import zip_longest
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 import pandas as pd
@@ -77,16 +79,43 @@ class PathHypothesis:
 
 
 @dataclass(frozen=True, slots=True, eq=False)
+class _HistoryPrefix:
+    """A field snapshot made by dataclasses.replace or explicit construction.
+
+    Path fields can change independently. Do not derive transition_ids or
+    state_path from logs here. Normal store appends do not make this snapshot.
+    """
+
+    transition_ids: Tuple[str, ...]
+    state_path: Tuple[str, ...]
+    log_values: Tuple[ChainLog, ...]
+    path_hash: int = field(init=False)
+
+    def __post_init__(self) -> None:
+        value = 0
+        for transition_id in self.transition_ids:
+            value = hash((value, transition_id))
+        object.__setattr__(self, "path_hash", value)
+
+    @property
+    def length(self) -> int:
+        return len(self.transition_ids)
+
+    def logs(self) -> List[ChainLog]:
+        return list(self.log_values)
+
+
+@dataclass(frozen=True, slots=True, eq=False)
 class _HistoryStep:
     """One immutable event and a shared prefix. Never hold a mutable hypothesis."""
 
-    parent: Optional[_HistoryStep]
+    parent: Optional[_HistoryStep | _HistoryPrefix]
     log: ChainLog
     length: int
     path_hash: int
 
     @classmethod
-    def append(cls, parent: Optional[_HistoryStep], log: ChainLog) -> _HistoryStep:
+    def append(cls, parent: Optional[_HistoryStep | _HistoryPrefix], log: ChainLog) -> _HistoryStep:
         return cls(
             parent, log, (parent.length if parent else 0) + 1,
             hash((parent.path_hash if parent else 0, log.transition_id)),
@@ -95,11 +124,47 @@ class _HistoryStep:
     def logs(self) -> List[ChainLog]:
         result = []
         step = self
-        while step is not None:
+        while isinstance(step, _HistoryStep):
             result.append(step.log)
             step = step.parent
+        if step is not None:
+            prefix_logs = step.logs()
+            prefix_logs.extend(reversed(result))
+            return prefix_logs
         result.reverse()
         return result
+
+    def __deepcopy__(self, memo):
+        # Copy the chain from its first uncopied prefix. Recursion depth must
+        # not depend on history length. memo also preserves branch sharing
+        # when a complete store or several hypotheses are copied together.
+        pending = []
+        step = self
+        while isinstance(step, _HistoryStep) and id(step) not in memo:
+            pending.append(step)
+            step = step.parent
+        parent = deepcopy(step, memo)
+        for source in reversed(pending):
+            parent = _HistoryStep(parent, deepcopy(source.log, memo), source.length, source.path_hash)
+            memo[id(source)] = parent
+        return memo[id(self)]
+
+
+def _history_parts(tail):
+    steps = []
+    while isinstance(tail, _HistoryStep):
+        steps.append(tail)
+        tail = tail.parent
+    steps.reverse()
+    return tail, steps
+
+
+def _reverse_transition_ids(tail):
+    while isinstance(tail, _HistoryStep):
+        yield tail.log.transition_id
+        tail = tail.parent
+    if tail is not None:
+        yield from reversed(tail.transition_ids)
 
 
 class _TransitionPathKey:
@@ -107,7 +172,7 @@ class _TransitionPathKey:
 
     __slots__ = ("tail",)
 
-    def __init__(self, tail: _HistoryStep) -> None:
+    def __init__(self, tail: _HistoryStep | _HistoryPrefix) -> None:
         self.tail = tail
 
     def __hash__(self) -> int:
@@ -120,6 +185,11 @@ class _TransitionPathKey:
         if left.length != right.length or left.path_hash != right.path_hash:
             return False
         while left is not right:
+            if isinstance(left, _HistoryPrefix) or isinstance(right, _HistoryPrefix):
+                missing = object()
+                return all(a == b for a, b in zip_longest(
+                    _reverse_transition_ids(left), _reverse_transition_ids(right), fillvalue=missing,
+                ))
             if left is None or right is None or left.log.transition_id != right.log.transition_id:
                 return False
             left, right = left.parent, right.parent
@@ -135,8 +205,18 @@ class _CompactPathHypothesis(PathHypothesis):
 
     def __init__(
         self, hypothesis_id: int, current_state: str, score: float,
-        history: _HistoryStep, status: str, termination_reason: str,
+        transition_ids: Optional[Tuple[str, ...]] = None,
+        state_path: Optional[Tuple[str, ...]] = None,
+        logs: Optional[List[ChainLog]] = None,
+        status: str = "active", termination_reason: str = "", *,
+        history: Optional[_HistoryStep | _HistoryPrefix] = None,
     ) -> None:
+        if history is None:
+            if transition_ids is None or state_path is None:
+                raise TypeError("Supply transition_ids and state_path, or a shared history.")
+            history = _HistoryPrefix(tuple(transition_ids), tuple(state_path), tuple(logs or ()))
+        elif transition_ids is not None or state_path is not None or logs is not None:
+            raise TypeError("Supply public path fields or a shared history, not both.")
         self.hypothesis_id = hypothesis_id
         self.current_state = current_state
         self.score = score
@@ -146,12 +226,16 @@ class _CompactPathHypothesis(PathHypothesis):
 
     @property
     def transition_ids(self) -> Tuple[str, ...]:
-        return tuple(log.transition_id for log in self._history.logs())
+        prefix, steps = _history_parts(self._history)
+        return (prefix.transition_ids if prefix is not None else ()) + tuple(
+            step.log.transition_id for step in steps
+        )
 
     @property
     def state_path(self) -> Tuple[str, ...]:
-        logs = self._history.logs()
-        return (logs[0].source_state,) + tuple(log.target_state for log in logs)
+        prefix, steps = _history_parts(self._history)
+        start = prefix.state_path if prefix is not None else (steps[0].log.source_state,)
+        return start + tuple(step.log.target_state for step in steps)
 
     @property
     def logs(self) -> List[ChainLog]:

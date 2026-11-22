@@ -1,6 +1,7 @@
 """The shared history must preserve the actual store and report outputs."""
 
-from dataclasses import asdict, replace
+from copy import deepcopy
+from dataclasses import asdict, fields, replace
 from pathlib import Path
 import sys
 
@@ -260,3 +261,153 @@ def test_default_keeps_the_original_history_containers():
     assert type(hypothesis.logs) is list
     assert type(hypothesis.transition_ids) is tuple
     assert hypothesis.logs is hypothesis.logs
+
+
+def test_replace_long_history_keeps_values_and_metadata_changes():
+    log = ChainLog(0, None, "", "tick", "t", "tick", "s", "s", 1.)
+    history = None
+    for index in range(3000):
+        history = _HistoryStep.append(history, replace(log, index=index))
+    original = _CompactPathHypothesis(
+        hypothesis_id=7, current_state="s", score=3000., history=history,
+    )
+    changed = replace(original, score=3001., status="pruned", termination_reason="test")
+    expected = asdict(original)
+    expected.update(score=3001., status="pruned", termination_reason="test")
+    assert isinstance(changed, _CompactPathHypothesis)
+    assert asdict(changed) == expected
+    assert original.score == 3000.
+    assert original.status == "active"
+    assert len(changed.logs) == 3000
+    # A snapshot root and the original linked steps must use the same dedup key.
+    assert changed._path_key() == original._path_key()
+    assert hash(changed._path_key()) == hash(original._path_key())
+    assert len({changed._path_key(), original._path_key()}) == 1
+    snapshot = changed.logs
+    snapshot.clear()
+    assert len(changed.logs) == 3000
+
+
+@pytest.mark.parametrize("field_name, value", [
+    ("transition_ids", ("different",)),
+    ("state_path", ("different-source", "different-target")),
+    ("logs", []),
+])
+def test_replace_preserves_independent_path_fields(field_name, value):
+    store = ExplicitHypothesisStore({"handle": branch_fsm()}, compact_history=True)
+    store.process("start x", index=0, observed_call_node_id="l-start")
+    original = store.active_chains[0].hypotheses[0]
+    plain = PathHypothesis(**{field.name: getattr(original, field.name) for field in fields(PathHypothesis)})
+    expected = replace(plain, **{field_name: value})
+    actual = replace(original, **{field_name: value})
+    assert asdict(actual) == asdict(expected)
+    assert actual._path_length() == len(expected.transition_ids)
+    assert original.transition_ids == ("start",)
+    assert original.state_path == ("start", "open")
+    assert len(original.logs) == 1
+
+
+def test_replaced_fields_remain_independent_when_store_appends():
+    stores = [ExplicitHypothesisStore({"handle": branch_fsm()}, compact_history=compact)
+              for compact in (False, True)]
+    for store in stores:
+        store.process("start x", index=0, observed_call_node_id="l-start")
+        store.allow_new_chains = False
+        chain = store.active_chains[0]
+        parent = chain.active_hypotheses[0]
+        chain.hypotheses[parent.hypothesis_id] = replace(
+            parent, transition_ids=("replaced", "path"), state_path=(), logs=[],
+        )
+    events = [store.process("choose x", index=1, observed_call_node_id="l-choose") for store in stores]
+    assert events[0] == events[1]
+    assert asdict(stores[0].active_chains[0]) == asdict(stores[1].active_chains[0])
+    children = stores[1].active_chains[0].active_hypotheses
+    assert {child.transition_ids for child in children} == {
+        ("replaced", "path", "left"), ("replaced", "path", "right"),
+    }
+    assert {child.state_path for child in children} == {("left",), ("right",)}
+    assert all([log.index for log in child.logs] == [1] for child in children)
+
+
+def test_deepcopy_long_path_and_whole_store_preserves_shared_prefixes():
+    fsm = branch_fsm()
+    fsm.transitions = [LogTransition("tick", "start", "start", "tick", "l-tick", "fixture.handle", "m")]
+    store = ExplicitHypothesisStore({"handle": fsm}, compact_history=True)
+    for index in range(1500):
+        store.process("tick", index=index, observed_call_node_id="l-tick")
+        store.allow_new_chains = False
+    chain = store.active_chains[0]
+    last = chain.active_hypotheses[0]
+
+    # Copy the tail first so prefix sharing does not depend on dictionary order.
+    copied_path, copied_first = deepcopy((last, chain.hypotheses[0]))
+    assert asdict(copied_path) == asdict(last)
+    assert copied_path._history is not last._history
+    assert copied_path.logs[0] is not last.logs[0]
+    copied_root = copied_path._history
+    while copied_root.parent is not None:
+        copied_root = copied_root.parent
+    assert copied_root is copied_first._history
+
+    # Add an equivalent snapshot root. deepcopy must keep shared ChainLog
+    # values between this root and the linked histories that remain retained.
+    chain.hypotheses[last.hypothesis_id] = replace(last)
+    copied = deepcopy(store)
+    copied_chain = copied.active_chains[0]
+    assert copied.history == store.history
+    assert copied.history is not store.history
+    assert list(copied_chain.hypotheses) == list(chain.hypotheses)
+    assert all((new.hypothesis_id, new.score, new.status, new.termination_reason) ==
+               (old.hypothesis_id, old.score, old.status, old.termination_reason)
+               for old, new in zip(chain.hypotheses.values(), copied_chain.hypotheses.values()))
+    for index in range(1, 1499):
+        assert copied_chain.hypotheses[index]._history.parent is copied_chain.hypotheses[index - 1]._history
+    assert copied_chain.hypotheses[0]._history is not chain.hypotheses[0]._history
+    copied_last = copied_chain.active_hypotheses[0]
+    assert copied_last.logs[0] is copied_chain.hypotheses[0].logs[0]
+    assert copied_last.logs[0] is not chain.hypotheses[0].logs[0]
+    assert asdict(copied_last) == asdict(last)
+
+    copied.process("tick", index=1500, observed_call_node_id="l-tick")
+    assert copied_chain.active_hypotheses[0]._path_length() == 1501
+    assert chain.active_hypotheses[0]._path_length() == 1500
+    assert len(copied.history) == 1501
+    assert len(store.history) == 1500
+    assert chain.active_hypotheses[0].status == "active"
+
+
+def test_deepcopy_branch_store_keeps_one_copied_prefix():
+    store = ExplicitHypothesisStore({"handle": branch_fsm()}, compact_history=True)
+    store.process("start x", index=0, observed_call_node_id="l-start")
+    store.process("choose x", index=1, observed_call_node_id="l-choose")
+    copied = deepcopy(store)
+    left, right = copied.active_chains[0].active_hypotheses
+    assert left._history.parent is right._history.parent
+    assert left._history.parent is copied.active_chains[0].hypotheses[0]._history
+    assert left._history.parent is not store.active_chains[0].hypotheses[0]._history
+    assert asdict(copied.active_chains[0]) == asdict(store.active_chains[0])
+
+
+def test_storage_counts_include_replacement_snapshot_slots():
+    from eval.benchmark_compact_history import storage_counts
+
+    log = ChainLog(0, None, "", "tick", "t", "tick", "s", "s", 1.)
+    history = None
+    for index in range(3):
+        history = _HistoryStep.append(history, replace(log, index=index))
+    original = _CompactPathHypothesis(hypothesis_id=0, current_state="s", score=3., history=history)
+    snapshot = replace(original, hypothesis_id=1)
+    child = _CompactPathHypothesis(
+        hypothesis_id=2, current_state="s", score=4.,
+        history=_HistoryStep.append(snapshot._history, replace(log, index=3)),
+    )
+    counts = storage_counts([original, snapshot, child])
+    assert counts["retained_log_slots"] == 7  # Three linked slots, three snapshot slots, one new slot.
+    assert counts["retained_transition_tuple_slots"] == 3
+    assert counts["retained_state_tuple_slots"] == 4
+    assert counts["history_nodes"] == 5
+    assert counts["history_parent_links"] == 3
+    changed = replace(original, transition_ids=("one", "two"), logs=[])
+    changed_counts = storage_counts([changed])
+    assert changed_counts["logical_transition_references"] == 2
+    assert changed_counts["retained_log_slots"] == 0
