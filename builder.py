@@ -396,7 +396,7 @@ def main(argv: Iterable[str] | None = None) -> int:
     ok = sum(1 for s in summaries if s.get("entrypoints_error", 0) == 0 and "error" not in s)
     logger.info("Готово: %d/%d сервисов обработано без ошибок. Результаты -> %s",
                 ok, len(summaries), args.output_dir)
-    return 0
+    return 0 if ok == len(summaries) else 1
 
 
 if __name__ == "__main__":
