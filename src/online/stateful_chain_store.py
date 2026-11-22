@@ -53,6 +53,7 @@ class ChainLog:
     source_state: str
     target_state: str
     score: float
+    correlation_key: Optional[str] = None
 
 
 @dataclass
@@ -80,6 +81,7 @@ class ActiveChain:
     hypotheses: Dict[int, PathHypothesis] = field(default_factory=dict)
     status: str = "active"
     termination_reason: str = ""
+    correlation_key: Optional[str] = None
 
     @property
     def score(self) -> float:
@@ -115,9 +117,18 @@ class HypothesisEvent:
     template: Optional[str]
     step_score: float
     cumulative_score: float
+    correlation_key: Optional[str] = None
+    reason_code: str = ""
 
 
 ChainEvent = HypothesisEvent
+
+
+def normalize_correlation_key(value: Any) -> Optional[str]:
+    """Keep an explicit request key as text; missing values have no key."""
+    if value is None or pd.isna(value):
+        return None
+    return str(value).strip() or None
 
 
 def normalize_text(value: str) -> str:
@@ -158,7 +169,11 @@ def template_score(message: str, template: str) -> float:
 
 
 class ExplicitHypothesisStore:
-    """Bounded beam-search store of explicit FSM-path hypotheses."""
+    """Beam-search store of explicit FSM paths.
+
+    With require_correlation=True, only events with the same nonempty request
+    key can continue a chain. Missing keys produce unexplained events.
+    """
 
     def __init__(
         self,
@@ -169,6 +184,7 @@ class ExplicitHypothesisStore:
         max_hypotheses_per_chain: int = 32,
         max_total_active_hypotheses: int = 2048,
         allow_new_chains: bool = True,
+        require_correlation: bool = False,
     ) -> None:
         self.fsms = {key: fsm for key, fsm in fsms.items() if fsm.transitions}
         self.threshold = threshold
@@ -177,6 +193,7 @@ class ExplicitHypothesisStore:
         self.max_hypotheses_per_chain = max_hypotheses_per_chain
         self.max_total_active_hypotheses = max_total_active_hypotheses
         self.allow_new_chains = allow_new_chains
+        self.require_correlation = require_correlation
         self.active_chains: Dict[int, ActiveChain] = {}
         self.history: List[HypothesisEvent] = []
         self._next_chain_id = 0
@@ -311,6 +328,7 @@ class ExplicitHypothesisStore:
             source_state=match.source_state,
             target_state=match.target_state,
             score=match.score,
+            correlation_key=chain.correlation_key,
         )
         return PathHypothesis(
             hypothesis_id=self._new_hypothesis_id(),
@@ -357,6 +375,7 @@ class ExplicitHypothesisStore:
                     source_state=match.source_state, target_state=match.target_state,
                     transition_id=match.transition_id, template=match.template,
                     step_score=match.score, cumulative_score=child.score,
+                    correlation_key=chain.correlation_key,
                 ))
 
         if not children:
@@ -387,12 +406,14 @@ class ExplicitHypothesisStore:
         timestamp: Optional[pd.Timestamp],
         bucket: str,
         message: str,
+        correlation_key: Optional[str] = None,
     ) -> tuple[ActiveChain, List[HypothesisEvent]]:
         chain = ActiveChain(
             chain_id=self._next_chain_id,
             fsm_key=fsm_key,
             created_at=timestamp,
             last_timestamp=timestamp,
+            correlation_key=correlation_key,
         )
         self._next_chain_id += 1
         events: List[HypothesisEvent] = []
@@ -407,6 +428,7 @@ class ExplicitHypothesisStore:
                 source_state=match.source_state, target_state=match.target_state,
                 transition_id=match.transition_id, template=match.template,
                 step_score=match.score, cumulative_score=hypothesis.score,
+                correlation_key=chain.correlation_key,
             ))
         self._enforce_chain_beam(chain)
         self._refresh_chain_status(chain)
@@ -421,6 +443,7 @@ class ExplicitHypothesisStore:
         index: int = -1,
         observed_call_node_id: Optional[str] = None,
         observed_call_node_ids: Optional[set[str]] = None,
+        correlation_key: Optional[str] = None,
     ) -> List[HypothesisEvent]:
         """Process one event using Trie CALL ids when available, otherwise lexical fallback."""
         call_ids = set(observed_call_node_ids or ())
@@ -429,16 +452,31 @@ class ExplicitHypothesisStore:
         candidates = call_ids or None
 
         self._expire(timestamp)
+        correlation_key = normalize_correlation_key(correlation_key) if self.require_correlation else None
+        if self.require_correlation and correlation_key is None:
+            event = HypothesisEvent(
+                index=index, timestamp=timestamp, bucket=bucket, message=message,
+                chain_id=None, hypothesis_id=None, fsm_key=None, verdict="unknown",
+                source_state=None, target_state=None, transition_id=None, template=None,
+                step_score=0.0, cumulative_score=0.0, reason_code="missing_correlation_key",
+            )
+            self.history.append(event)
+            return [event]
+
         events: List[HypothesisEvent] = []
         for chain in list(self.active_chains.values()):
-            if chain.status == "active":
+            if chain.status == "active" and (
+                not self.require_correlation or chain.correlation_key == correlation_key
+            ):
                 events.extend(self._advance_chain(chain, index, timestamp, bucket, message, candidates))
 
         if self.allow_new_chains:
             for fsm_key, start_transitions in self._starts.items():
                 matches = self._matches(fsm_key, start_transitions, message, candidates)
                 if matches:
-                    _, started = self._start_chain(fsm_key, matches, index, timestamp, bucket, message)
+                    _, started = self._start_chain(
+                        fsm_key, matches, index, timestamp, bucket, message, correlation_key
+                    )
                     events.extend(started)
 
         if not events:
@@ -447,6 +485,7 @@ class ExplicitHypothesisStore:
                 chain_id=None, hypothesis_id=None, fsm_key=None, verdict="unknown",
                 source_state=None, target_state=None, transition_id=None, template=None,
                 step_score=0.0, cumulative_score=0.0,
+                correlation_key=correlation_key,
             ))
 
         self.history.extend(events)
@@ -461,8 +500,15 @@ class ExplicitHypothesisStore:
         message_column: str = "message",
         bucket_column: str = "bucket",
         call_node_column: Optional[str] = None,
+        correlation_column: Optional[str] = None,
     ) -> pd.DataFrame:
         """Compatibility batch API; Trie integration is handled by stream_processor."""
+        if correlation_column is not None and not self.require_correlation:
+            raise ValueError(
+                "Set require_correlation=True when creating the store before passing correlation_column."
+            )
+        if correlation_column is not None and correlation_column not in logs:
+            raise ValueError(f"Missing correlation column: {correlation_column}")
         rows: List[Dict[str, Any]] = []
         for index, row in logs.sort_values(timestamp_column).reset_index(drop=True).iterrows():
             timestamp = row.get(timestamp_column)
@@ -472,6 +518,7 @@ class ExplicitHypothesisStore:
                 message=str(row.get(message_column, "")), timestamp=timestamp,
                 bucket=str(row.get(bucket_column, "")), index=index,
                 observed_call_node_id=call_id,
+                correlation_key=row.get(correlation_column) if correlation_column is not None else None,
             ):
                 rows.append({
                     "log_index": event.index, "timestamp": event.timestamp,
@@ -481,6 +528,7 @@ class ExplicitHypothesisStore:
                     "source_state": event.source_state, "target_state": event.target_state,
                     "transition_id": event.transition_id, "template": event.template,
                     "step_score": event.step_score, "score": event.cumulative_score,
+                    "correlation_key": event.correlation_key, "reason_code": event.reason_code,
                 })
         return pd.DataFrame(rows)
 

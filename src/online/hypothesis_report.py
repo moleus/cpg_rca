@@ -78,6 +78,7 @@ def build_llm_report(
             "chain_score": chain.score,
             "created_at": chain.created_at,
             "last_timestamp": chain.last_timestamp,
+            "correlation_key": chain.correlation_key,
         },
         "hypothesis": {
             "hypothesis_id": hypothesis.hypothesis_id,
@@ -132,11 +133,17 @@ def build_unexplained_report(
             "timestamp": event.timestamp,
             "bucket": event.bucket,
             "message": event.message,
+            "correlation_key": event.correlation_key,
         },
         "classification": {
             "verdict": event.verdict,
             "score": event.step_score,
-            "reason": "No active-hypothesis continuation or FSM start transition matched the event.",
+            "reason_code": event.reason_code or "no_fsm_match",
+            "reason": (
+                "The correlation key is missing. The event did not start or continue a chain."
+                if event.reason_code == "missing_correlation_key"
+                else "No active-hypothesis continuation or FSM start transition matched the event."
+            ),
         },
     }
 

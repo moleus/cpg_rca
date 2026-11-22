@@ -21,7 +21,7 @@ from typing import Any, Dict, Optional
 import pandas as pd
 
 from src.online.hypothesis_report import build_llm_report, build_unexplained_report
-from src.online.stateful_chain_store import ExplicitHypothesisStore
+from src.online.stateful_chain_store import ExplicitHypothesisStore, normalize_correlation_key
 from src.online.trie_matcher import ServiceTrieMatcher
 
 
@@ -35,6 +35,7 @@ class RuntimeEvent:
     bucket: str
     message: str
     observed_call_node_id: Optional[str] = None
+    correlation_key: Optional[str] = None
 
 
 @dataclass
@@ -112,6 +113,7 @@ class RuntimeStreamProcessor:
         3. If Trie returns no candidate, the store falls back to lexical
            template matching for exploratory robustness.
         """
+        correlation_key = normalize_correlation_key(event.correlation_key)
         catalog = self.catalogs.get(event.service.lower())
         if catalog is None:
             return [{
@@ -122,6 +124,7 @@ class RuntimeStreamProcessor:
                     "timestamp": event.timestamp,
                     "bucket": event.bucket,
                     "message": event.message,
+                    "correlation_key": correlation_key,
                 },
                 "classification": {
                     "reason": "No offline Trie/FSM/FLOW catalog was loaded for this service.",
@@ -149,6 +152,7 @@ class RuntimeStreamProcessor:
             bucket=event.bucket,
             index=event.index,
             observed_call_node_ids=call_node_ids or None,
+            correlation_key=correlation_key,
         )
 
         reports = self._reports_for_completed(event.service, catalog)
@@ -179,6 +183,7 @@ class RuntimeStreamProcessor:
         message_column: str = "message",
         bucket_column: str = "bucket",
         call_node_column: Optional[str] = None,
+        correlation_column: Optional[str] = None,
     ) -> list[dict[str, Any]]:
         """
         Process a DataFrame in timestamp order while preserving same-time order.
@@ -188,6 +193,12 @@ class RuntimeStreamProcessor:
         canonical names before calling this method.
         """
         required = {timestamp_column, service_column, message_column}
+        if correlation_column is not None:
+            if any(not catalog.store.require_correlation for catalog in self.catalogs.values()):
+                raise ValueError(
+                    "Set require_correlation=True when creating every service store before passing correlation_column."
+                )
+            required.add(correlation_column)
         missing = required - set(logs.columns)
         if missing:
             raise ValueError(
@@ -221,6 +232,7 @@ class RuntimeStreamProcessor:
                 bucket=str(row.get(bucket_column, "")),
                 message=str(row.get(message_column, "")),
                 observed_call_node_id=call_node_id,
+                correlation_key=row.get(correlation_column) if correlation_column is not None else None,
             )
             reports.extend(self.process(event))
 
@@ -244,6 +256,7 @@ class RuntimeStreamProcessor:
                         "chain_id": chain.chain_id,
                         "hypothesis_id": hypothesis.hypothesis_id,
                         "entrypoint": chain.fsm_key,
+                        "correlation_key": chain.correlation_key,
                         "status": hypothesis.status,
                         "score": hypothesis.score,
                         "current_state": hypothesis.current_state,

@@ -182,3 +182,28 @@ Optionally, `<entrypoint>.fsm.png` (Graphviz) when `--render-graphviz` is set.
 python3 -m eval.coverage output coverage/new   # writes coverage.json and coverage.md
 python3 -m eval.compare coverage/old/coverage.json coverage/new/coverage.json   # exit 1 if visible decreases or lost increases
 ```
+
+## Request correlation for runtime logs
+
+Use `--correlation-column` when each log record has a request key:
+
+```bash
+python3 runtime_analyzer.py --artifacts-dir output --logs logs.csv \
+  --inject-time 1795320000 --correlation-column request_id --emit-incomplete
+```
+
+The column name must match the CSV header exactly. Keys are case-sensitive
+strings. Leading and trailing spaces are removed. Use a key that identifies one
+request within one service. A trace ID is suitable only when it has that scope.
+The same key in two services remains in two separate stores.
+
+A chain can continue only with records that have the same key. An empty or
+missing key produces an unexplained event with reason code
+`missing_correlation_key`. That event cannot start or continue a chain. The
+report keeps it for review. Completed chains, runtime evidence, and incomplete
+hypotheses include `correlation_key`.
+
+Without the option, matching keeps its previous behavior. The `bucket` field
+keeps its previous meaning and is never used as a request key. Correlation
+prevents the merger of different known requests. It does not prove the cause of
+an incident.
