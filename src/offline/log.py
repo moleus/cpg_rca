@@ -45,7 +45,7 @@ LOG_METHOD_NAMES: Set[str] = {
     "log4j",
     # Custom logger patterns
     "write",  # Writer.write()
-    "WriteLine",
+    "writeline",
     "flush",  # BufferedWriter.flush()
 }
 
