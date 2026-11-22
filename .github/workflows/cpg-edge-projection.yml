@@ -1,0 +1,117 @@
+name: CPG edge projection experiment
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - experiment/cpg-edge-projection
+    paths:
+      - .github/workflows/cpg-edge-projection.yml
+      - src/offline/**
+      - tests/test*projection*.py
+      - eval/edge_projection_benchmark.py
+      - eval/measure_command.py
+      - services/**/*.dot
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cpg-projection-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  compare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      PYTHONHASHSEED: '0'
+      MPLBACKEND: Agg
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: opensearch-project/OpenSearch
+          ref: 2220907d3119897b8bd58cbc3c926787cd05ed2c
+          path: temp/OpenSearch
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install fixed dependencies
+        run: python -m pip install -r eval/requirements-test.txt
+      - name: Check projection order and existing behavior
+        run: python -m pytest -q --junitxml=output/tests.xml
+      - name: Check all bundled service artifacts
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess
+          import sys
+          inputs = sorted(Path('services').glob('*/export.dot'))
+          if not inputs:
+              raise SystemExit('No bundled DOT inputs')
+          for dot in inputs:
+              service = dot.parent.name
+              subprocess.run([
+                  sys.executable, '-m', 'eval.edge_projection_benchmark', 'compare',
+                  '--dot', str(dot), '--service', service,
+                  '--output', f'output/bundled-projection/{service}',
+                  '--repeats', '1', '--minimum-entrypoints', '0',
+                  '--timeout-sec', '180', '--max-rss-mib', '2048',
+              ], check=True)
+          PY
+      - name: Download and verify fixed Joern release
+        timeout-minutes: 10
+        shell: bash
+        run: |
+          mkdir -p temp/joern
+          curl --fail --location --retry 1 --max-time 240 \
+            https://github.com/joernio/joern/releases/download/v4.0.689/joern-cli-linux-x86_64.zip \
+            --output temp/joern/joern.zip
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          from eval.opensearch_benchmark import JOERN_ARCHIVE_SHA256
+          with Path('temp/joern/joern.zip').open('rb') as stream:
+              actual = hashlib.file_digest(stream, 'sha256').hexdigest()
+          if actual != JOERN_ARCHIVE_SHA256:
+              raise SystemExit('Joern archive SHA256 mismatch')
+          PY
+          unzip -q temp/joern/joern.zip -d temp/joern
+      - name: Build one fixed snapshots DOT
+        shell: bash
+        run: |
+          export JAVA_HOME="$JAVA_HOME_21_X64"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          mkdir -p output/environment
+          java -version > output/environment/java.txt 2>&1
+          lscpu > output/environment/cpu.txt
+          free -b > output/environment/memory.txt
+          python -m pip freeze > output/environment/python.txt
+          python -m eval.opensearch_benchmark \
+            --source-checkout temp/OpenSearch --joern-home temp/joern/joern-cli \
+            --scope snapshots --stop-after export --output output/native \
+            --stage-timeout-sec 120 --max-rss-mib 4096
+      - name: Compare three pairs and all artifact bytes
+        run: |
+          python -m eval.edge_projection_benchmark compare \
+            --dot output/native/dot/export.dot --output output/comparison \
+            --repeats 3 --timeout-sec 180 --max-rss-mib 2048
+      - name: Save measurements and failure evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cpg-edge-projection-${{ github.run_id }}
+          retention-days: 14
+          if-no-files-found: error
+          path: |
+            output/tests.xml
+            output/environment/
+            output/bundled-projection/
+            output/native/*.json
+            output/native/*.log
+            output/comparison/
