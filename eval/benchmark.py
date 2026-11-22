@@ -85,6 +85,7 @@ def main(argv=None):
         sys.path.insert(0, str(code_root))
     import builder
     from eval.coverage import service_metrics
+    from src.offline import method
 
     if Path(args.service).name != args.service or args.service in (".", ".."):
         parser.error("service must be one directory name")
@@ -100,6 +101,7 @@ def main(argv=None):
             "tracked_changes": bool(git_value("diff", "HEAD", "--stat", cwd=code_root)),
             "benchmark_module_sha256": digest(Path(__file__)),
             "builder_module_sha256": digest(Path(builder.__file__)),
+            "method_module_sha256": digest(Path(method.__file__)),
             "dot_parser": args.dot_parser,
             "python": sys.version.split()[0],
             "python_hash_seed": os.environ.get("PYTHONHASHSEED", "random"),

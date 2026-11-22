@@ -19,6 +19,8 @@ JOERN_VERSION = "v4.0.689"
 JOERN_ARCHIVE_SHA256 = "c13f0b6adbb1ea2fbf94c046e42ae023394f150f855ca6ca19ef20e20a1805b0"
 SCOPES = {
     "notifier": "server/src/main/java/org/opensearch/snapshots/RestoreCompletionNotifier.java",
+    "snapshots-info": "server/src/main/java/org/opensearch/snapshots/InternalSnapshotsInfoService.java",
+    "recovery-exception": "server/src/main/java/org/opensearch/indices/recovery/RecoveryFailedException.java",
     "snapshots": "server/src/main/java/org/opensearch/snapshots",
     "recovery": "server/src/main/java/org/opensearch/indices/recovery",
     "server": "server/src/main/java",
