@@ -111,3 +111,19 @@ PYTHONHASHSEED=0 python -m eval.opensearch_large_scale \
 
 For a small smoke, select `--scope notifier` and lower the heap and RSS limits.
 The output directory must be new.
+
+## JVM limits for native scripts
+
+The first full Actions run, `45024003121`, used only launcher `-J` options.
+A later empty-script probe showed that Joern 4.0.689 does not pass those
+options to its script JVM. That run records requested query heap and processor
+settings. Its actual script heap and processor count are unknown. The sampled
+process-tree RSS guard still applied. Do not relabel that result as a verified
+8-GiB, four-processor query.
+
+The corrected driver sets `JDK_JAVA_OPTIONS` for Java launcher and child
+processes. The query records `Runtime.maxMemory` and `availableProcessors`
+inside the script. It rejects a heap above the requested maximum or a
+different processor count before it opens the graph. The query also records
+FILE names and NAMESPACE_BLOCK filenames. These lists support a source-scope
+audit; a FILE node alone does not prove that its AST was built.

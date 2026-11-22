@@ -126,9 +126,11 @@ def main(argv=None):
     report = {
         "schema_version": 1, "status": "running", "scope": args.scope,
         "source_commit": OPENSEARCH_COMMIT, "environment": environment(),
-        "limits": {"java_heap_gib": args.heap_gib, "active_processors": args.processors,
+        "limits": {"requested_java_heap_gib": args.heap_gib, "requested_active_processors": args.processors,
                    "aggregate_rss_mib": args.max_rss_mib, "parse_timeout_sec": args.parse_timeout_sec,
-                   "query_timeout_sec": args.query_timeout_sec},
+                   "query_timeout_sec": args.query_timeout_sec,
+                   "JDK_JAVA_OPTIONS": f"-Xmx{args.heap_gib}g -XX:ActiveProcessorCount={args.processors}",
+                   "query_actual_limits": "recorded and checked inside the script JVM"},
         "stages_requested": ["native_java_parse", "native_read_only_counts"],
         "source_completeness": "not_established",
         "rca_pipeline_executed": False,
@@ -145,7 +147,10 @@ def main(argv=None):
         report["source_prepare_wall_sec"] = time.perf_counter() - started
         save(output / "summary.json", report)
         jvm = [f"-J-Xmx{args.heap_gib}g", f"-J-XX:ActiveProcessorCount={args.processors}"]
-        parse_code = run([str(joern / "javasrc2cpg"), *jvm, str(output / "source"), "--output", str(cpg)],
+        # Joern's --script child JVM does not inherit launcher -J flags.
+        # The Java environment option reaches both launcher and child JVMs.
+        java_environment = ["env", f"JDK_JAVA_OPTIONS=-Xmx{args.heap_gib}g -XX:ActiveProcessorCount={args.processors}"]
+        parse_code = run([*java_environment, str(joern / "javasrc2cpg"), *jvm, str(output / "source"), "--output", str(cpg)],
                          output / "parse.json", args.parse_timeout_sec, args.max_rss_mib * 2**20)
         report["parse"] = json.loads((output / "parse.json").read_text(encoding="utf-8"))
         report["frontend_exit_zero"] = parse_code == 0
@@ -158,8 +163,9 @@ def main(argv=None):
         if parse_code == 0 and cpg.exists() and cpg.stat().st_size:
             before = digest(cpg)
             query_code = run([
-                str(joern / "joern"), *jvm, "--script", str(ROOT / "eval/native_cpg_summary.sc"),
+                *java_environment, str(joern / "joern"), *jvm, "--script", str(ROOT / "eval/native_cpg_summary.sc"),
                 "--param", f"input={cpg}", "--param", f"output={output / 'native-counts.json'}",
+                "--param", f"expectedHeapGiB={args.heap_gib}", "--param", f"expectedProcessors={args.processors}",
             ], output / "query.json", args.query_timeout_sec, args.max_rss_mib * 2**20)
             after = digest(cpg)
             report["query"] = json.loads((output / "query.json").read_text(encoding="utf-8"))

@@ -6,7 +6,22 @@ import io.shiftleft.semanticcpg.language.*
 import java.nio.file.{Files, Paths}
 import java.util.Locale
 
-@main def summarize(input: String, output: String): Unit = {
+@main def summarize(input: String, output: String, expectedHeapGiB: Int, expectedProcessors: Int): Unit = {
+  val runtimeHeap = Runtime.getRuntime.maxMemory()
+  val runtimeProcessors = Runtime.getRuntime.availableProcessors()
+  val limitsOk = expectedHeapGiB > 0 && expectedProcessors > 0 &&
+    runtimeHeap <= expectedHeapGiB.toLong * 1024 * 1024 * 1024 && runtimeProcessors == expectedProcessors
+  val runtimeLimits = ujson.Obj(
+    "requested_heap_gib" -> expectedHeapGiB, "requested_processors" -> expectedProcessors,
+    "actual_max_heap_bytes" -> runtimeHeap.toDouble, "actual_available_processors" -> runtimeProcessors,
+    "verified" -> limitsOk
+  )
+  if (!limitsOk) {
+    Files.writeString(Paths.get(output), ujson.write(ujson.Obj(
+      "schema_version" -> 1, "status" -> "runtime_limits_mismatch", "runtime_limits" -> runtimeLimits
+    ), indent = 2) + "\n")
+    throw new IllegalArgumentException("Script JVM limits do not match the request")
+  }
   val started = System.nanoTime()
   val graphCpg = Cpg.withStorage(Paths.get(input), persistOnClose = false)
   val loaded = System.nanoTime()
@@ -23,6 +38,8 @@ import java.util.Locale
     }.toSeq
     val report = ujson.Obj(
       "schema_version" -> 1,
+      "status" -> "ok",
+      "runtime_limits" -> runtimeLimits,
       "loader" -> "Cpg.withStorage(persistOnClose=false)",
       "overlays_added_by_query" -> false,
       "nodes" -> graphCpg.graph.nodeCount,
@@ -30,7 +47,7 @@ import java.util.Locale
       "edges_by_label" -> ujson.Obj.from(edgeCounts.toSeq.sortBy(_._1).map {
         case (label, count) => label -> ujson.Num(count.toDouble)
       }),
-      "rca_edge_counts" -> ujson.Obj.from(Seq("AST", "CFG", "REACHING_DEF", "CALL").map {
+      "rca_edge_counts" -> ujson.Obj.from(Seq("AST", "CONTAINS", "CFG", "CDG", "REACHING_DEF", "CALL").map {
         label => label -> ujson.Num(edgeCounts(label).toDouble)
       }),
       "nodes_by_label" -> ujson.Obj.from(nodeLabels.map { case (label, count) => label -> ujson.Num(count) }),
@@ -43,6 +60,9 @@ import java.util.Locale
       "log_candidate_note" -> "CALL.name only; these candidates are not verified logger calls or extracted templates.",
       "method_source_names" -> ujson.Arr.from(methodFiles),
       "method_source_names_note" -> "Distinct filenames of non-external METHOD nodes; not proof of complete file or construct coverage.",
+      "file_names" -> ujson.Arr.from(graphCpg.file.map(_.name).toSet.toSeq.sorted),
+      "namespace_block_source_names" -> ujson.Arr.from(graphCpg.namespaceBlock.map(_.filename).toSet.toSeq.sorted),
+      "file_names_note" -> "FILE can remain after AstCreator fails. Compare namespace filenames and diagnostics as well.",
       "metadata" -> ujson.Arr.from(metadata),
       "native_load_wall_sec" -> ((loaded - started) / 1e9),
       "native_query_wall_sec" -> ((System.nanoTime() - loaded) / 1e9)

@@ -1,0 +1,93 @@
+name: Explicit overlays on saved OpenSearch native CPG
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - experiment/native-overlay-stages
+
+permissions:
+  contents: read
+
+concurrency:
+  group: opensearch-native-overlays-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native-overlays:
+    runs-on: ubuntu-24.04
+    # The driver has one 1,200-second processing deadline. Extra job time is
+    # reserved for verified tool download and result upload after a limit.
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: read
+    env:
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install fixed monitor dependencies
+        run: python -m pip install -r eval/requirements-benchmark.txt
+      - name: Record runner and Java environment
+        shell: bash
+        run: |
+          export JAVA_HOME="$JAVA_HOME_21_X64"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          mkdir -p output/environment
+          java -version > output/environment/java.txt 2>&1
+          python -m pip freeze > output/environment/python.txt
+          lscpu > output/environment/cpu.txt
+          free -b > output/environment/memory.txt
+          df -B1 . > output/environment/disk.txt
+      - name: Download the pinned raw native graph artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          repository: moleus/cpg_rca
+          run-id: 45024003121
+          name: opensearch-full-native-graph-45024003121-1
+          path: temp/input
+          github-token: ${{ github.token }}
+      - name: Download and verify Joern 4.0.689
+        shell: bash
+        run: |
+          mkdir -p temp/joern
+          curl --fail --location --retry 2 --max-time 300 --retry-max-time 300 \
+            https://github.com/joernio/joern/releases/download/v4.0.689/joern-cli-linux-x86_64.zip \
+            --output temp/joern/joern.zip
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          with Path('temp/joern/joern.zip').open('rb') as stream:
+              actual = hashlib.file_digest(stream, 'sha256').hexdigest()
+          expected = 'c13f0b6adbb1ea2fbf94c046e42ae023394f150f855ca6ca19ef20e20a1805b0'
+          if actual != expected:
+              raise SystemExit(f'Joern archive digest mismatch: {actual}')
+          PY
+          unzip -q temp/joern/joern.zip -d temp/joern
+          rm temp/joern/joern.zip
+      - name: Apply explicit native overlays under one processing deadline
+        shell: bash
+        run: |
+          export JAVA_HOME="$JAVA_HOME_21_X64"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          python -m eval.native_full_overlays \
+            --archive temp/input/native-cpg.bin.gz \
+            --joern-home temp/joern/joern-cli --output output/native-overlays \
+            --heap-gib 8 --processors 4 --max-rss-mib 12288 \
+            --total-timeout-sec 1200
+      - name: Save native stage counts, diagnostics, and verified limits
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: opensearch-native-overlays-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            output/environment/
+            output/native-overlays/**/*.json
+            output/native-overlays/**/*.log
+          retention-days: 14
+          if-no-files-found: error
