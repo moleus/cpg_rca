@@ -1,0 +1,20 @@
+{
+  "aggregate_rss_sampled_peak_bytes": 1106235392,
+  "command": [
+    "../bench-tools/joern-cli/javasrc2cpg",
+    "-J-Xmx3g",
+    "-J-XX:ActiveProcessorCount=2",
+    "../bench-runs/opensearch-snapshots/source",
+    "--output",
+    "../bench-runs/opensearch-snapshots/cpg.bin"
+  ],
+  "cpu_system_sec": 3.513913,
+  "cpu_user_sec": 53.699854,
+  "max_aggregate_rss_bytes": 4294967296.0,
+  "returncode": 0,
+  "sample_interval_sec": 0.05,
+  "schema_version": 1,
+  "status": "ok",
+  "timeout_sec": 600.0,
+  "wall_sec": 24.333308333000105
+}

@@ -1,0 +1,119 @@
+{
+  "experiment": "matcher_contract_parity",
+  "messages": "synthetic expansions of stored templates",
+  "wildcard_values": [
+    "",
+    "value",
+    "value with spaces"
+  ],
+  "services": [
+    {
+      "service": "adservice",
+      "artifact_sha256": "778753c1d84ffb1eb1a641a1085dd9c2f6627d219321629a2a9ec3b984d17d15",
+      "templates": 17,
+      "cases": 51,
+      "same_candidate_sets": 51,
+      "offline_origin_matched": 51,
+      "online_origin_matched": 51,
+      "failures": []
+    },
+    {
+      "service": "cartservice",
+      "artifact_sha256": "a44913eba3621f41a64b24c85ba359c656170b8c000fc2e362e9290c89eff9c0",
+      "templates": 14,
+      "cases": 42,
+      "same_candidate_sets": 42,
+      "offline_origin_matched": 42,
+      "online_origin_matched": 42,
+      "failures": []
+    },
+    {
+      "service": "checkoutservice",
+      "artifact_sha256": "efd7e6fbf58a7b31d715858c5b4310c9f31697cc8a624c8c0246406afe8155ce",
+      "templates": 60,
+      "cases": 180,
+      "same_candidate_sets": 180,
+      "offline_origin_matched": 180,
+      "online_origin_matched": 180,
+      "failures": []
+    },
+    {
+      "service": "currencyservice",
+      "artifact_sha256": "c6ad2497eb69706fd05ed3204c82b01632b474930bce489d74a10c4458e17871",
+      "templates": 13,
+      "cases": 39,
+      "same_candidate_sets": 39,
+      "offline_origin_matched": 39,
+      "online_origin_matched": 39,
+      "failures": []
+    },
+    {
+      "service": "emailservice",
+      "artifact_sha256": "766f317aba3a953c074d0c22f8167947b0a630ff2e3a79f5314d5238b599b6c0",
+      "templates": 12,
+      "cases": 36,
+      "same_candidate_sets": 36,
+      "offline_origin_matched": 36,
+      "online_origin_matched": 36,
+      "failures": []
+    },
+    {
+      "service": "frontend",
+      "artifact_sha256": "b41109d6049be3a0ace2fdc8fae6ed12ed41788e90901f53e0f7efc89a517049",
+      "templates": 76,
+      "cases": 228,
+      "same_candidate_sets": 228,
+      "offline_origin_matched": 228,
+      "online_origin_matched": 228,
+      "failures": []
+    },
+    {
+      "service": "paymentservice",
+      "artifact_sha256": "ea40e06e004092ee91fcc1aecddd167054672ba5be206142617e318fdec24a3a",
+      "templates": 7,
+      "cases": 21,
+      "same_candidate_sets": 21,
+      "offline_origin_matched": 21,
+      "online_origin_matched": 21,
+      "failures": []
+    },
+    {
+      "service": "productcatalogservice",
+      "artifact_sha256": "ae057d6f710cb1ab6fec0a64c22318e4ed1a70079ae81f23536830a7a188650c",
+      "templates": 47,
+      "cases": 141,
+      "same_candidate_sets": 141,
+      "offline_origin_matched": 141,
+      "online_origin_matched": 141,
+      "failures": []
+    },
+    {
+      "service": "recommendationservice",
+      "artifact_sha256": "2e8e32ab935cf87e356e5187795c2c6a004d157a0940bc08550eae7fddd97373",
+      "templates": 9,
+      "cases": 27,
+      "same_candidate_sets": 27,
+      "offline_origin_matched": 27,
+      "online_origin_matched": 27,
+      "failures": []
+    },
+    {
+      "service": "shippingservice",
+      "artifact_sha256": "37d7283adae064f5b7a53dca73912f6d0516424885bfef58e8a82470eb77633e",
+      "templates": 36,
+      "cases": 108,
+      "same_candidate_sets": 108,
+      "offline_origin_matched": 108,
+      "online_origin_matched": 108,
+      "failures": []
+    }
+  ],
+  "code_commit": "fdb7209e0a4e8a0af0bbe8d7005873537130ccb4",
+  "totals": {
+    "templates": 291,
+    "cases": 873,
+    "same_candidate_sets": 873,
+    "offline_origin_matched": 873,
+    "online_origin_matched": 873
+  }
+}

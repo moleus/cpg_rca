@@ -1,0 +1,10 @@
+{
+  "rows": 70558,
+  "csv_matches_parquet_cells": true,
+  "parquet_sha256": "d8fb490a359db7cda3ce618ce51251ceec89b90026839f90a891391e3d51b197",
+  "csv_sha256": "786016deb83cdafa456656fa81ce918ac6bc56e28f92524dbcc6c05edd1ba68a",
+  "dataset_revision": "afeacb11bcc94dadfd1c8f483ee4377b2b8b614e",
+  "source": "https://huggingface.co/datasets/phamquiluan/RCAEval",
+  "pyarrow_version": "22.0.0",
+  "pandas_version": "2.2.3"
+}

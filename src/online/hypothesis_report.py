@@ -8,8 +8,8 @@ A report resolves:
     PathHypothesis -> LogTransition -> ExecutionSegment -> FLOW slice
 
 The report is JSON-first. Its `flow_slice` remains FLOW-compatible, allowing an
-LLM or graph-processing pipeline to consume the original semantic graph format
-with runtime-incompatible methods and branches removed.
+LLM or graph-processing pipeline to consume static candidates in the original
+semantic graph format. Static segment facts do not prove observed execution.
 """
 
 from __future__ import annotations
@@ -20,6 +20,19 @@ from typing import Any
 from src.offline.finite_state_machine import ExecutionSegment, LogTransition, StaticLogFSM
 from src.online.flow_slicer import slice_flow_for_hypothesis
 from src.online.stateful_chain_store import ActiveChain, PathHypothesis
+
+
+def build_evidence_limits(fsm: StaticLogFSM | None = None) -> dict[str, Any]:
+    """Describe what a structural hypothesis can establish."""
+    limits: dict[str, Any] = {
+        "is_root_cause_verdict": False,
+        "score_kind": "cumulative_match_score_not_probability",
+        "segment_facts": "union_of_possible_static_paths_not_observed_execution",
+        "completion": "matched_last_log_with_a_static_return_path_not_observed_return",
+    }
+    if fsm is not None:
+        limits["fsm_warnings"] = list(fsm.warnings)
+    return limits
 
 
 def transition_index(fsm: StaticLogFSM) -> dict[str, LogTransition]:
@@ -72,12 +85,14 @@ def build_llm_report(
     return {
         "report_type": "completed_execution_hypothesis",
         "service": service,
+        "evidence_limits": build_evidence_limits(fsm),
         "chain": {
             "chain_id": chain.chain_id,
             "chain_status": chain.status,
             "chain_score": chain.score,
             "created_at": chain.created_at,
             "last_timestamp": chain.last_timestamp,
+            "correlation_key": chain.correlation_key,
         },
         "hypothesis": {
             "hypothesis_id": hypothesis.hypothesis_id,
@@ -132,11 +147,17 @@ def build_unexplained_report(
             "timestamp": event.timestamp,
             "bucket": event.bucket,
             "message": event.message,
+            "correlation_key": event.correlation_key,
         },
         "classification": {
             "verdict": event.verdict,
             "score": event.step_score,
-            "reason": "No active-hypothesis continuation or FSM start transition matched the event.",
+            "reason_code": event.reason_code or "no_fsm_match",
+            "reason": (
+                "The correlation key is missing. The event did not start or continue a chain."
+                if event.reason_code == "missing_correlation_key"
+                else "No active-hypothesis continuation or FSM start transition matched the event."
+            ),
         },
     }
 

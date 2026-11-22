@@ -1,0 +1,97 @@
+{
+  "artifact_bytes": 10031687,
+  "counts": {
+    "entrypoints": 89,
+    "entrypoints_error": 0,
+    "templates": 106
+  },
+  "coverage": {
+    "entrypoints": 89,
+    "log_points": 106,
+    "lost": 23,
+    "pooled_lost": 77,
+    "pooled_lost_callee": 77,
+    "pooled_lost_entry": 0,
+    "pooled_reachable": 123,
+    "pooled_visible": 46,
+    "reachable": 69,
+    "visible": 46,
+    "zero_log": 60
+  },
+  "graph": {
+    "edges": 333948,
+    "nodes": 45756
+  },
+  "input": {
+    "bytes": 32222687,
+    "file": "export.dot",
+    "sha256": "d6ac9310a55096b9281b5bc884aa5fdd94c7f1960faf891214e451493035884d"
+  },
+  "meta": {
+    "benchmark_module_sha256": "b819451b6ac3c891d6df148964a6da9e43ed4d61071cc6916118d364070da04d",
+    "builder_module_sha256": "20fa7245f350c88aaaff75698087a6e6c0ca9163c8bc9a3937ee68d269547e99",
+    "commit": "6c79f327f80e1b91ce0921915965628b43e0de92",
+    "cpu_count": 9,
+    "dot_parser": "joern",
+    "flow_max_depth": 5,
+    "max_ddg_depth": 5,
+    "memory_total_bytes": 10451423232,
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "process_rss_high_water_is_cumulative": true,
+    "python": "3.12.14",
+    "python_hash_seed": "0",
+    "rss_sample_interval_sec": 0.02,
+    "tracked_changes": false,
+    "versions": {
+      "networkx": "3.6.1",
+      "psutil": "7.2.2",
+      "pydot": "4.0.1",
+      "pyparsing": "3.3.2"
+    }
+  },
+  "pipeline_wall_sec": 9.19720114599977,
+  "schema_version": 1,
+  "stages": [
+    {
+      "cpu_sec": 5.696462387,
+      "process_rss_high_water_bytes": 351686656,
+      "rss_end_bytes": 319586304,
+      "rss_sampled_peak_bytes": 351813632,
+      "rss_start_bytes": 30564352,
+      "stage": "load_dot",
+      "status": "ok",
+      "wall_sec": 5.699101672999859
+    },
+    {
+      "cpu_sec": 0.11138701899999948,
+      "process_rss_high_water_bytes": 351686656,
+      "rss_end_bytes": 321327104,
+      "rss_sampled_peak_bytes": 321327104,
+      "rss_start_bytes": 319619072,
+      "stage": "templates_and_trie",
+      "status": "ok",
+      "wall_sec": 0.11117584400017222
+    },
+    {
+      "cpu_sec": 3.190845618,
+      "process_rss_high_water_bytes": 351686656,
+      "rss_end_bytes": 329809920,
+      "rss_sampled_peak_bytes": 330792960,
+      "rss_start_bytes": 321327104,
+      "stage": "flow_and_fsm",
+      "status": "ok",
+      "wall_sec": 3.188220438999906
+    },
+    {
+      "cpu_sec": 0.04680803099999942,
+      "process_rss_high_water_bytes": 351686656,
+      "rss_end_bytes": 329814016,
+      "rss_sampled_peak_bytes": 329818112,
+      "rss_start_bytes": 329809920,
+      "stage": "coverage",
+      "status": "ok",
+      "wall_sec": 0.046672685999965324
+    }
+  ],
+  "status": "ok"
+}

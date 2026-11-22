@@ -1,0 +1,930 @@
+{
+  "experiment": "matcher_contract_parity",
+  "messages": "synthetic expansions of stored templates",
+  "wildcard_values": [
+    "",
+    "value",
+    "value with spaces"
+  ],
+  "services": [
+    {
+      "service": "adservice",
+      "artifact_sha256": "778753c1d84ffb1eb1a641a1085dd9c2f6627d219321629a2a9ec3b984d17d15",
+      "templates": 17,
+      "cases": 51,
+      "same_candidate_sets": 44,
+      "offline_origin_matched": 50,
+      "online_origin_matched": 45,
+      "failures": [
+        {
+          "template": "see https github com googlecloudplatform microservices-demo issues 422 for more info <*>",
+          "message": "see https github com googlecloudplatform microservices-demo issues 422 for more info ",
+          "origin_call_node_id": "30064771226",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771226"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "see https github com googlecloudplatform microservices-demo issues 422 for more info <*>",
+          "message": "see https github com googlecloudplatform microservices-demo issues 422 for more info value",
+          "origin_call_node_id": "30064771226",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771226"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "see https github com googlecloudplatform microservices-demo issues 422 for more info <*>",
+          "message": "see https github com googlecloudplatform microservices-demo issues 422 for more info value with spaces",
+          "origin_call_node_id": "30064771226",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771226"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "tracing enabled - stackdriver exporter initialized <*>",
+          "message": "tracing enabled - stackdriver exporter initialized ",
+          "origin_call_node_id": "30064771228",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771228"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "tracing enabled - stackdriver exporter initialized <*>",
+          "message": "tracing enabled - stackdriver exporter initialized value",
+          "origin_call_node_id": "30064771228",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771228"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "tracing enabled - stackdriver exporter initialized <*>",
+          "message": "tracing enabled - stackdriver exporter initialized value with spaces",
+          "origin_call_node_id": "30064771228",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771228"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "port <*> is invalid use default port <*>",
+          "message": "port  is invalid use default port ",
+          "origin_call_node_id": "30064771312",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064771312"
+          ]
+        }
+      ]
+    },
+    {
+      "service": "cartservice",
+      "artifact_sha256": "a9bee5f4930fdb2902e9012c324b4e55c82db8d6fb0b838bb4fee28b2e082d43",
+      "templates": 0,
+      "cases": 0,
+      "same_candidate_sets": 0,
+      "offline_origin_matched": 0,
+      "online_origin_matched": 0,
+      "failures": []
+    },
+    {
+      "service": "checkoutservice",
+      "artifact_sha256": "efd7e6fbf58a7b31d715858c5b4310c9f31697cc8a624c8c0246406afe8155ce",
+      "templates": 60,
+      "cases": 180,
+      "same_candidate_sets": 168,
+      "offline_origin_matched": 168,
+      "online_origin_matched": 180,
+      "failures": [
+        {
+          "template": "sleeping <*> to retry initializing stackdriver profiler <*>",
+          "message": "sleeping  to retry initializing stackdriver profiler ",
+          "origin_call_node_id": "30064773356",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773356"
+          ]
+        },
+        {
+          "template": "placeorder user id <*> user currency <*>",
+          "message": "placeorder user id  user currency ",
+          "origin_call_node_id": "30064773387",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773387"
+          ]
+        },
+        {
+          "template": "failed to convert price of <*> to <*>",
+          "message": "failed to convert price of  to ",
+          "origin_call_node_id": "30064773534",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773534"
+          ]
+        },
+        {
+          "template": "isvalid <*> want <*>",
+          "message": "isvalid  want ",
+          "origin_call_node_id": "30064773703",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773703"
+          ]
+        },
+        {
+          "template": "iszero <*> want <*>",
+          "message": "iszero  want ",
+          "origin_call_node_id": "30064773734",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773734"
+          ]
+        },
+        {
+          "template": "ispositive <*> want <*>",
+          "message": "ispositive  want ",
+          "origin_call_node_id": "30064773761",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773761"
+          ]
+        },
+        {
+          "template": "isnegative <*> want <*>",
+          "message": "isnegative  want ",
+          "origin_call_node_id": "30064773788",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773788"
+          ]
+        },
+        {
+          "template": "aresamecurrency <*> want <*>",
+          "message": "aresamecurrency  want ",
+          "origin_call_node_id": "30064773818",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773818"
+          ]
+        },
+        {
+          "template": "areequals <*> want <*>",
+          "message": "areequals  want ",
+          "origin_call_node_id": "30064773853",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773853"
+          ]
+        },
+        {
+          "template": "negate <*> want <*>",
+          "message": "negate  want ",
+          "origin_call_node_id": "30064773888",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773888"
+          ]
+        },
+        {
+          "template": "sum <*> expected err <*> got <*>",
+          "message": "sum  expected err  got ",
+          "origin_call_node_id": "30064773928",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773928"
+          ]
+        },
+        {
+          "template": "sum <*> want <*>",
+          "message": "sum  want ",
+          "origin_call_node_id": "30064773937",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773937"
+          ]
+        }
+      ]
+    },
+    {
+      "service": "currencyservice",
+      "artifact_sha256": "c6ad2497eb69706fd05ed3204c82b01632b474930bce489d74a10c4458e17871",
+      "templates": 13,
+      "cases": 39,
+      "same_candidate_sets": 37,
+      "offline_origin_matched": 37,
+      "online_origin_matched": 39,
+      "failures": [
+        {
+          "template": "convert <*> to <*>",
+          "message": "convert  to ",
+          "origin_call_node_id": "30064771097",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064771097"
+          ]
+        },
+        {
+          "template": "currencyservice grpc server started on port <*> starting grpc server on port <*>",
+          "message": "currencyservice grpc server started on port  starting grpc server on port ",
+          "origin_call_node_id": "30064771263",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064771263"
+          ]
+        }
+      ]
+    },
+    {
+      "service": "emailservice",
+      "artifact_sha256": "766f317aba3a953c074d0c22f8167947b0a630ff2e3a79f5314d5238b599b6c0",
+      "templates": 12,
+      "cases": 36,
+      "same_candidate_sets": 34,
+      "offline_origin_matched": 34,
+      "online_origin_matched": 36,
+      "failures": [
+        {
+          "template": "a request to send order confirmation email to <*> has been received <*>",
+          "message": "a request to send order confirmation email to  has been received ",
+          "origin_call_node_id": "30064772358",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064772358"
+          ]
+        },
+        {
+          "template": "exception on cloud trace setup <*> tracing disabled starting the email service in dummy mode profiler enabled profiler disabled <*>",
+          "message": "exception on cloud trace setup  tracing disabled starting the email service in dummy mode profiler enabled profiler disabled ",
+          "origin_call_node_id": "30064772462",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064772462"
+          ]
+        }
+      ]
+    },
+    {
+      "service": "frontend",
+      "artifact_sha256": "9d34b774aebc3ec1c014981e8d51c7e31b8a948c949db248170c6d1ab16520a0",
+      "templates": 76,
+      "cases": 228,
+      "same_candidate_sets": 210,
+      "offline_origin_matched": 210,
+      "online_origin_matched": 228,
+      "failures": [
+        {
+          "template": "detected google metadata server <*> setting env platform to gcp <*>",
+          "message": "detected google metadata server  setting env platform to gcp ",
+          "origin_call_node_id": "30064773367",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773367"
+          ]
+        },
+        {
+          "template": "view user cart <*> error <*>",
+          "message": "view user cart  error ",
+          "origin_call_node_id": "30064773632",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [
+            "30064773548"
+          ],
+          "online_ids": [
+            "30064773548",
+            "30064773632"
+          ]
+        },
+        {
+          "template": "sleeping <*> to retry initializing stackdriver profiler <*>",
+          "message": "sleeping  to retry initializing stackdriver profiler ",
+          "origin_call_node_id": "30064774180",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774180"
+          ]
+        },
+        {
+          "template": "isvalid <*> want <*>",
+          "message": "isvalid  want ",
+          "origin_call_node_id": "30064774412",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774412"
+          ]
+        },
+        {
+          "template": "iszero <*> want <*>",
+          "message": "iszero  want ",
+          "origin_call_node_id": "30064774443",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774443"
+          ]
+        },
+        {
+          "template": "ispositive <*> want <*>",
+          "message": "ispositive  want ",
+          "origin_call_node_id": "30064774470",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774470"
+          ]
+        },
+        {
+          "template": "isnegative <*> want <*>",
+          "message": "isnegative  want ",
+          "origin_call_node_id": "30064774497",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774497"
+          ]
+        },
+        {
+          "template": "aresamecurrency <*> want <*>",
+          "message": "aresamecurrency  want ",
+          "origin_call_node_id": "30064774527",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774527"
+          ]
+        },
+        {
+          "template": "areequals <*> want <*>",
+          "message": "areequals  want ",
+          "origin_call_node_id": "30064774562",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774562"
+          ]
+        },
+        {
+          "template": "negate <*> want <*>",
+          "message": "negate  want ",
+          "origin_call_node_id": "30064774597",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774597"
+          ]
+        },
+        {
+          "template": "sum <*> expected err <*> got <*>",
+          "message": "sum  expected err  got ",
+          "origin_call_node_id": "30064774637",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774637"
+          ]
+        },
+        {
+          "template": "sum <*> want <*>",
+          "message": "sum  want ",
+          "origin_call_node_id": "30064774646",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774646"
+          ]
+        },
+        {
+          "template": "want validation on <*> got <*>",
+          "message": "want validation on  got ",
+          "origin_call_node_id": "30064774950",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774950",
+            "30064774972",
+            "30064774987",
+            "30064775001",
+            "30064775014",
+            "30064775027"
+          ]
+        },
+        {
+          "template": "want validation on <*> got <*>",
+          "message": "want validation on  got ",
+          "origin_call_node_id": "30064774972",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774950",
+            "30064774972",
+            "30064774987",
+            "30064775001",
+            "30064775014",
+            "30064775027"
+          ]
+        },
+        {
+          "template": "want validation on <*> got <*>",
+          "message": "want validation on  got ",
+          "origin_call_node_id": "30064774987",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774950",
+            "30064774972",
+            "30064774987",
+            "30064775001",
+            "30064775014",
+            "30064775027"
+          ]
+        },
+        {
+          "template": "want validation on <*> got <*>",
+          "message": "want validation on  got ",
+          "origin_call_node_id": "30064775001",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774950",
+            "30064774972",
+            "30064774987",
+            "30064775001",
+            "30064775014",
+            "30064775027"
+          ]
+        },
+        {
+          "template": "want validation on <*> got <*>",
+          "message": "want validation on  got ",
+          "origin_call_node_id": "30064775014",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774950",
+            "30064774972",
+            "30064774987",
+            "30064775001",
+            "30064775014",
+            "30064775027"
+          ]
+        },
+        {
+          "template": "want validation on <*> got <*>",
+          "message": "want validation on  got ",
+          "origin_call_node_id": "30064775027",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064774950",
+            "30064774972",
+            "30064774987",
+            "30064775001",
+            "30064775014",
+            "30064775027"
+          ]
+        }
+      ]
+    },
+    {
+      "service": "paymentservice",
+      "artifact_sha256": "ea40e06e004092ee91fcc1aecddd167054672ba5be206142617e318fdec24a3a",
+      "templates": 7,
+      "cases": 21,
+      "same_candidate_sets": 20,
+      "offline_origin_matched": 20,
+      "online_origin_matched": 21,
+      "failures": [
+        {
+          "template": "transaction processed <*> ending amount <*>",
+          "message": "transaction processed  ending amount ",
+          "origin_call_node_id": "30064771148",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064771148"
+          ]
+        }
+      ]
+    },
+    {
+      "service": "productcatalogservice",
+      "artifact_sha256": "ae057d6f710cb1ab6fec0a64c22318e4ed1a70079ae81f23536830a7a188650c",
+      "templates": 47,
+      "cases": 141,
+      "same_candidate_sets": 129,
+      "offline_origin_matched": 135,
+      "online_origin_matched": 135,
+      "failures": [
+        {
+          "template": "failed to set-up dialer connection <*>",
+          "message": "failed to set-up dialer connection ",
+          "origin_call_node_id": "30064771275",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771275"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "failed to set-up dialer connection <*>",
+          "message": "failed to set-up dialer connection value",
+          "origin_call_node_id": "30064771275",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771275"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "failed to set-up dialer connection <*>",
+          "message": "failed to set-up dialer connection value with spaces",
+          "origin_call_node_id": "30064771275",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771275"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "failed to set-up pgx pool <*>",
+          "message": "failed to set-up pgx pool ",
+          "origin_call_node_id": "30064771292",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771292"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "failed to set-up pgx pool <*>",
+          "message": "failed to set-up pgx pool value",
+          "origin_call_node_id": "30064771292",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771292"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "failed to set-up pgx pool <*>",
+          "message": "failed to set-up pgx pool value with spaces",
+          "origin_call_node_id": "30064771292",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771292"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "got <*> want <*>",
+          "message": "got  want ",
+          "origin_call_node_id": "30064773439",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773439",
+            "30064773451",
+            "30064773465",
+            "30064773479"
+          ]
+        },
+        {
+          "template": "got <*> want <*>",
+          "message": "got  want ",
+          "origin_call_node_id": "30064773451",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773439",
+            "30064773451",
+            "30064773465",
+            "30064773479"
+          ]
+        },
+        {
+          "template": "got <*> want <*>",
+          "message": "got  want ",
+          "origin_call_node_id": "30064773465",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773439",
+            "30064773451",
+            "30064773465",
+            "30064773479"
+          ]
+        },
+        {
+          "template": "got <*> want <*>",
+          "message": "got  want ",
+          "origin_call_node_id": "30064773479",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773439",
+            "30064773451",
+            "30064773465",
+            "30064773479"
+          ]
+        },
+        {
+          "template": "failed to parse extra latency <*> as time duration <*>",
+          "message": "failed to parse extra latency  as time duration ",
+          "origin_call_node_id": "30064773520",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773520"
+          ]
+        },
+        {
+          "template": "sleeping <*> to retry initializing stackdriver profiler <*>",
+          "message": "sleeping  to retry initializing stackdriver profiler ",
+          "origin_call_node_id": "30064773609",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773609"
+          ]
+        }
+      ]
+    },
+    {
+      "service": "recommendationservice",
+      "artifact_sha256": "2e8e32ab935cf87e356e5187795c2c6a004d157a0940bc08550eae7fddd97373",
+      "templates": 9,
+      "cases": 27,
+      "same_candidate_sets": 22,
+      "offline_origin_matched": 25,
+      "online_origin_matched": 24,
+      "failures": [
+        {
+          "template": "recommendationservice-server <*>",
+          "message": "recommendationservice-server ",
+          "origin_call_node_id": "30064771108",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771108"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "recommendationservice-server <*>",
+          "message": "recommendationservice-server value",
+          "origin_call_node_id": "30064771108",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771108"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "recommendationservice-server <*>",
+          "message": "recommendationservice-server value with spaces",
+          "origin_call_node_id": "30064771108",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064771108"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "exception on cloud trace setup <*> tracing disabled initializing recommendationservice profiler enabled profiler disabled <*>",
+          "message": "exception on cloud trace setup  tracing disabled initializing recommendationservice profiler enabled profiler disabled ",
+          "origin_call_node_id": "30064772416",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064772416"
+          ]
+        },
+        {
+          "template": "product catalog address <*> initializing recommendationservice profiler enabled profiler disabled tracing disabled <*>",
+          "message": "product catalog address  initializing recommendationservice profiler enabled profiler disabled tracing disabled ",
+          "origin_call_node_id": "30064772432",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064772432"
+          ]
+        }
+      ]
+    },
+    {
+      "service": "shippingservice",
+      "artifact_sha256": "37d7283adae064f5b7a53dca73912f6d0516424885bfef58e8a82470eb77633e",
+      "templates": 36,
+      "cases": 108,
+      "same_candidate_sets": 99,
+      "offline_origin_matched": 103,
+      "online_origin_matched": 102,
+      "failures": [
+        {
+          "template": "see https github com googlecloudplatform microservices-demo issues 422 for more info <*>",
+          "message": "see https github com googlecloudplatform microservices-demo issues 422 for more info ",
+          "origin_call_node_id": "30064773215",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064773215"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "see https github com googlecloudplatform microservices-demo issues 422 for more info <*>",
+          "message": "see https github com googlecloudplatform microservices-demo issues 422 for more info value",
+          "origin_call_node_id": "30064773215",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064773215"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "see https github com googlecloudplatform microservices-demo issues 422 for more info <*>",
+          "message": "see https github com googlecloudplatform microservices-demo issues 422 for more info value with spaces",
+          "origin_call_node_id": "30064773215",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064773215"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "sleeping <*> to retry initializing stackdriver profiler <*>",
+          "message": "sleeping  to retry initializing stackdriver profiler ",
+          "origin_call_node_id": "30064773310",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773310"
+          ]
+        },
+        {
+          "template": "testgetquote <*> failed <*>",
+          "message": "testgetquote  failed ",
+          "origin_call_node_id": "30064773338",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773338"
+          ]
+        },
+        {
+          "template": "testgetquote quote value <*> does not match expected <*>",
+          "message": "testgetquote quote value  does not match expected ",
+          "origin_call_node_id": "30064773346",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773346"
+          ]
+        },
+        {
+          "template": "testshiporder <*> failed <*>",
+          "message": "testshiporder  failed ",
+          "origin_call_node_id": "30064773363",
+          "offline_origin_matched": false,
+          "online_origin_matched": true,
+          "offline_ids": [],
+          "online_ids": [
+            "30064773363"
+          ]
+        },
+        {
+          "template": "testshiporder tracking id is malformed - has <*> characters <*> expected <*>",
+          "message": "testshiporder tracking id is malformed - has  characters  expected ",
+          "origin_call_node_id": "30064773367",
+          "offline_origin_matched": false,
+          "online_origin_matched": false,
+          "offline_ids": [],
+          "online_ids": []
+        },
+        {
+          "template": "testshiporder tracking id is malformed - has <*> characters <*> expected <*>",
+          "message": "testshiporder tracking id is malformed - has value characters value expected value",
+          "origin_call_node_id": "30064773367",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064773367"
+          ],
+          "online_ids": []
+        },
+        {
+          "template": "testshiporder tracking id is malformed - has <*> characters <*> expected <*>",
+          "message": "testshiporder tracking id is malformed - has value with spaces characters value with spaces expected value with spaces",
+          "origin_call_node_id": "30064773367",
+          "offline_origin_matched": true,
+          "online_origin_matched": false,
+          "offline_ids": [
+            "30064773367"
+          ],
+          "online_ids": []
+        }
+      ]
+    }
+  ],
+  "code_commit": "f8bb418fc3eeb514f4b1dfc1fdce8040470fe3e8",
+  "totals": {
+    "templates": 277,
+    "cases": 831,
+    "same_candidate_sets": 763,
+    "offline_origin_matched": 782,
+    "online_origin_matched": 810
+  }
+}

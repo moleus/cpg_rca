@@ -4,19 +4,18 @@ flow_slicer.py
 
 Build runtime-constrained slices of builder.py FLOW JSON artifacts.
 
-A completed PathHypothesis supplies an exact FSM transition/state path. FSM
-segments identify direct methods and branch conditions observed along that path.
-This module keeps only the FLOW methods and CFG branches compatible with those
-segments, producing a FLOW-compatible JSON subgraph for LLM input.
+A completed PathHypothesis supplies an FSM transition/state path. FSM segments
+contain candidate methods and condition labels from static analysis. This module
+applies those labels only to the method named by each segment. The result is a
+FLOW-compatible JSON subgraph for LLM input.
 
 Current precision
 -----------------
-ExecutionSegment currently records direct method names and conditions, but not
-exact semantic-unit ids traversed inside each interval. Therefore the slice is
-method-level and condition-aware: it is exact for selected methods and observed
-condition labels, but conservatively retains unlabeled CFG edges. When FSM
-segments later contain semantic_unit_ids, this module can tighten to exact
-node-level interval slicing without changing its output contract.
+ExecutionSegment records direct method names and candidate conditions, but not
+exact semantic-unit ids traversed inside each interval. A condition label does
+not prove a runtime branch decision. The slice retains unlabeled CFG edges and
+all branches of methods without condition metadata. Exact node-level slicing
+requires more precise evidence.
 """
 
 from __future__ import annotations
@@ -63,6 +62,7 @@ def expand_methods(
 
 
 def _segment_conditions(segments: Iterable[Any]) -> set[str]:
+    """Return the union for the existing observed_conditions metadata field."""
     conditions: set[str] = set()
     for segment in segments:
         for condition in getattr(segment, "conditions", ()):
@@ -70,6 +70,16 @@ def _segment_conditions(segments: Iterable[Any]) -> set[str]:
             if normalized:
                 conditions.add(normalized)
     return conditions
+
+
+def _segment_conditions_by_method(segments: Iterable[Any]) -> dict[str, set[str]]:
+    """Keep static condition labels within the method that supplied them."""
+    by_method: dict[str, set[str]] = defaultdict(set)
+    for segment in segments:
+        method_name = str(getattr(segment, "method_full_name", "") or "").strip()
+        if method_name:
+            by_method[method_name].update(_segment_conditions((segment,)))
+    return dict(by_method)
 
 
 def _segment_methods(segments: Iterable[Any]) -> set[str]:
@@ -117,8 +127,8 @@ def slice_method(
     Slice one semantic method graph while preserving structural soundness.
 
     Unlabeled edges stay because they represent ordinary sequential CFG flow.
-    Labeled branch edges stay only when the label is observed in FSM segments,
-    unless no conditions were observed for this hypothesis. Logger anchor nodes
+    Labeled branch edges stay when their label is a static condition candidate
+    for this method. Without such candidates, all branches stay. Logger anchor nodes
     are always retained if their CPG CALL ids occur in matched transitions.
     """
     sliced = deepcopy(method)
@@ -130,7 +140,7 @@ def slice_method(
             if not edge.get("condition") or str(edge.get("condition")) in observed_conditions
         ]
     else:
-        # No branch evidence: preserve method CFG rather than inventing a branch.
+        # No condition metadata for this method: preserve its CFG.
         allowed_edges = all_edges
 
     reachable = _reachable_nodes(method, allowed_edges)
@@ -168,16 +178,18 @@ def slice_flow_for_hypothesis(
     """
     methods = flow.get("methods", {})
     entrypoint_full_name = str(flow.get("entrypoint_full_name", ""))
+    segments = list(segments)
     direct_methods = _segment_methods(segments)
     direct_methods.add(entrypoint_full_name)
     observed_conditions = _segment_conditions(segments)
+    conditions_by_method = _segment_conditions_by_method(segments)
     observed_log_call_ids = _logger_call_ids(transitions)
     selected_methods = expand_methods(flow, direct_methods, max_call_depth=max_call_depth)
 
     sliced_methods = {
         method_name: slice_method(
             methods[method_name],
-            observed_conditions=observed_conditions,
+            observed_conditions=conditions_by_method.get(method_name, set()),
             observed_log_call_ids=observed_log_call_ids,
         )
         for method_name in sorted(selected_methods)
@@ -199,6 +211,11 @@ def slice_flow_for_hypothesis(
             "direct_methods_from_fsm": sorted(direct_methods),
             "selected_methods": sorted(selected_methods),
             "observed_conditions": sorted(observed_conditions),
+            "condition_scope": "method_full_name",
+            "condition_semantics": "static_path_candidates",
+            "candidate_conditions_by_method": {
+                name: sorted(conditions) for name, conditions in sorted(conditions_by_method.items())
+            },
             "observed_log_call_node_ids": sorted(observed_log_call_ids),
             "original_method_count": len(methods),
             "retained_method_count": len(sliced_methods),

@@ -50,7 +50,8 @@ from typing import Any, Iterable
 import pandas as pd
 
 from src.offline.finite_state_machine import ExecutionSegment, LogTransition, StaticLogFSM
-from src.online.stateful_chain_store import ExplicitHypothesisStore
+from src.online.hypothesis_report import build_evidence_limits
+from src.online.stateful_chain_store import ExplicitHypothesisStore, parse_optional_call_id
 from src.online.stream_processor import RuntimeEvent, RuntimeStreamProcessor, ServiceCatalog
 from src.online.trie_matcher import ServiceTrieMatcher
 
@@ -164,6 +165,7 @@ def load_service_catalog(service_dir: Path, args: argparse.Namespace) -> Service
         max_active_chains=args.max_active_chains,
         max_hypotheses_per_chain=args.max_hypotheses_per_chain,
         max_total_active_hypotheses=args.max_total_active_hypotheses,
+        require_correlation=bool(getattr(args, "correlation_column", None)),
     )
 
     return ServiceCatalog(
@@ -248,6 +250,9 @@ def prepare_logs(raw: pd.DataFrame, args: argparse.Namespace) -> pd.DataFrame:
         "call-node",
         required=False,
     )
+    correlation_column = getattr(args, "correlation_column", None)
+    if correlation_column is not None and correlation_column not in raw.columns:
+        raise ValueError(f"Missing correlation column: {correlation_column}")
 
     logs = pd.DataFrame(
         {
@@ -273,6 +278,8 @@ def prepare_logs(raw: pd.DataFrame, args: argparse.Namespace) -> pd.DataFrame:
 
     if call_node_column:
         logs["call_node_id"] = raw.loc[logs.index, call_node_column]
+    if correlation_column is not None:
+        logs["correlation_key"] = raw.loc[logs.index, correlation_column].astype("string").str.strip()
 
     logger.info(
         "Resolved CSV schema: timestamp=%s service=%s message=%s bucket=%s call_node=%s",
@@ -328,9 +335,7 @@ def process_window(
     total = len(ordered)
 
     for processed_count, (_, row) in enumerate(ordered.iterrows(), start=1):
-        call_node_id = None
-        if "call_node_id" in ordered.columns and pd.notna(row.get("call_node_id")):
-            call_node_id = str(row["call_node_id"])
+        call_node_id = parse_optional_call_id(row.get("call_node_id"))
 
         event = RuntimeEvent(
             index=int(row["__original_index"]),
@@ -339,6 +344,7 @@ def process_window(
             bucket=str(row["bucket"]),
             message=str(row["message"]),
             observed_call_node_id=call_node_id,
+            correlation_key=row.get("correlation_key"),
         )
         reports.extend(processor.process(event))
 
@@ -386,6 +392,8 @@ def completed_chain(report: dict[str, Any]) -> dict[str, Any]:
         "entrypoint": entrypoint.get("full_name"),
         "status": hypothesis.get("status"),
         "score": hypothesis.get("cumulative_score"),
+        "evidence_limits": report.get("evidence_limits", {}),
+        "correlation_key": chain.get("correlation_key"),
         "time": report.get("time_window", {}),
         "runtime_logs": report.get("runtime_evidence", []),
         "flow": report.get("flow_slice", {}),
@@ -455,6 +463,7 @@ def build_incident_context(
                     "service": chain.get("service"),
                     "chain_id": chain.get("chain_id"),
                     "bucket": event.get("bucket"),
+                    "correlation_key": event.get("correlation_key"),
                     "message": event.get("message"),
                     "structurally_unexplained": False,
                 }
@@ -468,6 +477,7 @@ def build_incident_context(
                 "service": report.get("service"),
                 "chain_id": None,
                 "bucket": event.get("bucket"),
+                "correlation_key": event.get("correlation_key"),
                 "message": event.get("message"),
                 "structurally_unexplained": True,
                 "reason": report.get("classification", {}).get("reason"),
@@ -478,6 +488,7 @@ def build_incident_context(
 
     return {
         "schema_version": "4.0",
+        "evidence_limits": build_evidence_limits(),
         "description": (
             "Injection-centered runtime analysis. Every chain contains a "
             "runtime-constrained FLOW slice with original code snippets in "
@@ -561,6 +572,10 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--message-column", default=None)
     parser.add_argument("--bucket-column", default=None)
     parser.add_argument("--call-node-column", default=None)
+    parser.add_argument(
+        "--correlation-column", default=None,
+        help="Exact CSV column with request keys. Missing keys stay unexplained; buckets are unchanged.",
+    )
 
     parser.add_argument("--threshold", type=float, default=0.55)
     parser.add_argument("--time-gap-sec", type=float, default=30)
@@ -571,7 +586,7 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--emit-incomplete",
         action="store_true",
-        help="Include end-of-window incomplete hypotheses in incident_context.json",
+        help="Include unfinished, expired, and pruned hypotheses with their reasons in incident_context.json",
     )
     parser.add_argument(
         "--progress-every",
@@ -596,7 +611,9 @@ def main(argv: Iterable[str] | None = None) -> int:
         raise FileNotFoundError(f"Runtime log CSV does not exist: {args.logs}")
 
     catalogs = load_catalogs(args.artifacts_dir, args)
-    all_logs = prepare_logs(pd.read_csv(args.logs, dtype=str), args)
+    all_logs = prepare_logs(
+        pd.read_csv(args.logs, dtype=str, keep_default_na=not bool(args.correlation_column)), args
+    )
     inject_time = pd.to_datetime(args.inject_time, unit="s", utc=True)
     logs, window_start, window_end = filter_incident_window(
         logs=all_logs,

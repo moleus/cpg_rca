@@ -1,0 +1,24 @@
+{
+  "aggregate_rss_sampled_peak_bytes": 241532928,
+  "command": [
+    "../bench-tools/joern-cli/joern-export",
+    "-J-Xmx3g",
+    "-J-XX:ActiveProcessorCount=2",
+    "../bench-runs/opensearch-snapshots/cpg.bin",
+    "--repr",
+    "all",
+    "--format",
+    "dot",
+    "--out",
+    "../bench-runs/opensearch-snapshots/dot"
+  ],
+  "cpu_system_sec": 1.04729,
+  "cpu_user_sec": 5.429641,
+  "max_aggregate_rss_bytes": 4294967296.0,
+  "returncode": 0,
+  "sample_interval_sec": 0.05,
+  "schema_version": 1,
+  "status": "ok",
+  "timeout_sec": 600.0,
+  "wall_sec": 3.1137985880000087
+}

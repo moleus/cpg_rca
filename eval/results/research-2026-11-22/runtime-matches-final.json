@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "experiment": "runtime_log_candidate_coverage",
+  "limits": [
+    "Candidate coverage is not call-site precision or RCA accuracy.",
+    "Source and runtime version agreement must be checked separately.",
+    "Messages are matched without using event order or request identity.",
+    "Duplicate rows weight the totals; each distinct message is matched once."
+  ],
+  "input": {
+    "file": "logs.csv",
+    "sha256": "786016deb83cdafa456656fa81ce918ac6bc56e28f92524dbcc6c05edd1ba68a"
+  },
+  "code_commit": "fdb7209e0a4e8a0af0bbe8d7005873537130ccb4",
+  "matcher_files": {
+    "src/online/trie_matcher.py": "be9c113e6499488e7fe39b0d79c696863f53540b1029b6edcfc92bcd2355e199",
+    "src/log_text.py": "08d5ed939664b6ddaefec4785217400cd9301a0b6bbb397d7d4efc5229730b53"
+  },
+  "services": {
+    "adservice": {
+      "rows": 2213,
+      "distinct_messages": 15,
+      "matched_rows": 2213,
+      "unique_candidate_rows": 2213,
+      "ambiguous_rows": 0,
+      "unmatched_rows": 0,
+      "error_rows": 0,
+      "missing_artifact_rows": 0,
+      "artifact_sha256": "778753c1d84ffb1eb1a641a1085dd9c2f6627d219321629a2a9ec3b984d17d15"
+    },
+    "cartservice": {
+      "rows": 7463,
+      "distinct_messages": 725,
+      "matched_rows": 6610,
+      "unique_candidate_rows": 6610,
+      "ambiguous_rows": 0,
+      "unmatched_rows": 853,
+      "error_rows": 0,
+      "missing_artifact_rows": 0,
+      "artifact_sha256": "a44913eba3621f41a64b24c85ba359c656170b8c000fc2e362e9290c89eff9c0"
+    },
+    "checkoutservice": {
+      "rows": 864,
+      "distinct_messages": 673,
+      "matched_rows": 864,
+      "unique_candidate_rows": 864,
+      "ambiguous_rows": 0,
+      "unmatched_rows": 0,
+      "error_rows": 0,
+      "missing_artifact_rows": 0,
+      "artifact_sha256": "efd7e6fbf58a7b31d715858c5b4310c9f31697cc8a624c8c0246406afe8155ce"
+    },
+    "currencyservice": {
+      "rows": 22790,
+      "distinct_messages": 2,
+      "matched_rows": 22790,
+      "unique_candidate_rows": 22790,
+      "ambiguous_rows": 0,
+      "unmatched_rows": 0,
+      "error_rows": 0,
+      "missing_artifact_rows": 0,
+      "artifact_sha256": "c6ad2497eb69706fd05ed3204c82b01632b474930bce489d74a10c4458e17871"
+    },
+    "emailservice": {
+      "rows": 288,
+      "distinct_messages": 288,
+      "matched_rows": 288,
+      "unique_candidate_rows": 288,
+      "ambiguous_rows": 0,
+      "unmatched_rows": 0,
+      "error_rows": 0,
+      "missing_artifact_rows": 0,
+      "artifact_sha256": "766f317aba3a953c074d0c22f8167947b0a630ff2e3a79f5314d5238b599b6c0"
+    },
+    "frontend": {
+      "rows": 26263,
+      "distinct_messages": 11,
+      "matched_rows": 18578,
+      "unique_candidate_rows": 17510,
+      "ambiguous_rows": 1068,
+      "unmatched_rows": 7685,
+      "error_rows": 0,
+      "missing_artifact_rows": 0,
+      "artifact_sha256": "b41109d6049be3a0ace2fdc8fae6ed12ed41788e90901f53e0f7efc89a517049"
+    },
+    "paymentservice": {
+      "rows": 576,
+      "distinct_messages": 576,
+      "matched_rows": 288,
+      "unique_candidate_rows": 288,
+      "ambiguous_rows": 0,
+      "unmatched_rows": 288,
+      "error_rows": 0,
+      "missing_artifact_rows": 0,
+      "artifact_sha256": "ea40e06e004092ee91fcc1aecddd167054672ba5be206142617e318fdec24a3a"
+    },
+    "recommendationservice": {
+      "rows": 5542,
+      "distinct_messages": 4649,
+      "matched_rows": 5542,
+      "unique_candidate_rows": 5542,
+      "ambiguous_rows": 0,
+      "unmatched_rows": 0,
+      "error_rows": 0,
+      "missing_artifact_rows": 0,
+      "artifact_sha256": "2e8e32ab935cf87e356e5187795c2c6a004d157a0940bc08550eae7fddd97373"
+    },
+    "redis": {
+      "rows": 25,
+      "distinct_messages": 25,
+      "matched_rows": 0,
+      "unique_candidate_rows": 0,
+      "ambiguous_rows": 0,
+      "unmatched_rows": 25,
+      "error_rows": 0,
+      "missing_artifact_rows": 25,
+      "artifact_sha256": null
+    },
+    "shippingservice": {
+      "rows": 4534,
+      "distinct_messages": 4,
+      "matched_rows": 2267,
+      "unique_candidate_rows": 2267,
+      "ambiguous_rows": 0,
+      "unmatched_rows": 2267,
+      "error_rows": 0,
+      "missing_artifact_rows": 0,
+      "artifact_sha256": "37d7283adae064f5b7a53dca73912f6d0516424885bfef58e8a82470eb77633e"
+    }
+  },
+  "totals": {
+    "rows": 70558,
+    "distinct_messages": 6968,
+    "matched_rows": 59440,
+    "unique_candidate_rows": 58372,
+    "ambiguous_rows": 1068,
+    "unmatched_rows": 11118,
+    "error_rows": 0,
+    "missing_artifact_rows": 25
+  }
+}

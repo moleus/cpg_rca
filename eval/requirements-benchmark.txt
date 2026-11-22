@@ -1,0 +1,4 @@
+networkx==3.6.1
+pydot==4.0.1
+pyparsing==3.3.2
+psutil==7.2.2

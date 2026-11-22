@@ -1,0 +1,19 @@
+// Selected nodes and AST edges from services/cartservice/export.dot.
+// Source commit: f8bb418fc3eeb514f4b1dfc1fdce8040470fe3e8.
+digraph {
+  "107374182443" [label="METHOD" AST_PARENT_FULL_NAME="<empty>" AST_PARENT_TYPE="<empty>" CODE="public override Task<HealthCheckResponse> Check(HealthCheckRequest request, ServerCallContext context)
+        {
+            Console.WriteLine (\"Checking CartService Health\");
+            return Task.FromResult(new HealthCheckResponse {
+                Status = _cartStore.Ping() ? HealthCheckResponse.Types.ServingStatus.Serving : HealthCheckResponse.Types.ServingStatus.NotServing
+            });
+        }" COLUMN_NUMBER="8" COLUMN_NUMBER_END="9" FILENAME="src/services/HealthCheckService.cs" FULL_NAME="cartservice.services.HealthCheckService.Check:System.Threading.Tasks.Task(HealthCheckRequest,ServerCallContext)" GENERIC_SIGNATURE="<empty>" IS_EXTERNAL="false" LINE_NUMBER="32" LINE_NUMBER_END="38" NAME="Check" ORDER="4" SIGNATURE="System.Threading.Tasks.Task(HealthCheckRequest,ServerCallContext)"];
+  "25769803876" [label="BLOCK" ARGUMENT_INDEX="-1" CODE="<empty>" COLUMN_NUMBER="8" LINE_NUMBER="33" ORDER="4" TYPE_FULL_NAME="ANY"];
+  "30064771434" [label="CALL" ARGUMENT_INDEX="-1" CODE="Console.WriteLine (\"Checking CartService Health\")" COLUMN_NUMBER="12" DISPATCH_TYPE="STATIC_DISPATCH" LINE_NUMBER="34" METHOD_FULL_NAME="System.Console.WriteLine:System.Void(System.String)" NAME="WriteLine" ORDER="1" SIGNATURE="System.Void(System.String)" TYPE_FULL_NAME="System.Void"];
+  "68719477064" [label="IDENTIFIER" ARGUMENT_INDEX="0" CODE="Console" COLUMN_NUMBER="12" LINE_NUMBER="34" NAME="Console" ORDER="1" TYPE_FULL_NAME="System.Console"];
+  "90194313312" [label="LITERAL" ARGUMENT_INDEX="1" CODE="\"Checking CartService Health\"" COLUMN_NUMBER="31" LINE_NUMBER="34" ORDER="2" TYPE_FULL_NAME="System.String"];
+  "25769803876" -> "30064771434" [label="AST" ];
+  "30064771434" -> "68719477064" [label="AST" ];
+  "30064771434" -> "90194313312" [label="AST" ];
+  "107374182443" -> "25769803876" [label="AST" ];
+}

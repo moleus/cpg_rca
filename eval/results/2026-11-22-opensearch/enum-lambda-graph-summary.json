@@ -1,0 +1,13 @@
+{
+  "nodes": 11,
+  "edges": 8,
+  "labels": {
+    "FILE": 2,
+    "META_DATA": 1,
+    "NAMESPACE": 1,
+    "NAMESPACE_BLOCK": 1,
+    "TYPE": 3,
+    "TYPE_DECL": 3
+  },
+  "method_names": []
+}

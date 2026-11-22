@@ -1,0 +1,5 @@
+JAVA_17 success=true unparsable_statements=0
+JAVA_21 success=true unparsable_statements=0
+JAVA_25 success=false unparsable_statements=1
+(line 5,col 31) Parse error. Found "^", expected one of  "," ";" "=" "@" "["
+JAVA_24 success=true unparsable_statements=0

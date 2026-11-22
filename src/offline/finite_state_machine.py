@@ -82,7 +82,9 @@ class StaticLogFSM:
     @property
     def terminals(self) -> set[str]:
         return {
-            state_id for state_id, state in self.states.items() if state.is_terminal
+            state_id for state_id, state in self.states.items()
+            # Old artifacts marked static dead ends as terminal.
+            if state.is_terminal and state.kind != "INCOMPLETE_SEGMENT"
         }
 
     @property
@@ -295,8 +297,7 @@ class LogFlowExtractor:
                     previous_log_call_node_id=source_log_id,
                     next_log_call_node_id=target or None,
                     is_start=source_log_id is None,
-                    is_terminal=outcome.kind
-                    in {"RETURN_SEGMENT", "INCOMPLETE_SEGMENT"},
+                    is_terminal=outcome.kind == "RETURN_SEGMENT",
                     kind=outcome.kind,
                 )
             else:

@@ -1,0 +1,23 @@
+{
+  "aggregate_rss_sampled_peak_bytes": 338128896,
+  "command": [
+    "../bench-tools/joern-cli/joern-parse",
+    "-J-Xmx3g",
+    "-J-XX:ActiveProcessorCount=2",
+    "--language",
+    "JAVASRC",
+    "--overlaysonly",
+    "../bench-runs/opensearch-snapshots/source",
+    "--output",
+    "../bench-runs/opensearch-snapshots/cpg.bin"
+  ],
+  "cpu_system_sec": 1.0742539999999998,
+  "cpu_user_sec": 13.911397000000001,
+  "max_aggregate_rss_bytes": 4294967296.0,
+  "returncode": 0,
+  "sample_interval_sec": 0.05,
+  "schema_version": 1,
+  "status": "ok",
+  "timeout_sec": 600.0,
+  "wall_sec": 5.9796657340000365
+}

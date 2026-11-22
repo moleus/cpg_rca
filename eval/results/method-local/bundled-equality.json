@@ -1,0 +1,257 @@
+{
+  "experiment": "local_method_edge_scan",
+  "implementation": "verify",
+  "baseline_commit": "f8bb418fc3eeb514f4b1dfc1fdce8040470fe3e8",
+  "local_method_sha256": "88e608e05b00e0be97140927082fac5a15b508e6e5bb57fe8a3a7b0400a648e7",
+  "loader_sha256": "e9a3e2e52475106238460d5ac55832a08a81805c81af55c443aa7132e597a6cb",
+  "python_hash_seed": "0",
+  "flow_max_depth": 5,
+  "status": "ok",
+  "harness_sha256": "6c442c91b43d271028155ec6e1c3155faeba9a8e51fb8ce06228a3d1d3a12b70",
+  "local_fix_commit": "a025eb6c566de56e10ebe9b9190ddcbe02baf4de",
+  "comparison": "Canonical JSON, dictionary keys sorted; list order retained; same loaded graph in one process.",
+  "services": [
+    {
+      "service": "adservice",
+      "input_sha256": "ffd86ef92728f6bc42a5fa4dd07475a8ab0200fae24f15f47378f5c85341f046",
+      "nodes": 1723,
+      "edges": 8822,
+      "entrypoints_compared": 3,
+      "method_appearances": 12,
+      "all_equal": true,
+      "selected_entrypoint_ids": null,
+      "timing": {
+        "baseline": {
+          "flow_sec": 0.069342787000096,
+          "fsm_sec": 0.0004890440000053786,
+          "serialize_sec": 0.022972448999553308
+        },
+        "local": {
+          "flow_sec": 0.022646211999472143,
+          "fsm_sec": 0.0004550769999696058,
+          "serialize_sec": 0.009517345999938698
+        }
+      },
+      "node_order_entries": 1723,
+      "node_order_owned_bytes": 100212
+    },
+    {
+      "service": "cartservice",
+      "input_sha256": "4ab4c6996578f45782dde10b86d93f0d7d13f4df6ab508cf33599a4bc9297a95",
+      "nodes": 2500,
+      "edges": 14250,
+      "entrypoints_compared": 0,
+      "method_appearances": 0,
+      "all_equal": true,
+      "selected_entrypoint_ids": null,
+      "timing": {
+        "baseline": {
+          "flow_sec": 0.0,
+          "fsm_sec": 0.0,
+          "serialize_sec": 0.0
+        },
+        "local": {
+          "flow_sec": 0.0,
+          "fsm_sec": 0.0,
+          "serialize_sec": 0.0
+        }
+      },
+      "node_order_entries": 2500,
+      "node_order_owned_bytes": 121968
+    },
+    {
+      "service": "checkoutservice",
+      "input_sha256": "d1f97f00a2e53316648c233993f44c23dd49f95c8c151fd62be12a517214c7bb",
+      "nodes": 26553,
+      "edges": 136931,
+      "entrypoints_compared": 50,
+      "method_appearances": 189,
+      "all_equal": true,
+      "selected_entrypoint_ids": null,
+      "timing": {
+        "baseline": {
+          "flow_sec": 17.804456847999063,
+          "fsm_sec": 0.004210427000089112,
+          "serialize_sec": 0.18489695199878042
+        },
+        "local": {
+          "flow_sec": 0.46770942700186424,
+          "fsm_sec": 0.0037766029968224757,
+          "serialize_sec": 0.1708988219997991
+        }
+      },
+      "node_order_entries": 26553,
+      "node_order_owned_bytes": 1704764
+    },
+    {
+      "service": "currencyservice",
+      "input_sha256": "0b71a9093e0aaa5d0367c1f6e892038263a0f7467cc2527c2f5d705eae0b8700",
+      "nodes": 1794,
+      "edges": 11167,
+      "entrypoints_compared": 3,
+      "method_appearances": 10,
+      "all_equal": true,
+      "selected_entrypoint_ids": null,
+      "timing": {
+        "baseline": {
+          "flow_sec": 0.2420286139995369,
+          "fsm_sec": 0.0012815749996661907,
+          "serialize_sec": 0.03461156999946979
+        },
+        "local": {
+          "flow_sec": 0.11460295500000939,
+          "fsm_sec": 0.0015777580001667957,
+          "serialize_sec": 0.030051393000121607
+        }
+      },
+      "node_order_entries": 1794,
+      "node_order_owned_bytes": 102200
+    },
+    {
+      "service": "emailservice",
+      "input_sha256": "dcb6dfa2cb8a2d61b2b27706b9aed462ee3852b05410234b6c72153b6d493934",
+      "nodes": 8131,
+      "edges": 53440,
+      "entrypoints_compared": 33,
+      "method_appearances": 67,
+      "all_equal": true,
+      "selected_entrypoint_ids": null,
+      "timing": {
+        "baseline": {
+          "flow_sec": 2.9294410679995053,
+          "fsm_sec": 0.0028491480002230674,
+          "serialize_sec": 0.05807836600115479
+        },
+        "local": {
+          "flow_sec": 0.20960757099919647,
+          "fsm_sec": 0.0025816329989538644,
+          "serialize_sec": 0.05640593600128341
+        }
+      },
+      "node_order_entries": 8131,
+      "node_order_owned_bytes": 435284
+    },
+    {
+      "service": "frontend",
+      "input_sha256": "7543bfe06c36c0cabe21f3828f5d1c95e9cee33816ee0fc3d3bfaab5fc1fe3a4",
+      "nodes": 30548,
+      "edges": 164385,
+      "entrypoints_compared": 62,
+      "method_appearances": 290,
+      "all_equal": true,
+      "selected_entrypoint_ids": null,
+      "timing": {
+        "baseline": {
+          "flow_sec": 48.355309274001684,
+          "fsm_sec": 0.01052629699870522,
+          "serialize_sec": 0.3337315539984047
+        },
+        "local": {
+          "flow_sec": 1.0434128829997462,
+          "fsm_sec": 0.010002551004163251,
+          "serialize_sec": 0.30346063099887033
+        }
+      },
+      "node_order_entries": 30548,
+      "node_order_owned_bytes": 1816624
+    },
+    {
+      "service": "paymentservice",
+      "input_sha256": "6a464616676f18edc24a246717ea26f921afd6650739c55b3027351776cd4c7a",
+      "nodes": 2093,
+      "edges": 11169,
+      "entrypoints_compared": 1,
+      "method_appearances": 2,
+      "all_equal": true,
+      "selected_entrypoint_ids": null,
+      "timing": {
+        "baseline": {
+          "flow_sec": 0.022525506999954814,
+          "fsm_sec": 0.00011680199986585649,
+          "serialize_sec": 0.003930303000288404
+        },
+        "local": {
+          "flow_sec": 0.014602142000057938,
+          "fsm_sec": 0.00011697199988702778,
+          "serialize_sec": 0.004470072000003711
+        }
+      },
+      "node_order_entries": 2093,
+      "node_order_owned_bytes": 110572
+    },
+    {
+      "service": "productcatalogservice",
+      "input_sha256": "e09ca21d05f8fdb0546eb9ea7f565d59c502a28633c04cd56ab04aadf378a071",
+      "nodes": 25101,
+      "edges": 125669,
+      "entrypoints_compared": 38,
+      "method_appearances": 104,
+      "all_equal": true,
+      "selected_entrypoint_ids": null,
+      "timing": {
+        "baseline": {
+          "flow_sec": 9.537469030001375,
+          "fsm_sec": 0.003394103998743958,
+          "serialize_sec": 0.10494233299687039
+        },
+        "local": {
+          "flow_sec": 0.35579716700067365,
+          "fsm_sec": 0.0027009520008505206,
+          "serialize_sec": 0.10771705699789891
+        }
+      },
+      "node_order_entries": 25101,
+      "node_order_owned_bytes": 1664108
+    },
+    {
+      "service": "recommendationservice",
+      "input_sha256": "9a983cb024c93bf7af54e19342889de801a9ca29351245e4deda5e27cc5344ed",
+      "nodes": 7723,
+      "edges": 51081,
+      "entrypoints_compared": 28,
+      "method_appearances": 56,
+      "all_equal": true,
+      "selected_entrypoint_ids": null,
+      "timing": {
+        "baseline": {
+          "flow_sec": 1.9723336080005538,
+          "fsm_sec": 0.0015344180005740782,
+          "serialize_sec": 0.03880313800073054
+        },
+        "local": {
+          "flow_sec": 0.2086672130003535,
+          "fsm_sec": 0.0015485550025005068,
+          "serialize_sec": 0.036474711999289866
+        }
+      },
+      "node_order_entries": 7723,
+      "node_order_owned_bytes": 423860
+    },
+    {
+      "service": "shippingservice",
+      "input_sha256": "1033332ab8abb2f30a74915fdc19518ccab891bc9e0cb2063562cea61f0edba9",
+      "nodes": 24138,
+      "edges": 119488,
+      "entrypoints_compared": 36,
+      "method_appearances": 77,
+      "all_equal": true,
+      "selected_entrypoint_ids": null,
+      "timing": {
+        "baseline": {
+          "flow_sec": 6.691651305997311,
+          "fsm_sec": 0.003174054000282922,
+          "serialize_sec": 0.06391878800013728
+        },
+        "local": {
+          "flow_sec": 0.26161419399886654,
+          "fsm_sec": 0.0027388380003685597,
+          "serialize_sec": 0.05196772399767724
+        }
+      },
+      "node_order_entries": 24138,
+      "node_order_owned_bytes": 1637144
+    }
+  ],
+  "total_entrypoints_compared": 254,
+  "total_method_appearances": 807
+}

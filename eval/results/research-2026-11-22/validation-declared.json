@@ -1,0 +1,39 @@
+{
+  "tested_commit": "8c53929a859f7f2eed1842eb07f0c0fad4481584",
+  "environment": "separate fresh venv",
+  "dependency_overrides": {
+    "pandas": "3.1.1",
+    "numpy": "2.4.6",
+    "matplotlib": "3.10.9"
+  },
+  "pytest_cases": 157,
+  "subtests": 50,
+  "junit_cases": 207,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "wall_sec": 18.198,
+  "pytest_summary": "157 passed, 8 warnings, 50 subtests passed in 18.20s",
+  "installed_packages": [
+    "contourpy==1.4.0",
+    "cycler==0.12.1",
+    "fonttools==4.68.0",
+    "graphviz==0.21",
+    "iniconfig==2.3.1",
+    "kiwisolver==1.5.1",
+    "matplotlib==3.10.9",
+    "networkx==3.6.1",
+    "numpy==2.4.6",
+    "packaging==26.3",
+    "pandas==3.1.1",
+    "pillow==13.0.0",
+    "pluggy==1.7.0",
+    "psutil==7.2.2",
+    "pydot==4.0.1",
+    "Pygments==2.21.0",
+    "pyparsing==3.3.2",
+    "pytest==9.2.0",
+    "python-dateutil==4.0.0",
+    "tzdata==2026.6"
+  ]
+}

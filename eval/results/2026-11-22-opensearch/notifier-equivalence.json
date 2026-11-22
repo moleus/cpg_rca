@@ -1,0 +1,13 @@
+{
+  "scope": "single_file",
+  "python_hash_seed": "0",
+  "node_records_equal": true,
+  "edge_records_and_order_equal": true,
+  "artifact_files": {
+    "trie.json": true,
+    "restoreCompleted.flow.json": true,
+    "index.json": true,
+    "restoreCompleted.fsm.json": true
+  },
+  "artifact_filename_sets_equal": true
+}

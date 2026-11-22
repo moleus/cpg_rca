@@ -1,0 +1,64 @@
+{
+  "experiment": "paired_runtime_candidate_coverage",
+  "input_sha256": "786016deb83cdafa456656fa81ce918ac6bc56e28f92524dbcc6c05edd1ba68a",
+  "baseline_code_commit": "f8bb418fc3eeb514f4b1dfc1fdce8040470fe3e8",
+  "patched_code_commit": "fc90c13473576a5ec8910fd951694405ac721e0e",
+  "services": {
+    "adservice": {
+      "newly_matched": 2209,
+      "lost_matches": 0,
+      "candidate_set_changed": 2209
+    },
+    "cartservice": {
+      "newly_matched": 6610,
+      "lost_matches": 0,
+      "candidate_set_changed": 6610
+    },
+    "checkoutservice": {
+      "newly_matched": 576,
+      "lost_matches": 0,
+      "candidate_set_changed": 576
+    },
+    "currencyservice": {
+      "newly_matched": 0,
+      "lost_matches": 0,
+      "candidate_set_changed": 0
+    },
+    "emailservice": {
+      "newly_matched": 0,
+      "lost_matches": 0,
+      "candidate_set_changed": 0
+    },
+    "frontend": {
+      "newly_matched": 780,
+      "lost_matches": 0,
+      "candidate_set_changed": 780
+    },
+    "paymentservice": {
+      "newly_matched": 0,
+      "lost_matches": 0,
+      "candidate_set_changed": 0
+    },
+    "recommendationservice": {
+      "newly_matched": 5542,
+      "lost_matches": 0,
+      "candidate_set_changed": 5542
+    },
+    "redis": {
+      "newly_matched": 0,
+      "lost_matches": 0,
+      "candidate_set_changed": 0
+    },
+    "shippingservice": {
+      "newly_matched": 0,
+      "lost_matches": 0,
+      "candidate_set_changed": 0
+    }
+  },
+  "totals": {
+    "newly_matched": 15717,
+    "lost_matches": 0,
+    "candidate_set_changed": 15717
+  },
+  "limits": "Candidate coverage does not establish precision, path accuracy, or RCA accuracy."
+}

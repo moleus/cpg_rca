@@ -1,0 +1,209 @@
+{
+  "experiment": "bundled_pydot_loading_baseline",
+  "baseline_commit": "f8bb418fc3eeb514f4b1dfc1fdce8040470fe3e8",
+  "runs_per_service": 3,
+  "shared_host": true,
+  "limits": "Some metadata fields were added to the harness during these runs. The measured builder and input bytes stayed unchanged. These are diagnostic measurements, not an isolated-host benchmark.",
+  "services": [
+    {
+      "service": "adservice",
+      "input": {
+        "bytes": 866626,
+        "file": "export.dot",
+        "sha256": "ffd86ef92728f6bc42a5fa4dd07475a8ab0200fae24f15f47378f5c85341f046"
+      },
+      "graph": {
+        "edges": 8822,
+        "nodes": 1723
+      },
+      "runs": [
+        {
+          "cpu_sec": 23.71862526,
+          "process_rss_high_water_bytes": 69931008,
+          "rss_end_bytes": 68386816,
+          "rss_sampled_peak_bytes": 70111232,
+          "rss_start_bytes": 32104448,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 23.782937246000074
+        },
+        {
+          "cpu_sec": 22.29170013,
+          "process_rss_high_water_bytes": 69689344,
+          "rss_end_bytes": 68276224,
+          "rss_sampled_peak_bytes": 68276224,
+          "rss_start_bytes": 30502912,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 22.364824365000004
+        },
+        {
+          "cpu_sec": 23.734258249,
+          "process_rss_high_water_bytes": 69689344,
+          "rss_end_bytes": 68304896,
+          "rss_sampled_peak_bytes": 70033408,
+          "rss_start_bytes": 30498816,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 23.871377445000007
+        }
+      ],
+      "median_wall_sec": 23.782937246000074,
+      "median_cpu_sec": 23.71862526,
+      "rss_peak_mib_range": [
+        65.11328125,
+        66.86328125
+      ]
+    },
+    {
+      "service": "cartservice",
+      "input": {
+        "bytes": 1553657,
+        "file": "export.dot",
+        "sha256": "4ab4c6996578f45782dde10b86d93f0d7d13f4df6ab508cf33599a4bc9297a95"
+      },
+      "graph": {
+        "edges": 14250,
+        "nodes": 2500
+      },
+      "runs": [
+        {
+          "cpu_sec": 39.278517936,
+          "process_rss_high_water_bytes": 81596416,
+          "rss_end_bytes": 78962688,
+          "rss_sampled_peak_bytes": 81137664,
+          "rss_start_bytes": 30507008,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 40.11490553800013
+        },
+        {
+          "cpu_sec": 38.608324829,
+          "process_rss_high_water_bytes": 82321408,
+          "rss_end_bytes": 79683584,
+          "rss_sampled_peak_bytes": 82513920,
+          "rss_start_bytes": 30498816,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 38.67075992800005
+        },
+        {
+          "cpu_sec": 44.91731919,
+          "process_rss_high_water_bytes": 82518016,
+          "rss_end_bytes": 79663104,
+          "rss_sampled_peak_bytes": 80834560,
+          "rss_start_bytes": 30498816,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 45.053952494999976
+        }
+      ],
+      "median_wall_sec": 40.11490553800013,
+      "median_cpu_sec": 39.278517936,
+      "rss_peak_mib_range": [
+        77.08984375,
+        78.69140625
+      ]
+    },
+    {
+      "service": "currencyservice",
+      "input": {
+        "bytes": 1188347,
+        "file": "export.dot",
+        "sha256": "0b71a9093e0aaa5d0367c1f6e892038263a0f7467cc2527c2f5d705eae0b8700"
+      },
+      "graph": {
+        "edges": 11167,
+        "nodes": 1794
+      },
+      "runs": [
+        {
+          "cpu_sec": 35.198436312,
+          "process_rss_high_water_bytes": 86986752,
+          "rss_end_bytes": 84914176,
+          "rss_sampled_peak_bytes": 87089152,
+          "rss_start_bytes": 30519296,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 35.475170338000225
+        },
+        {
+          "cpu_sec": 37.474903328,
+          "process_rss_high_water_bytes": 87187456,
+          "rss_end_bytes": 85164032,
+          "rss_sampled_peak_bytes": 86618112,
+          "rss_start_bytes": 30736384,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 37.694320310999956
+        },
+        {
+          "cpu_sec": 28.896889654,
+          "process_rss_high_water_bytes": 88121344,
+          "rss_end_bytes": 85970944,
+          "rss_sampled_peak_bytes": 88342528,
+          "rss_start_bytes": 30666752,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 28.847281750000093
+        }
+      ],
+      "median_wall_sec": 35.475170338000225,
+      "median_cpu_sec": 35.198436312,
+      "rss_peak_mib_range": [
+        82.60546875,
+        84.25
+      ]
+    },
+    {
+      "service": "paymentservice",
+      "input": {
+        "bytes": 1315382,
+        "file": "export.dot",
+        "sha256": "6a464616676f18edc24a246717ea26f921afd6650739c55b3027351776cd4c7a"
+      },
+      "graph": {
+        "edges": 11169,
+        "nodes": 2093
+      },
+      "runs": [
+        {
+          "cpu_sec": 30.035393330999998,
+          "process_rss_high_water_bytes": 99401728,
+          "rss_end_bytes": 97153024,
+          "rss_sampled_peak_bytes": 99131392,
+          "rss_start_bytes": 30662656,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 30.119511525000235
+        },
+        {
+          "cpu_sec": 29.423852432999997,
+          "process_rss_high_water_bytes": 98631680,
+          "rss_end_bytes": 96325632,
+          "rss_sampled_peak_bytes": 96329728,
+          "rss_start_bytes": 30662656,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 29.458680339999773
+        },
+        {
+          "cpu_sec": 30.888265429,
+          "process_rss_high_water_bytes": 98844672,
+          "rss_end_bytes": 96366592,
+          "rss_sampled_peak_bytes": 96571392,
+          "rss_start_bytes": 30654464,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 31.36395428500009
+        }
+      ],
+      "median_wall_sec": 30.119511525000235,
+      "median_cpu_sec": 30.035393330999998,
+      "rss_peak_mib_range": [
+        91.8671875,
+        94.5390625
+      ]
+    }
+  ]
+}

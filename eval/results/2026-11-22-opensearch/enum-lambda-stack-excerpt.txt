@@ -1,0 +1,12 @@
+2026-11-22 13:53:39.245 WARN  AstCreator                Failed to process 'EnumLambdaRepro.java'
+java.util.NoSuchElementException: None.get
+	at scala.None$.get(Option.scala:700) ~[org.scala-lang.scala-library-3.9.0.jar:3.9.0]
+	at scala.None$.get(Option.scala:700) ~[org.scala-lang.scala-library-3.9.0.jar:3.9.0]
+	at io.joern.javasrc2cpg.astcreation.expressions.AstForLambdasCreator.buildParamListForLambda$$anonfun$1(AstForLambdasCreator.scala:480) ~[io.joern.javasrc2cpg-4.0.689.jar:4.0.689]
+	at scala.runtime.function.JProcedure1.apply(JProcedure1.java:15) ~[org.scala-lang.scala-library-3.9.0.jar:3.9.0]
+	at scala.runtime.function.JProcedure1.apply(JProcedure1.java:10) ~[org.scala-lang.scala-library-3.9.0.jar:3.9.0]
+	at scala.collection.immutable.List.foreach(List.scala:331) ~[org.scala-lang.scala-library-3.9.0.jar:3.9.0]
+	at io.joern.javasrc2cpg.astcreation.expressions.AstForLambdasCreator.buildParamListForLambda(AstForLambdasCreator.scala:479) ~[io.joern.javasrc2cpg-4.0.689.jar:4.0.689]
+	at io.joern.javasrc2cpg.astcreation.expressions.AstForLambdasCreator.createAndPushLambdaMethod(AstForLambdasCreator.scala:86) ~[io.joern.javasrc2cpg-4.0.689.jar:4.0.689]
+	at io.joern.javasrc2cpg.astcreation.expressions.AstForLambdasCreator.astForLambdaExpr(AstForLambdasCreator.scala:254) ~[io.joern.javasrc2cpg-4.0.689.jar:4.0.689]
+	at io.joern.javasrc2cpg.astcreation.expressions.AstForLambdasCreator.astForLambdaExpr$(AstForLambdasCreator.scala:68) ~[io.joern.javasrc2cpg-4.0.689.jar:4.0.689]

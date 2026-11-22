@@ -1,0 +1,71 @@
+{
+  "dot_sha256": "d6ac9310a55096b9281b5bc884aa5fdd94c7f1960faf891214e451493035884d",
+  "edge_multiset_equal": false,
+  "edge_order_equal": true,
+  "edges": [
+    333948,
+    333948
+  ],
+  "exact_match": false,
+  "graphml_sha256": "093190082e6dfdfaadf413cf24b84a80e965aaf7f232fdac1237fefe6a75d78e",
+  "node_attr_mismatch_count": 9410,
+  "node_attr_mismatch_sample": [
+    {
+      "fields": {
+        "METHOD_FULL_NAME": [
+          "\"org.opensearch.snapshots.AbortedSnapshotException.<init>:void()\"",
+          "\"\\n        org.opensearch.snapshots.AbortedSnapshotException.<init>:void()\\n      \""
+        ]
+      },
+      "node": "21474836480"
+    },
+    {
+      "fields": {
+        "METHOD_FULL_NAME": [
+          "\"java.lang.Throwable.initCause:java.lang.Throwable(java.lang.Throwable)\"",
+          "\"\\n        java.lang.Throwable.initCause:java.lang.Throwable(java.lang.Throwable)\\n      \""
+        ]
+      },
+      "node": "21474836495"
+    },
+    {
+      "fields": {
+        "METHOD_FULL_NAME": [
+          "\"java.lang.Throwable.lockedPrintStackTrace:void(java.lang.Throwable$PrintStreamOrWriter)\"",
+          "\"\\n        java.lang.Throwable.lockedPrintStackTrace:void(java.lang.Throwable$PrintStreamOrWriter)\\n      \""
+        ]
+      },
+      "node": "21474836496"
+    },
+    {
+      "fields": {
+        "METHOD_FULL_NAME": [
+          "\"java.lang.Throwable.printEnclosedStackTrace:void(java.lang.Throwable$PrintStreamOrWriter,java.lang.StackTraceElement[],java.lang.String,java.lang.String,java.util.Set)\"",
+          "\"\\n        java.lang.Throwable.printEnclosedStackTrace:void(java.lang.Throwable$PrintStreamOrWriter,java.lang.StackTraceElement[],java.lang.String,java.lang.String,java.util.Set)\\n      \""
+        ],
+        "SIGNATURE": [
+          "\"void(java.lang.Throwable$PrintStreamOrWriter,java.lang.StackTraceElement[],java.lang.String,java.lang.String,java.util.Set)\"",
+          "\"\\n        void(java.lang.Throwable$PrintStreamOrWriter,java.lang.StackTraceElement[],java.lang.String,java.lang.String,java.util.Set)\\n      \""
+        ]
+      },
+      "node": "21474836499"
+    },
+    {
+      "fields": {
+        "METHOD_FULL_NAME": [
+          "\"java.lang.Throwable.printStackTrace:void(java.lang.Throwable$PrintStreamOrWriter)\"",
+          "\"\\n        java.lang.Throwable.printStackTrace:void(java.lang.Throwable$PrintStreamOrWriter)\\n      \""
+        ]
+      },
+      "node": "21474836503"
+    }
+  ],
+  "node_ids_equal": true,
+  "node_order_equal": true,
+  "nodes": [
+    45756,
+    45756
+  ],
+  "reference_parser": "joern",
+  "schema_version": 1
+}

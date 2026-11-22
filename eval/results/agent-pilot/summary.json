@@ -1,0 +1,40 @@
+{
+  "experiment": "blind_agent_input_pilot",
+  "independent_incidents": 1,
+  "runs_per_condition": 1,
+  "ground_truth_service": "adservice",
+  "ground_truth_source": "RCAEval case re3ob_adservice_f3_1; service label only",
+  "model": "inherited session model; no model override",
+  "sampling_seed": "not controlled",
+  "token_cost_and_latency": "not measured",
+  "input_boundary": "Each fresh agent could read exactly its named packet. No parent conversation was passed. Other files and external lookups were forbidden. This was an instruction boundary, not an OS sandbox.",
+  "outcomes": {
+    "logs_only": {
+      "completed": true,
+      "top1_correct": true,
+      "ranked_services": [
+        "adservice",
+        "frontend"
+      ],
+      "input_file_bytes": 9290,
+      "input_sha256": "43c1d869d7ae2d44dd21ee51c2b704d3bdad6e382f6ee269c9183cafea949643"
+    },
+    "logs_and_static_candidates": {
+      "completed": true,
+      "top1_correct": true,
+      "ranked_services": [
+        "adservice",
+        "frontend"
+      ],
+      "input_file_bytes": 25263,
+      "input_sha256": "dc5f5f153e57f7da03a83933e1b417783ac843c5f00e5b7d7d49eb70fabb75a3"
+    }
+  },
+  "limits": [
+    "The two runs are one paired incident, not two independent incidents.",
+    "The fault mechanism was not scored.",
+    "The source/runtime version match is unverified.",
+    "The extra static data did not change the service ranking on this case.",
+    "Token use, cost, and diagnostic time were not measured."
+  ]
+}

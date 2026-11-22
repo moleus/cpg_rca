@@ -1,0 +1,45 @@
+{
+  "experiment": "local_method_edge_scan",
+  "implementation": "verify",
+  "baseline_commit": "f8bb418fc3eeb514f4b1dfc1fdce8040470fe3e8",
+  "local_method_sha256": "88e608e05b00e0be97140927082fac5a15b508e6e5bb57fe8a3a7b0400a648e7",
+  "loader_sha256": "e9a3e2e52475106238460d5ac55832a08a81805c81af55c443aa7132e597a6cb",
+  "python_hash_seed": "0",
+  "flow_max_depth": 5,
+  "status": "ok",
+  "harness_sha256": "6c442c91b43d271028155ec6e1c3155faeba9a8e51fb8ce06228a3d1d3a12b70",
+  "local_fix_commit": "a025eb6c566de56e10ebe9b9190ddcbe02baf4de",
+  "comparison": "Canonical JSON, dictionary keys sorted; list order retained; same loaded graph in one process.",
+  "services": [
+    {
+      "service": "opensearch-snapshots",
+      "input_sha256": "d6ac9310a55096b9281b5bc884aa5fdd94c7f1960faf891214e451493035884d",
+      "nodes": 45756,
+      "edges": 333948,
+      "entrypoints_compared": 3,
+      "method_appearances": 76,
+      "all_equal": true,
+      "selected_entrypoint_ids": [
+        "107374182810",
+        "107374182989",
+        "107374182956"
+      ],
+      "timing": {
+        "baseline": {
+          "flow_sec": 22.849571392000144,
+          "fsm_sec": 0.0021690229996238486,
+          "serialize_sec": 0.14801934200022515
+        },
+        "local": {
+          "flow_sec": 0.6956946810000773,
+          "fsm_sec": 0.0017795029998524114,
+          "serialize_sec": 0.13943451299974186
+        }
+      },
+      "node_order_entries": 45756,
+      "node_order_owned_bytes": 3203648
+    }
+  ],
+  "total_entrypoints_compared": 3,
+  "total_method_appearances": 76
+}

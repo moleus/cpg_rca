@@ -1,0 +1,79 @@
+{
+  "completed_stage_count": 1,
+  "cpg_bytes": null,
+  "diagnostics_added_after_run": true,
+  "dot_bytes": null,
+  "dot_parser": "pydot",
+  "parser_diagnostics": {
+    "failed_to_process_reported_names": [
+      "benchmarks/src/main/java/org/opensearch/common/hash/HashFunctionBenchmark.java",
+      "server/src/main/java/org/opensearch/index/mapper/DerivedFieldSupportedTypes.java",
+      "server/src/main/java/org/opensearch/wlm/ResourceType.java"
+    ],
+    "failed_to_process_warning_lines": 3,
+    "note": "Warnings can repeat. Some names are basenames, so they do not identify unique file paths.",
+    "parse_problem_reported_names": [
+      "CalciteToOSMapperConversionUtils.java",
+      "CanMatchFilterSerializer.java",
+      "DecodedBatch.java",
+      "EarliestLatestAdapter.java",
+      "FlightErrorMapper.java",
+      "HiveShardConsumer.java",
+      "LocaleUtils.java",
+      "NestedHelper.java",
+      "Numbers.java",
+      "ParquetHiveFileReader.java",
+      "PropertyExpander.java",
+      "TermsAggregationBuilderConverter.java",
+      "ValueSource.java"
+    ],
+    "parse_problem_warning_lines": 26,
+    "unparsable_statement_warning_lines": 26,
+    "warning_lines": 291
+  },
+  "requested_last_stage": "parse",
+  "schema_version": 1,
+  "scope": "repository",
+  "source": {
+    "commit": "2220907d3119897b8bd58cbc3c926787cd05ed2c",
+    "fetch_dependencies": false,
+    "full_manifest_sha256": "f004db63b91083a3b0b3c2d30085e09715002e0f2da6f91684997d8a08995468",
+    "java_files": 13770,
+    "joern_expected_archive_sha256": "c13f0b6adbb1ea2fbf94c046e42ae023394f150f855ca6ca19ef20e20a1805b0",
+    "joern_version": "v4.0.689",
+    "repository": "https://github.com/opensearch-project/OpenSearch",
+    "scope": ".",
+    "scope_kind": "all_tracked_java_sources",
+    "source_bytes": 124664521
+  },
+  "source_commit": "2220907d3119897b8bd58cbc3c926787cd05ed2c",
+  "stages": [
+    {
+      "aggregate_rss_sampled_peak_bytes": 3726381056,
+      "command": [
+        "<workspace>/bench-tools/joern-cli/javasrc2cpg",
+        "-J-Xmx3g",
+        "-J-XX:ActiveProcessorCount=2",
+        "<workspace>/bench-runs/opensearch-repository/source",
+        "--output",
+        "<workspace>/bench-runs/opensearch-repository/cpg.bin"
+      ],
+      "cpu_measurement": "unavailable_after_process_group_termination",
+      "cpu_note": "The initial monitor did not sample process CPU. Killing the shell and JVM group did not preserve JVM CPU in waited-child rusage. The observed shell values do not represent frontend CPU.",
+      "cpu_system_sec": null,
+      "cpu_user_sec": null,
+      "max_aggregate_rss_bytes": 4294967296,
+      "observed_waited_child_cpu_sec": {
+        "system": 0.009654000000000051,
+        "user": 0.0017570000000000086
+      },
+      "returncode": -15,
+      "sample_interval_sec": 0.05,
+      "schema_version": 1,
+      "status": "timeout",
+      "timeout_sec": 600,
+      "wall_sec": 600.0337488499999
+    }
+  ],
+  "status": "error"
+}

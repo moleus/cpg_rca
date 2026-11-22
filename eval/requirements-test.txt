@@ -1,0 +1,6 @@
+-r requirements-benchmark.txt
+pytest==9.2.0
+pandas==2.2.3
+numpy==2.3.5
+graphviz==0.21
+matplotlib==3.10.8

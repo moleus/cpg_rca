@@ -101,8 +101,8 @@ python3 builder.py --services-dir services --output-dir output
 # Process a single service
 python3 builder.py --services-dir services --output-dir output --service frontend
 
-# Also render Graphviz PNGs for FLOW and FSM (slower)
-python3 builder.py --services-dir services --output-dir output --render-graphviz -v
+# Use the experimental strict reader for Joern exports
+python3 builder.py --services-dir services --output-dir output --service frontend --dot-parser joern
 ```
 
 ### CLI options
@@ -115,8 +115,16 @@ python3 builder.py --services-dir services --output-dir output --render-graphviz
 | `--max-ddg-depth` | `5` | Backward data-flow depth used when reconstructing log templates |
 | `--flow-max-depth` | `5` | Maximum interprocedural expansion depth for FLOW |
 | `--flow-max-paths` | `50` | Retained for backward compatibility; has no effect on graph construction |
-| `--render-graphviz` | off | Additionally render Graphviz PNGs for each entrypoint's FLOW and FSM |
+| `--dot-parser` | `pydot` | Use `joern` to opt into the strict reader for the Joern exports shipped here |
 | `-v`, `--verbose` | off | Enable debug-level logging |
+
+The strict reader avoids the intermediate pydot graph. It supports the quoted Joern
+subset used by the repository exports, not arbitrary DOT. Unsupported syntax is
+recorded as a service error in `services_index.json`, with no silent fallback;
+rerun with `--dot-parser pydot` for broader DOT support. Both loaders still read
+the whole file and build the complete NetworkX graph; this is not a streaming
+or entrypoint-selective pipeline. The builder logs the load stages and their
+elapsed time before running Trie/FLOW/FSM.
 
 ## Output Artifacts
 
@@ -180,5 +188,64 @@ Optionally, `<entrypoint>.fsm.png` (Graphviz) when `--render-graphviz` is set.
 
 ```bash
 python3 -m eval.coverage output coverage/new   # writes coverage.json and coverage.md
-python3 -m eval.compare coverage/old/coverage.json coverage/new/coverage.json   # exit 1 if visible decreases or lost increases
+python3 -m eval.compare coverage/old/coverage.json coverage/new/coverage.json
 ```
+
+The comparison exits 1 if a service disappears, a coverage count decreases, or
+lost logs increase. It checks entrypoints, log points, reachable logs and visible
+logs. This prevents a smaller FLOW from appearing to improve coverage. Compare
+the same source and builder options. Review intentional filters before setting a
+new baseline. Equal counts do not prove that the same call sites were preserved.
+
+## Request correlation for runtime logs
+
+Use `--correlation-column` when each log record has a request key:
+
+```bash
+python3 runtime_analyzer.py --artifacts-dir output --logs logs.csv \
+  --inject-time 1795320000 --correlation-column request_id --emit-incomplete
+```
+
+The column name must match the CSV header exactly. Keys are case-sensitive
+strings. Leading and trailing spaces are removed. Use a key that identifies one
+request within one service. A trace ID is suitable only when it has that scope.
+The same key in two services remains in two separate stores.
+
+A chain can continue only with records that have the same key. An empty or
+missing key produces an unexplained event with reason code
+`missing_correlation_key`. That event cannot start or continue a chain. The
+report keeps it for review. Completed chains, runtime evidence, and incomplete
+hypotheses include `correlation_key`.
+
+Without the option, matching keeps its previous behavior. The `bucket` field
+keeps its previous meaning and is never used as a request key. Correlation
+prevents the merger of different known requests. It does not prove the cause of
+an incident.
+
+## Runtime evidence limits
+
+When a service has a Trie catalog, a message must match a Trie template before
+it can start or continue an FSM hypothesis. A Trie miss remains unexplained.
+It does not trigger lexical fallback. The direct store API uses the same rule:
+an empty candidate set means no match; `None` permits the legacy lexical mode.
+The stream uses that mode only when no Trie or explicit CALL id is available.
+An unexplained event can result from an incomplete model or a source-version
+mismatch. It does not establish the cause of an incident.
+
+`INCOMPLETE_SEGMENT` means that the static graph does not establish a return.
+It produces an `incomplete` hypothesis with reason `incomplete_static_graph`.
+This rule also applies to old FSM files that mark such a state as terminal.
+Use `--emit-incomplete` to keep these hypotheses in the incident report.
+A `completed` hypothesis means that a matched log has a static path to a return.
+The runtime return itself was not observed.
+
+The report includes `evidence_limits`. Scores are cumulative match scores, not
+probabilities. Segment methods and conditions can combine several static paths.
+They do not prove observed calls or branch decisions. FSM warnings remain in
+each hypothesis report. These checks improve evidence handling; they do not add
+a root-cause inference algorithm.
+
+`--emit-incomplete` also keeps expired and pruned leaf hypotheses with their
+`termination_reason`. A timeout reports the configured inactivity limit. A
+pruned path reports a search limit. Neither status proves a runtime failure.
+Finalization excludes superseded parents and already completed hypotheses.

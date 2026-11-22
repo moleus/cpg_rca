@@ -20,8 +20,12 @@ from typing import Any, Dict, Optional
 
 import pandas as pd
 
-from src.online.hypothesis_report import build_llm_report, build_unexplained_report
-from src.online.stateful_chain_store import ExplicitHypothesisStore
+from src.online.hypothesis_report import build_evidence_limits, build_llm_report, build_unexplained_report
+from src.online.stateful_chain_store import (
+    ExplicitHypothesisStore,
+    normalize_correlation_key,
+    parse_optional_call_id,
+)
 from src.online.trie_matcher import ServiceTrieMatcher
 
 
@@ -35,6 +39,7 @@ class RuntimeEvent:
     bucket: str
     message: str
     observed_call_node_id: Optional[str] = None
+    correlation_key: Optional[str] = None
 
 
 @dataclass
@@ -109,9 +114,10 @@ class RuntimeStreamProcessor:
         Priority of evidence:
         1. An externally supplied observed_call_node_id is treated as exact.
         2. Otherwise service Trie returns all compatible logger CPG CALL ids.
-        3. If Trie returns no candidate, the store falls back to lexical
-           template matching for exploratory robustness.
+        3. A Trie miss remains unexplained. Legacy lexical matching is used
+           only when neither a Trie catalog nor an exact CALL id is supplied.
         """
+        correlation_key = normalize_correlation_key(event.correlation_key)
         catalog = self.catalogs.get(event.service.lower())
         if catalog is None:
             return [{
@@ -122,6 +128,7 @@ class RuntimeStreamProcessor:
                     "timestamp": event.timestamp,
                     "bucket": event.bucket,
                     "message": event.message,
+                    "correlation_key": correlation_key,
                 },
                 "classification": {
                     "reason": "No offline Trie/FSM/FLOW catalog was loaded for this service.",
@@ -129,10 +136,10 @@ class RuntimeStreamProcessor:
             }]
 
         trie_matches = []
-        call_node_ids: set[str] = set()
+        call_node_ids: Optional[set[str]] = None
 
-        if event.observed_call_node_id:
-            call_node_ids.add(str(event.observed_call_node_id))
+        if event.observed_call_node_id is not None:
+            call_node_ids = {str(event.observed_call_node_id)}
         elif catalog.trie_matcher is not None:
             trie_matches = catalog.trie_matcher.match(event.message)
             call_node_ids = {
@@ -148,7 +155,8 @@ class RuntimeStreamProcessor:
             timestamp=event.timestamp,
             bucket=event.bucket,
             index=event.index,
-            observed_call_node_ids=call_node_ids or None,
+            observed_call_node_ids=call_node_ids,
+            correlation_key=correlation_key,
         )
 
         reports = self._reports_for_completed(event.service, catalog)
@@ -179,6 +187,7 @@ class RuntimeStreamProcessor:
         message_column: str = "message",
         bucket_column: str = "bucket",
         call_node_column: Optional[str] = None,
+        correlation_column: Optional[str] = None,
     ) -> list[dict[str, Any]]:
         """
         Process a DataFrame in timestamp order while preserving same-time order.
@@ -188,6 +197,12 @@ class RuntimeStreamProcessor:
         canonical names before calling this method.
         """
         required = {timestamp_column, service_column, message_column}
+        if correlation_column is not None:
+            if any(not catalog.store.require_correlation for catalog in self.catalogs.values()):
+                raise ValueError(
+                    "Set require_correlation=True when creating every service store before passing correlation_column."
+                )
+            required.add(correlation_column)
         missing = required - set(logs.columns)
         if missing:
             raise ValueError(
@@ -206,13 +221,10 @@ class RuntimeStreamProcessor:
             timestamp = row.get(timestamp_column)
             timestamp = timestamp if pd.notna(timestamp) else None
 
-            call_node_id = None
-            if (
-                call_node_column
-                and call_node_column in row
-                and pd.notna(row.get(call_node_column))
-            ):
-                call_node_id = str(row.get(call_node_column))
+            call_node_id = (
+                parse_optional_call_id(row.get(call_node_column))
+                if call_node_column is not None else None
+            )
 
             event = RuntimeEvent(
                 index=int(row["__original_index"]),
@@ -221,6 +233,7 @@ class RuntimeStreamProcessor:
                 bucket=str(row.get(bucket_column, "")),
                 message=str(row.get(message_column, "")),
                 observed_call_node_id=call_node_id,
+                correlation_key=row.get(correlation_column) if correlation_column is not None else None,
             )
             reports.extend(self.process(event))
 
@@ -228,23 +241,29 @@ class RuntimeStreamProcessor:
 
     def finalize(self) -> list[dict[str, Any]]:
         """
-        Return end-of-stream snapshots for hypotheses not yet terminal.
+        Return snapshots for active, incomplete, expired, and pruned leaves.
 
         The method does not force completion. It preserves unfinished structural
-        paths as incomplete evidence for later incident analysis.
+        paths as incomplete evidence for later incident analysis. A superseded
+        parent is represented by its children; completed paths were reported.
         """
         reports: list[dict[str, Any]] = []
 
         for service, catalog in self.catalogs.items():
             for chain in catalog.store.active_chains.values():
-                for hypothesis in chain.active_hypotheses:
+                for hypothesis in chain.hypotheses.values():
+                    if hypothesis.status not in {"active", "incomplete", "expired", "pruned"}:
+                        continue
                     reports.append({
                         "report_type": "incomplete_execution_hypothesis",
                         "service": service,
+                        "evidence_limits": build_evidence_limits(catalog.fsms.get(chain.fsm_key)),
                         "chain_id": chain.chain_id,
                         "hypothesis_id": hypothesis.hypothesis_id,
                         "entrypoint": chain.fsm_key,
+                        "correlation_key": chain.correlation_key,
                         "status": hypothesis.status,
+                        "termination_reason": hypothesis.termination_reason,
                         "score": hypothesis.score,
                         "current_state": hypothesis.current_state,
                         "transition_ids": list(hypothesis.transition_ids),

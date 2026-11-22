@@ -14,20 +14,20 @@ Trie integration
 ----------------
 `process()` accepts `observed_call_node_ids`: a set of CPG logger CALL ids
 returned by src.online.trie_matcher. When present, FSM transitions are matched
-exactly by CALL id. Lexical template matching is used only as a fallback when
-no Trie candidate is available.
+exactly by CALL id. An empty set means that no CALL matched.
+Only None permits lexical matching for callers without a Trie catalog.
 """
 
 from __future__ import annotations
 
 import csv
-import re
 from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 import pandas as pd
 
+from src.log_text import normalize_text, template_tokens as _template_tokens
 from src.offline.finite_state_machine import LogTransition, StaticLogFSM
 
 
@@ -53,6 +53,7 @@ class ChainLog:
     source_state: str
     target_state: str
     score: float
+    correlation_key: Optional[str] = None
 
 
 @dataclass
@@ -65,7 +66,7 @@ class PathHypothesis:
     transition_ids: Tuple[str, ...]
     state_path: Tuple[str, ...]
     logs: List[ChainLog] = field(default_factory=list)
-    status: str = "active"  # active | completed | expired | pruned | superseded
+    status: str = "active"  # active | completed | incomplete | expired | pruned | superseded
     termination_reason: str = ""
 
 
@@ -80,6 +81,7 @@ class ActiveChain:
     hypotheses: Dict[int, PathHypothesis] = field(default_factory=dict)
     status: str = "active"
     termination_reason: str = ""
+    correlation_key: Optional[str] = None
 
     @property
     def score(self) -> float:
@@ -115,23 +117,33 @@ class HypothesisEvent:
     template: Optional[str]
     step_score: float
     cumulative_score: float
+    correlation_key: Optional[str] = None
+    reason_code: str = ""
 
 
 ChainEvent = HypothesisEvent
 
 
-def normalize_text(value: str) -> str:
-    value = (value or "").lower()
-    value = re.sub(r"[^\w*]+", " ", value, flags=re.UNICODE)
-    return re.sub(r"\s+", " ", value).strip()
+def normalize_correlation_key(value: Any) -> Optional[str]:
+    """Keep an explicit request key as text; missing values have no key."""
+    if value is None or pd.isna(value):
+        return None
+    return str(value).strip() or None
 
 
-def _template_tokens(template: str) -> List[str]:
-    return normalize_text(template.replace("<*>", " <*> ")).split()
+def parse_optional_call_id(value: Any) -> Optional[str]:
+    """Read an optional CSV/DataFrame CALL cell; blank cells have no ID.
+
+    Direct process() calls keep their exact-ID semantics. This helper is used
+    only at tabular input boundaries.
+    """
+    if value is None or pd.isna(value):
+        return None
+    return str(value).strip() or None
 
 
 def template_score(message: str, template: str) -> float:
-    """Fallback lexical match score used only when no Trie CALL candidate exists."""
+    """Legacy lexical score used when no exact candidate set was supplied."""
     message_tokens = normalize_text(message).split()
     static_tokens = [token for token in _template_tokens(template) if token != "<*>"]
     if not message_tokens or not static_tokens:
@@ -158,7 +170,11 @@ def template_score(message: str, template: str) -> float:
 
 
 class ExplicitHypothesisStore:
-    """Bounded beam-search store of explicit FSM-path hypotheses."""
+    """Beam-search store of explicit FSM paths.
+
+    With require_correlation=True, only events with the same nonempty request
+    key can continue a chain. Missing keys produce unexplained events.
+    """
 
     def __init__(
         self,
@@ -169,6 +185,7 @@ class ExplicitHypothesisStore:
         max_hypotheses_per_chain: int = 32,
         max_total_active_hypotheses: int = 2048,
         allow_new_chains: bool = True,
+        require_correlation: bool = False,
     ) -> None:
         self.fsms = {key: fsm for key, fsm in fsms.items() if fsm.transitions}
         self.threshold = threshold
@@ -177,6 +194,7 @@ class ExplicitHypothesisStore:
         self.max_hypotheses_per_chain = max_hypotheses_per_chain
         self.max_total_active_hypotheses = max_total_active_hypotheses
         self.allow_new_chains = allow_new_chains
+        self.require_correlation = require_correlation
         self.active_chains: Dict[int, ActiveChain] = {}
         self.history: List[HypothesisEvent] = []
         self._next_chain_id = 0
@@ -208,9 +226,9 @@ class ExplicitHypothesisStore:
     ) -> List[TransitionMatch]:
         result: List[TransitionMatch] = []
         for transition in candidates:
-            if observed_call_node_ids and str(transition.log_call_node_id) not in observed_call_node_ids:
+            if observed_call_node_ids is not None and str(transition.log_call_node_id) not in observed_call_node_ids:
                 continue
-            score = 1.0 if observed_call_node_ids else template_score(message, transition.template)
+            score = 1.0 if observed_call_node_ids is not None else template_score(message, transition.template)
             if score < self.threshold:
                 continue
             result.append(TransitionMatch(
@@ -245,6 +263,9 @@ class ExplicitHypothesisStore:
         elif chain.completed_hypotheses:
             chain.status = "completed"
             chain.termination_reason = "terminal_state"
+        elif any(h.status == "incomplete" for h in chain.hypotheses.values()):
+            chain.status = "incomplete"
+            chain.termination_reason = "incomplete_static_graph"
         elif any(h.status == "pruned" for h in chain.hypotheses.values()):
             chain.status = "pruned"
             chain.termination_reason = "hypothesis_limit"
@@ -301,6 +322,7 @@ class ExplicitHypothesisStore:
     ) -> PathHypothesis:
         fsm = self.fsms[chain.fsm_key]
         terminal = match.target_state in fsm.terminals
+        incomplete = fsm.states[match.target_state].kind == "INCOMPLETE_SEGMENT"
         log = ChainLog(
             index=index,
             timestamp=timestamp,
@@ -311,6 +333,7 @@ class ExplicitHypothesisStore:
             source_state=match.source_state,
             target_state=match.target_state,
             score=match.score,
+            correlation_key=chain.correlation_key,
         )
         return PathHypothesis(
             hypothesis_id=self._new_hypothesis_id(),
@@ -319,8 +342,8 @@ class ExplicitHypothesisStore:
             transition_ids=(parent.transition_ids if parent else ()) + (match.transition_id,),
             state_path=(parent.state_path if parent else (match.source_state,)) + (match.target_state,),
             logs=(parent.logs if parent else []) + [log],
-            status="completed" if terminal else "active",
-            termination_reason="terminal_state" if terminal else "",
+            status="incomplete" if incomplete else "completed" if terminal else "active",
+            termination_reason="incomplete_static_graph" if incomplete else "terminal_state" if terminal else "",
         )
 
     def _advance_chain(
@@ -357,6 +380,7 @@ class ExplicitHypothesisStore:
                     source_state=match.source_state, target_state=match.target_state,
                     transition_id=match.transition_id, template=match.template,
                     step_score=match.score, cumulative_score=child.score,
+                    correlation_key=chain.correlation_key,
                 ))
 
         if not children:
@@ -387,12 +411,14 @@ class ExplicitHypothesisStore:
         timestamp: Optional[pd.Timestamp],
         bucket: str,
         message: str,
+        correlation_key: Optional[str] = None,
     ) -> tuple[ActiveChain, List[HypothesisEvent]]:
         chain = ActiveChain(
             chain_id=self._next_chain_id,
             fsm_key=fsm_key,
             created_at=timestamp,
             last_timestamp=timestamp,
+            correlation_key=correlation_key,
         )
         self._next_chain_id += 1
         events: List[HypothesisEvent] = []
@@ -407,6 +433,7 @@ class ExplicitHypothesisStore:
                 source_state=match.source_state, target_state=match.target_state,
                 transition_id=match.transition_id, template=match.template,
                 step_score=match.score, cumulative_score=hypothesis.score,
+                correlation_key=chain.correlation_key,
             ))
         self._enforce_chain_beam(chain)
         self._refresh_chain_status(chain)
@@ -421,24 +448,44 @@ class ExplicitHypothesisStore:
         index: int = -1,
         observed_call_node_id: Optional[str] = None,
         observed_call_node_ids: Optional[set[str]] = None,
+        correlation_key: Optional[str] = None,
     ) -> List[HypothesisEvent]:
-        """Process one event using Trie CALL ids when available, otherwise lexical fallback."""
-        call_ids = set(observed_call_node_ids or ())
-        if observed_call_node_id:
-            call_ids.add(str(observed_call_node_id))
-        candidates = call_ids or None
+        """Process exact candidates; only None enables legacy lexical matching."""
+        candidates = (
+            None if observed_call_node_ids is None
+            else {str(value) for value in observed_call_node_ids}
+        )
+        if observed_call_node_id is not None:
+            if candidates is None:
+                candidates = set()
+            candidates.add(str(observed_call_node_id))
 
         self._expire(timestamp)
+        correlation_key = normalize_correlation_key(correlation_key) if self.require_correlation else None
+        if self.require_correlation and correlation_key is None:
+            event = HypothesisEvent(
+                index=index, timestamp=timestamp, bucket=bucket, message=message,
+                chain_id=None, hypothesis_id=None, fsm_key=None, verdict="unknown",
+                source_state=None, target_state=None, transition_id=None, template=None,
+                step_score=0.0, cumulative_score=0.0, reason_code="missing_correlation_key",
+            )
+            self.history.append(event)
+            return [event]
+
         events: List[HypothesisEvent] = []
         for chain in list(self.active_chains.values()):
-            if chain.status == "active":
+            if chain.status == "active" and (
+                not self.require_correlation or chain.correlation_key == correlation_key
+            ):
                 events.extend(self._advance_chain(chain, index, timestamp, bucket, message, candidates))
 
         if self.allow_new_chains:
             for fsm_key, start_transitions in self._starts.items():
                 matches = self._matches(fsm_key, start_transitions, message, candidates)
                 if matches:
-                    _, started = self._start_chain(fsm_key, matches, index, timestamp, bucket, message)
+                    _, started = self._start_chain(
+                        fsm_key, matches, index, timestamp, bucket, message, correlation_key
+                    )
                     events.extend(started)
 
         if not events:
@@ -447,6 +494,7 @@ class ExplicitHypothesisStore:
                 chain_id=None, hypothesis_id=None, fsm_key=None, verdict="unknown",
                 source_state=None, target_state=None, transition_id=None, template=None,
                 step_score=0.0, cumulative_score=0.0,
+                correlation_key=correlation_key,
             ))
 
         self.history.extend(events)
@@ -461,17 +509,25 @@ class ExplicitHypothesisStore:
         message_column: str = "message",
         bucket_column: str = "bucket",
         call_node_column: Optional[str] = None,
+        correlation_column: Optional[str] = None,
     ) -> pd.DataFrame:
         """Compatibility batch API; Trie integration is handled by stream_processor."""
+        if correlation_column is not None and not self.require_correlation:
+            raise ValueError(
+                "Set require_correlation=True when creating the store before passing correlation_column."
+            )
+        if correlation_column is not None and correlation_column not in logs:
+            raise ValueError(f"Missing correlation column: {correlation_column}")
         rows: List[Dict[str, Any]] = []
         for index, row in logs.sort_values(timestamp_column).reset_index(drop=True).iterrows():
             timestamp = row.get(timestamp_column)
             timestamp = timestamp if pd.notna(timestamp) else None
-            call_id = str(row[call_node_column]) if call_node_column and pd.notna(row.get(call_node_column)) else None
+            call_id = parse_optional_call_id(row.get(call_node_column)) if call_node_column is not None else None
             for event in self.process(
                 message=str(row.get(message_column, "")), timestamp=timestamp,
                 bucket=str(row.get(bucket_column, "")), index=index,
                 observed_call_node_id=call_id,
+                correlation_key=row.get(correlation_column) if correlation_column is not None else None,
             ):
                 rows.append({
                     "log_index": event.index, "timestamp": event.timestamp,
@@ -481,6 +537,7 @@ class ExplicitHypothesisStore:
                     "source_state": event.source_state, "target_state": event.target_state,
                     "transition_id": event.transition_id, "template": event.template,
                     "step_score": event.step_score, "score": event.cumulative_score,
+                    "correlation_key": event.correlation_key, "reason_code": event.reason_code,
                 })
         return pd.DataFrame(rows)
 

@@ -1,0 +1,40 @@
+{
+  "experiment": "history_growth_at_beam_one",
+  "synthetic": true,
+  "store_sha256": "2a4e62d2f12b3a93f8b4b58af98af45453c2538a32bf8ac80e477a867a70498f",
+  "limits": {
+    "active_chains": 1,
+    "hypotheses_per_chain": 1,
+    "total_active_hypotheses": 1
+  },
+  "memory_measure": "tracemalloc peak, not RSS; excludes imports and the static FSM",
+  "runs": [
+    {
+      "events": 100,
+      "chains_retained": 1,
+      "active_hypotheses": 1,
+      "hypotheses_retained": 100,
+      "log_references_retained": 5050,
+      "peak_python_allocation_bytes": 205864,
+      "wall_sec_with_tracing": 0.009182932000385335
+    },
+    {
+      "events": 500,
+      "chains_retained": 1,
+      "active_hypotheses": 1,
+      "hypotheses_retained": 500,
+      "log_references_retained": 125250,
+      "peak_python_allocation_bytes": 3377128,
+      "wall_sec_with_tracing": 0.06246546500005934
+    },
+    {
+      "events": 1000,
+      "chains_retained": 1,
+      "active_hypotheses": 1,
+      "hypotheses_retained": 1000,
+      "log_references_retained": 500500,
+      "peak_python_allocation_bytes": 12754192,
+      "wall_sec_with_tracing": 0.15719334599998547
+    }
+  ]
+}

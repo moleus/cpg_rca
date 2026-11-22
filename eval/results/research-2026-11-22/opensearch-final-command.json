@@ -1,0 +1,28 @@
+{
+  "aggregate_rss_sampled_peak_bytes": 351813632,
+  "command": [
+    "../clean-test-env/bin/python",
+    "-m",
+    "eval.benchmark",
+    "--dot",
+    "../bench-runs/opensearch-snapshots/dot/export.dot",
+    "--service",
+    "opensearch-snapshots",
+    "--dot-parser",
+    "joern",
+    "--output",
+    "../bench-runs/opensearch-snapshots/final-integration"
+  ],
+  "cpu_measurement": "waited_children",
+  "cpu_system_sec": 1.528891,
+  "cpu_user_sec": 8.766093,
+  "max_aggregate_rss_bytes": 4294967296.0,
+  "returncode": 0,
+  "sample_interval_sec": 0.05,
+  "sampled_cpu_system_sec": 1.51,
+  "sampled_cpu_user_sec": 8.74,
+  "schema_version": 1,
+  "status": "ok",
+  "timeout_sec": 120.0,
+  "wall_sec": 10.318719262000286
+}

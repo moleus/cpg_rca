@@ -1,0 +1,114 @@
+{
+  "artifact_bytes": 51040,
+  "counts": {
+    "entrypoints": 1,
+    "entrypoints_error": 0,
+    "templates": 1
+  },
+  "coverage": {
+    "entrypoints": 1,
+    "log_points": 1,
+    "lost": 0,
+    "pooled_lost": 0,
+    "pooled_lost_callee": 0,
+    "pooled_lost_entry": 0,
+    "pooled_reachable": 1,
+    "pooled_visible": 1,
+    "reachable": 1,
+    "visible": 1,
+    "zero_log": 0
+  },
+  "graph": {
+    "edges": 3027,
+    "nodes": 607
+  },
+  "input": {
+    "bytes": 301467,
+    "file": "export.dot",
+    "sha256": "08d6078a49879c7f06ee3d98e57b9fb97c6f3a66aa0180af2dabce32d1774c38"
+  },
+  "meta": {
+    "benchmark_module_sha256": "109cf69be274e12c432a2c61b5038304485598bb00e685889e31922536da5c9b",
+    "builder_module_sha256": "90c1894084ef465bb60b2f8225c201a1682ad6b978d3693132d09cb87d10343f",
+    "commit": "e4cb4f49ff173442f7847d7e2c6f44765f255675",
+    "cpu_count": 9,
+    "dot_parser": "joern",
+    "flow_max_depth": 5,
+    "max_ddg_depth": 5,
+    "memory_total_bytes": 10451423232,
+    "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+    "process_rss_high_water_is_cumulative": true,
+    "python": "3.12.14",
+    "rss_sample_interval_sec": 0.02,
+    "tracked_changes": false,
+    "versions": {
+      "networkx": "3.6.1",
+      "psutil": "7.2.2",
+      "pydot": "4.0.1",
+      "pyparsing": "3.3.2"
+    }
+  },
+  "pipeline_wall_sec": 0.12131632699993133,
+  "schema_version": 1,
+  "source": {
+    "commit": "2220907d3119897b8bd58cbc3c926787cd05ed2c",
+    "fetch_dependencies": false,
+    "files": [
+      {
+        "bytes": 4052,
+        "path": "server/src/main/java/org/opensearch/snapshots/RestoreCompletionNotifier.java",
+        "sha256": "fcbf808f693f117a269238d4cf6758beb2e45a3f4d83ddf126062e4bf962f176"
+      }
+    ],
+    "java_files": 1,
+    "joern_expected_archive_sha256": "c13f0b6adbb1ea2fbf94c046e42ae023394f150f855ca6ca19ef20e20a1805b0",
+    "joern_version": "v4.0.689",
+    "repository": "https://github.com/opensearch-project/OpenSearch",
+    "scope": "server/src/main/java/org/opensearch/snapshots/RestoreCompletionNotifier.java",
+    "scope_kind": "single_file",
+    "source_bytes": 4052
+  },
+  "stages": [
+    {
+      "cpu_sec": 0.072939647,
+      "process_rss_high_water_bytes": 33640448,
+      "rss_end_bytes": 33501184,
+      "rss_sampled_peak_bytes": 33501184,
+      "rss_start_bytes": 30674944,
+      "stage": "load_dot",
+      "status": "ok",
+      "wall_sec": 0.07419213899993338
+    },
+    {
+      "cpu_sec": 0.003135774999999952,
+      "process_rss_high_water_bytes": 33640448,
+      "rss_end_bytes": 33562624,
+      "rss_sampled_peak_bytes": 33562624,
+      "rss_start_bytes": 33521664,
+      "stage": "templates_and_trie",
+      "status": "ok",
+      "wall_sec": 0.0031353370000033465
+    },
+    {
+      "cpu_sec": 0.03539110600000006,
+      "process_rss_high_water_bytes": 33894400,
+      "rss_end_bytes": 34111488,
+      "rss_sampled_peak_bytes": 34111488,
+      "rss_start_bytes": 33562624,
+      "stage": "flow_and_fsm",
+      "status": "ok",
+      "wall_sec": 0.036419911999928445
+    },
+    {
+      "cpu_sec": 0.0008822139999999923,
+      "process_rss_high_water_bytes": 33894400,
+      "rss_end_bytes": 34127872,
+      "rss_sampled_peak_bytes": 34127872,
+      "rss_start_bytes": 34111488,
+      "stage": "coverage",
+      "status": "ok",
+      "wall_sec": 0.0008937329998843779
+    }
+  ],
+  "status": "ok"
+}

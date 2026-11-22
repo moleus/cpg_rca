@@ -1,0 +1,26 @@
+{
+  "aggregate_rss_sampled_peak_bytes": 3726381056,
+  "command": [
+    "<workspace>/bench-tools/joern-cli/javasrc2cpg",
+    "-J-Xmx3g",
+    "-J-XX:ActiveProcessorCount=2",
+    "<workspace>/bench-runs/opensearch-repository/source",
+    "--output",
+    "<workspace>/bench-runs/opensearch-repository/cpg.bin"
+  ],
+  "cpu_measurement": "unavailable_after_process_group_termination",
+  "cpu_note": "The initial monitor did not sample process CPU. Killing the shell and JVM group did not preserve JVM CPU in waited-child rusage. The observed shell values do not represent frontend CPU.",
+  "cpu_system_sec": null,
+  "cpu_user_sec": null,
+  "max_aggregate_rss_bytes": 4294967296,
+  "observed_waited_child_cpu_sec": {
+    "system": 0.009654000000000051,
+    "user": 0.0017570000000000086
+  },
+  "returncode": -15,
+  "sample_interval_sec": 0.05,
+  "schema_version": 1,
+  "status": "timeout",
+  "timeout_sec": 600,
+  "wall_sec": 600.0337488499999
+}

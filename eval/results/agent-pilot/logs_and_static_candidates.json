@@ -1,0 +1,758 @@
+{
+  "case_id": "case_017",
+  "task": "Rank at most three services for investigation. State what the evidence proves and what it does not prove.",
+  "window": {
+    "before_seconds": 120,
+    "after_seconds": 120
+  },
+  "selection": "For each service: top three messages per window, plus top three messages first seen after the incident. Ties use text order.",
+  "limits": [
+    "Timestamps have one-second precision. No request or trace key is supplied.",
+    "Numeric values, UUIDs, and email addresses are redacted before counts are grouped.",
+    "Static source and runtime versions have not been shown to match.",
+    "The service, fault type, and exact mechanism are hidden from this packet."
+  ],
+  "services": [
+    {
+      "service": "adservice",
+      "rows_before": 359,
+      "rows_after": 49,
+      "messages": [
+        {
+          "text": "*** server shut down",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "text": "*** shutting down gRPC ads server since JVM is shutting down",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "text": "Ad Service started, listening on <number>",
+          "before": 0,
+          "after": 1
+        },
+        {
+          "text": "received ad request (context_words=[])",
+          "before": 76,
+          "after": 10
+        },
+        {
+          "text": "received ad request (context_words=[accessories])",
+          "before": 64,
+          "after": 5
+        },
+        {
+          "text": "received ad request (context_words=[decor, home])",
+          "before": 31,
+          "after": 6
+        },
+        {
+          "text": "received ad request (context_words=[kitchen])",
+          "before": 104,
+          "after": 11
+        }
+      ]
+    },
+    {
+      "service": "cartservice",
+      "rows_before": 584,
+      "rows_after": 587,
+      "messages": [
+        {
+          "text": "AddItemAsync called with userId=<id>, productId=<number>E<number>ZMYYFZ, quantity=<number>",
+          "before": 13,
+          "after": 3
+        },
+        {
+          "text": "AddItemAsync called with userId=<id>, productId=<number>SIQT<number>TOJO, quantity=<number>",
+          "before": 9,
+          "after": 11
+        },
+        {
+          "text": "EmptyCartAsync called with userId=<id>",
+          "before": 17,
+          "after": 22
+        },
+        {
+          "text": "GetCartAsync called with userId=<id>",
+          "before": 511,
+          "after": 507
+        }
+      ]
+    },
+    {
+      "service": "checkoutservice",
+      "rows_before": 51,
+      "rows_after": 66,
+      "messages": [
+        {
+          "text": "[PlaceOrder] user_id=\"<id>\" user_currency=\"GBP\"",
+          "before": 1,
+          "after": 7
+        },
+        {
+          "text": "[PlaceOrder] user_id=\"<id>\" user_currency=\"JPY\"",
+          "before": 6,
+          "after": 1
+        },
+        {
+          "text": "order confirmation email sent to \"<email>\"",
+          "before": 17,
+          "after": 22
+        },
+        {
+          "text": "payment went through (transaction_id: <id>)",
+          "before": 17,
+          "after": 22
+        }
+      ]
+    },
+    {
+      "service": "currencyservice",
+      "rows_before": 1970,
+      "rows_after": 1880,
+      "messages": [
+        {
+          "text": "Getting supported currencies...",
+          "before": 511,
+          "after": 507
+        },
+        {
+          "text": "conversion request successful",
+          "before": 1459,
+          "after": 1373
+        }
+      ]
+    },
+    {
+      "service": "emailservice",
+      "rows_before": 17,
+      "rows_after": 22,
+      "messages": [
+        {
+          "text": "A request to send order confirmation email to <email> has been received.",
+          "before": 17,
+          "after": 22
+        }
+      ]
+    },
+    {
+      "service": "frontend",
+      "rows_before": 1947,
+      "rows_after": 2239,
+      "messages": [
+        {
+          "text": "failed to retrieve ads",
+          "before": 0,
+          "after": 308
+        },
+        {
+          "text": "request complete",
+          "before": 618,
+          "after": 612
+        },
+        {
+          "text": "request started",
+          "before": 618,
+          "after": 612
+        },
+        {
+          "text": "serving product page",
+          "before": 283,
+          "after": 276
+        }
+      ]
+    },
+    {
+      "service": "paymentservice",
+      "rows_before": 34,
+      "rows_after": 44,
+      "messages": [
+        {
+          "text": "PaymentService#Charge invoked with request {\"amount\":{\"currency_code\":\"CAD\",\"units\":\"<number>\",\"nanos\":<number>},\"credit_card\":{\"credit_card_number\":\"<number>\",\"credit_card_cvv\":<number>,\"credit_card_expiration_year\":<number>,\"credit_card_expiration_month\":<number>}}",
+          "before": 4,
+          "after": 0
+        },
+        {
+          "text": "PaymentService#Charge invoked with request {\"amount\":{\"currency_code\":\"EUR\",\"units\":\"<number>\",\"nanos\":<number>},\"credit_card\":{\"credit_card_number\":\"<number>\",\"credit_card_cvv\":<number>,\"credit_card_expiration_year\":<number>,\"credit_card_expiration_month\":<number>}}",
+          "before": 3,
+          "after": 5
+        },
+        {
+          "text": "PaymentService#Charge invoked with request {\"amount\":{\"currency_code\":\"GBP\",\"units\":\"<number>\",\"nanos\":<number>},\"credit_card\":{\"credit_card_number\":\"<number>\",\"credit_card_cvv\":<number>,\"credit_card_expiration_year\":<number>,\"credit_card_expiration_month\":<number>}}",
+          "before": 1,
+          "after": 7
+        },
+        {
+          "text": "PaymentService#Charge invoked with request {\"amount\":{\"currency_code\":\"JPY\",\"units\":\"<number>\",\"nanos\":<number>},\"credit_card\":{\"credit_card_number\":\"<number>\",\"credit_card_cvv\":<number>,\"credit_card_expiration_year\":<number>,\"credit_card_expiration_month\":<number>}}",
+          "before": 6,
+          "after": 1
+        },
+        {
+          "text": "Transaction processed: visa ending <number>     Amount: GBP<number>.<number>",
+          "before": 1,
+          "after": 7
+        },
+        {
+          "text": "Transaction processed: visa ending <number>     Amount: JPY<number>.<number>",
+          "before": 6,
+          "after": 1
+        }
+      ]
+    },
+    {
+      "service": "recommendationservice",
+      "rows_before": 435,
+      "rows_after": 434,
+      "messages": [
+        {
+          "text": "[Recv ListRecommendations] product_ids=['<number>E<number>ZMYYFZ', 'L<number>ECAV<number>KIM', '<number>ZYFJ<number>GM<number>N', '<number>YMWWN<number>N<number>O', 'OLJCESPC<number>Z']",
+          "before": 2,
+          "after": 0
+        },
+        {
+          "text": "[Recv ListRecommendations] product_ids=['<number>PUK<number>V<number>EV<number>', '<number>SIQT<number>TOJO', 'LS<number>PSXUNUM', '<number>YMWWN<number>N<number>O']",
+          "before": 2,
+          "after": 0
+        },
+        {
+          "text": "[Recv ListRecommendations] product_ids=['<number>SIQT<number>TOJO', '<number>E<number>ZMYYFZ', 'LS<number>PSXUNUM', '<number>ZYFJ<number>GM<number>N', '<number>PUK<number>V<number>EV<number>']",
+          "before": 0,
+          "after": 2
+        },
+        {
+          "text": "[Recv ListRecommendations] product_ids=['<number>SIQT<number>TOJO', 'OLJCESPC<number>Z', '<number>VCHSJNUP', '<number>PUK<number>V<number>EV<number>', '<number>E<number>ZMYYFZ']",
+          "before": 0,
+          "after": 2
+        },
+        {
+          "text": "[Recv ListRecommendations] product_ids=['<number>ZYFJ<number>GM<number>N', 'OLJCESPC<number>Z']",
+          "before": 1,
+          "after": 3
+        },
+        {
+          "text": "[Recv ListRecommendations] product_ids=['L<number>ECAV<number>KIM', '<number>E<number>ZMYYFZ', '<number>YMWWN<number>N<number>O']",
+          "before": 3,
+          "after": 0
+        },
+        {
+          "text": "[Recv ListRecommendations] product_ids=['OLJCESPC<number>Z']",
+          "before": 0,
+          "after": 3
+        }
+      ]
+    },
+    {
+      "service": "redis",
+      "rows_before": 5,
+      "rows_after": 0,
+      "messages": [
+        {
+          "text": "<number>:C <number> Nov <number> <number>:<number>:<number>.<number> * DB saved on disk",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "text": "<number>:C <number> Nov <number> <number>:<number>:<number>.<number> * Fork CoW for RDB: current <number> MB, peak <number> MB, average <number> MB",
+          "before": 1,
+          "after": 0
+        },
+        {
+          "text": "<number>:M <number> Nov <number> <number>:<number>:<number>.<number> * <number> changes in <number> seconds. Saving...",
+          "before": 1,
+          "after": 0
+        }
+      ]
+    },
+    {
+      "service": "shippingservice",
+      "rows_before": 338,
+      "rows_after": 360,
+      "messages": [
+        {
+          "text": "[GetQuote] completed request",
+          "before": 152,
+          "after": 158
+        },
+        {
+          "text": "[GetQuote] received request",
+          "before": 152,
+          "after": 158
+        },
+        {
+          "text": "[ShipOrder] completed request",
+          "before": 17,
+          "after": 22
+        }
+      ]
+    }
+  ],
+  "static_candidates": [
+    {
+      "service": "adservice",
+      "text": "*** server shut down",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771262",
+          "method_name": "<lambda>0",
+          "method_node_id": "107374182414",
+          "raw_template": "server shut down <*>"
+        }
+      ]
+    },
+    {
+      "service": "adservice",
+      "text": "*** shutting down gRPC ads server since JVM is shutting down",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771259",
+          "method_name": "<lambda>0",
+          "method_node_id": "107374182414",
+          "raw_template": "shutting down grpc ads server since jvm is shutting down <*>"
+        }
+      ]
+    },
+    {
+      "service": "adservice",
+      "text": "Ad Service started, listening on <number>",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771093",
+          "method_name": "start",
+          "method_node_id": "107374182400",
+          "raw_template": "ad service started listening on <*>"
+        }
+      ]
+    },
+    {
+      "service": "adservice",
+      "text": "received ad request (context_words=[])",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771115",
+          "method_name": "getAds",
+          "method_node_id": "107374182402",
+          "raw_template": "received ad request context words <*>"
+        }
+      ]
+    },
+    {
+      "service": "adservice",
+      "text": "received ad request (context_words=[accessories])",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771115",
+          "method_name": "getAds",
+          "method_node_id": "107374182402",
+          "raw_template": "received ad request context words <*>"
+        }
+      ]
+    },
+    {
+      "service": "adservice",
+      "text": "received ad request (context_words=[decor, home])",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771115",
+          "method_name": "getAds",
+          "method_node_id": "107374182402",
+          "raw_template": "received ad request context words <*>"
+        }
+      ]
+    },
+    {
+      "service": "adservice",
+      "text": "received ad request (context_words=[kitchen])",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771115",
+          "method_name": "getAds",
+          "method_node_id": "107374182402",
+          "raw_template": "received ad request context words <*>"
+        }
+      ]
+    },
+    {
+      "service": "cartservice",
+      "text": "AddItemAsync called with userId=<id>, productId=<number>E<number>ZMYYFZ, quantity=<number>",
+      "catalog_available": true,
+      "candidate_sites": []
+    },
+    {
+      "service": "cartservice",
+      "text": "AddItemAsync called with userId=<id>, productId=<number>SIQT<number>TOJO, quantity=<number>",
+      "catalog_available": true,
+      "candidate_sites": []
+    },
+    {
+      "service": "cartservice",
+      "text": "EmptyCartAsync called with userId=<id>",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771259",
+          "method_name": "EmptyCartAsync",
+          "method_node_id": "107374182424",
+          "raw_template": "emptycartasync called with userid <*>"
+        }
+      ]
+    },
+    {
+      "service": "cartservice",
+      "text": "GetCartAsync called with userId=<id>",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771271",
+          "method_name": "GetCartAsync",
+          "method_node_id": "107374182425",
+          "raw_template": "getcartasync called with userid <*>"
+        }
+      ]
+    },
+    {
+      "service": "checkoutservice",
+      "text": "[PlaceOrder] user_id=\"<id>\" user_currency=\"GBP\"",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064773387",
+          "method_name": "PlaceOrder",
+          "method_node_id": "107374182770",
+          "raw_template": "placeorder user id <*> user currency <*>"
+        }
+      ]
+    },
+    {
+      "service": "checkoutservice",
+      "text": "[PlaceOrder] user_id=\"<id>\" user_currency=\"JPY\"",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064773387",
+          "method_name": "PlaceOrder",
+          "method_node_id": "107374182770",
+          "raw_template": "placeorder user id <*> user currency <*>"
+        }
+      ]
+    },
+    {
+      "service": "checkoutservice",
+      "text": "order confirmation email sent to \"<email>\"",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064773460",
+          "method_name": "PlaceOrder",
+          "method_node_id": "107374182770",
+          "raw_template": "order confirmation email sent to <*>"
+        }
+      ]
+    },
+    {
+      "service": "checkoutservice",
+      "text": "payment went through (transaction_id: <id>)",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064773434",
+          "method_name": "PlaceOrder",
+          "method_node_id": "107374182770",
+          "raw_template": "payment went through transaction id <*>"
+        }
+      ]
+    },
+    {
+      "service": "currencyservice",
+      "text": "Getting supported currencies...",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771198",
+          "method_name": "getSupportedCurrencies",
+          "method_node_id": "107374182410",
+          "raw_template": "getting supported currencies <*>"
+        }
+      ]
+    },
+    {
+      "service": "currencyservice",
+      "text": "conversion request successful",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771251",
+          "method_name": "<lambda>1",
+          "method_node_id": "107374182411",
+          "raw_template": "conversion request successful <*>"
+        }
+      ]
+    },
+    {
+      "service": "emailservice",
+      "text": "A request to send order confirmation email to <email> has been received.",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064772358",
+          "method_name": "SendOrderConfirmation",
+          "method_node_id": "107374182574",
+          "raw_template": "a request to send order confirmation email to <*> has been received <*>"
+        }
+      ]
+    },
+    {
+      "service": "frontend",
+      "text": "failed to retrieve ads",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064773889",
+          "method_name": "chooseAd",
+          "method_node_id": "107374182777",
+          "raw_template": "failed to retrieve ads <*>"
+        }
+      ]
+    },
+    {
+      "service": "frontend",
+      "text": "request complete",
+      "catalog_available": true,
+      "candidate_sites": []
+    },
+    {
+      "service": "frontend",
+      "text": "request started",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064774247",
+          "method_name": "ServeHTTP",
+          "method_node_id": "107374182800",
+          "raw_template": "request started <*>"
+        }
+      ]
+    },
+    {
+      "service": "frontend",
+      "text": "serving product page",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064773422",
+          "method_name": "productHandler",
+          "method_node_id": "107374182767",
+          "raw_template": "serving product page <*>"
+        }
+      ]
+    },
+    {
+      "service": "paymentservice",
+      "text": "PaymentService#Charge invoked with request {\"amount\":{\"currency_code\":\"CAD\",\"units\":\"<number>\",\"nanos\":<number>},\"credit_card\":{\"credit_card_number\":\"<number>\",\"credit_card_cvv\":<number>,\"credit_card_expiration_year\":<number>,\"credit_card_expiration_month\":<number>}}",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771329",
+          "method_name": "ChargeServiceHandler",
+          "method_node_id": "107374182412",
+          "raw_template": "paymentservice charge invoked with request <*>"
+        }
+      ]
+    },
+    {
+      "service": "paymentservice",
+      "text": "PaymentService#Charge invoked with request {\"amount\":{\"currency_code\":\"EUR\",\"units\":\"<number>\",\"nanos\":<number>},\"credit_card\":{\"credit_card_number\":\"<number>\",\"credit_card_cvv\":<number>,\"credit_card_expiration_year\":<number>,\"credit_card_expiration_month\":<number>}}",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771329",
+          "method_name": "ChargeServiceHandler",
+          "method_node_id": "107374182412",
+          "raw_template": "paymentservice charge invoked with request <*>"
+        }
+      ]
+    },
+    {
+      "service": "paymentservice",
+      "text": "PaymentService#Charge invoked with request {\"amount\":{\"currency_code\":\"GBP\",\"units\":\"<number>\",\"nanos\":<number>},\"credit_card\":{\"credit_card_number\":\"<number>\",\"credit_card_cvv\":<number>,\"credit_card_expiration_year\":<number>,\"credit_card_expiration_month\":<number>}}",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771329",
+          "method_name": "ChargeServiceHandler",
+          "method_node_id": "107374182412",
+          "raw_template": "paymentservice charge invoked with request <*>"
+        }
+      ]
+    },
+    {
+      "service": "paymentservice",
+      "text": "PaymentService#Charge invoked with request {\"amount\":{\"currency_code\":\"JPY\",\"units\":\"<number>\",\"nanos\":<number>},\"credit_card\":{\"credit_card_number\":\"<number>\",\"credit_card_cvv\":<number>,\"credit_card_expiration_year\":<number>,\"credit_card_expiration_month\":<number>}}",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064771329",
+          "method_name": "ChargeServiceHandler",
+          "method_node_id": "107374182412",
+          "raw_template": "paymentservice charge invoked with request <*>"
+        }
+      ]
+    },
+    {
+      "service": "paymentservice",
+      "text": "Transaction processed: visa ending <number>     Amount: GBP<number>.<number>",
+      "catalog_available": true,
+      "candidate_sites": []
+    },
+    {
+      "service": "paymentservice",
+      "text": "Transaction processed: visa ending <number>     Amount: JPY<number>.<number>",
+      "catalog_available": true,
+      "candidate_sites": []
+    },
+    {
+      "service": "recommendationservice",
+      "text": "[Recv ListRecommendations] product_ids=['<number>E<number>ZMYYFZ', 'L<number>ECAV<number>KIM', '<number>ZYFJ<number>GM<number>N', '<number>YMWWN<number>N<number>O', 'OLJCESPC<number>Z']",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064772343",
+          "method_name": "ListRecommendations",
+          "method_node_id": "107374182566",
+          "raw_template": "recv listrecommendations product ids <*>"
+        }
+      ]
+    },
+    {
+      "service": "recommendationservice",
+      "text": "[Recv ListRecommendations] product_ids=['<number>PUK<number>V<number>EV<number>', '<number>SIQT<number>TOJO', 'LS<number>PSXUNUM', '<number>YMWWN<number>N<number>O']",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064772343",
+          "method_name": "ListRecommendations",
+          "method_node_id": "107374182566",
+          "raw_template": "recv listrecommendations product ids <*>"
+        }
+      ]
+    },
+    {
+      "service": "recommendationservice",
+      "text": "[Recv ListRecommendations] product_ids=['<number>SIQT<number>TOJO', '<number>E<number>ZMYYFZ', 'LS<number>PSXUNUM', '<number>ZYFJ<number>GM<number>N', '<number>PUK<number>V<number>EV<number>']",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064772343",
+          "method_name": "ListRecommendations",
+          "method_node_id": "107374182566",
+          "raw_template": "recv listrecommendations product ids <*>"
+        }
+      ]
+    },
+    {
+      "service": "recommendationservice",
+      "text": "[Recv ListRecommendations] product_ids=['<number>SIQT<number>TOJO', 'OLJCESPC<number>Z', '<number>VCHSJNUP', '<number>PUK<number>V<number>EV<number>', '<number>E<number>ZMYYFZ']",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064772343",
+          "method_name": "ListRecommendations",
+          "method_node_id": "107374182566",
+          "raw_template": "recv listrecommendations product ids <*>"
+        }
+      ]
+    },
+    {
+      "service": "recommendationservice",
+      "text": "[Recv ListRecommendations] product_ids=['<number>ZYFJ<number>GM<number>N', 'OLJCESPC<number>Z']",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064772343",
+          "method_name": "ListRecommendations",
+          "method_node_id": "107374182566",
+          "raw_template": "recv listrecommendations product ids <*>"
+        }
+      ]
+    },
+    {
+      "service": "recommendationservice",
+      "text": "[Recv ListRecommendations] product_ids=['L<number>ECAV<number>KIM', '<number>E<number>ZMYYFZ', '<number>YMWWN<number>N<number>O']",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064772343",
+          "method_name": "ListRecommendations",
+          "method_node_id": "107374182566",
+          "raw_template": "recv listrecommendations product ids <*>"
+        }
+      ]
+    },
+    {
+      "service": "recommendationservice",
+      "text": "[Recv ListRecommendations] product_ids=['OLJCESPC<number>Z']",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064772343",
+          "method_name": "ListRecommendations",
+          "method_node_id": "107374182566",
+          "raw_template": "recv listrecommendations product ids <*>"
+        }
+      ]
+    },
+    {
+      "service": "redis",
+      "text": "<number>:C <number> Nov <number> <number>:<number>:<number>.<number> * DB saved on disk",
+      "catalog_available": false,
+      "candidate_sites": []
+    },
+    {
+      "service": "redis",
+      "text": "<number>:C <number> Nov <number> <number>:<number>:<number>.<number> * Fork CoW for RDB: current <number> MB, peak <number> MB, average <number> MB",
+      "catalog_available": false,
+      "candidate_sites": []
+    },
+    {
+      "service": "redis",
+      "text": "<number>:M <number> Nov <number> <number>:<number>:<number>.<number> * <number> changes in <number> seconds. Saving...",
+      "catalog_available": false,
+      "candidate_sites": []
+    },
+    {
+      "service": "shippingservice",
+      "text": "[GetQuote] completed request",
+      "catalog_available": true,
+      "candidate_sites": []
+    },
+    {
+      "service": "shippingservice",
+      "text": "[GetQuote] received request",
+      "catalog_available": true,
+      "candidate_sites": [
+        {
+          "call_node_id": "30064773267",
+          "method_name": "GetQuote",
+          "method_node_id": "107374182764",
+          "raw_template": "getquote received request <*>"
+        }
+      ]
+    },
+    {
+      "service": "shippingservice",
+      "text": "[ShipOrder] completed request",
+      "catalog_available": true,
+      "candidate_sites": []
+    }
+  ],
+  "static_limits": "These are log-to-source candidates. They do not prove an execution path, a branch decision, or a root cause. An empty set can result from source/version or extraction gaps."
+}

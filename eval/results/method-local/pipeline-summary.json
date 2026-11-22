@@ -1,0 +1,178 @@
+{
+  "experiment": "opensearch_snapshots_local_method_edges",
+  "source": {
+    "repository": "https://github.com/opensearch-project/OpenSearch",
+    "commit": "2220907d3119897b8bd58cbc3c926787cd05ed2c",
+    "scope": "server/src/main/java/org/opensearch/snapshots",
+    "scope_kind": "package_subset",
+    "java_files": 30
+  },
+  "input": {
+    "bytes": 32222687,
+    "file": "export.dot",
+    "sha256": "d6ac9310a55096b9281b5bc884aa5fdd94c7f1960faf891214e451493035884d"
+  },
+  "graph": {
+    "edges": 333948,
+    "nodes": 45756
+  },
+  "runs_per_variant": 1,
+  "counts_equal": true,
+  "coverage_equal": true,
+  "counts": {
+    "entrypoints": 89,
+    "entrypoints_error": 0,
+    "templates": 106
+  },
+  "coverage": {
+    "entrypoints": 89,
+    "log_points": 106,
+    "lost": 23,
+    "pooled_lost": 77,
+    "pooled_lost_callee": 77,
+    "pooled_lost_entry": 0,
+    "pooled_reachable": 123,
+    "pooled_visible": 46,
+    "reachable": 69,
+    "visible": 46,
+    "zero_log": 60
+  },
+  "local_fix_commit": "a025eb6c566de56e10ebe9b9190ddcbe02baf4de",
+  "rss_definition": "Stage RSS is the sampled resident memory of the main Python process, at 20 ms intervals. The OS high-water mark is cumulative. These are not total process-tree RSS values.",
+  "full_artifacts_byte_equality_claimed": false,
+  "variants": {
+    "baseline": {
+      "meta": {
+        "benchmark_module_sha256": "109cf69be274e12c432a2c61b5038304485598bb00e685889e31922536da5c9b",
+        "builder_module_sha256": "90c1894084ef465bb60b2f8225c201a1682ad6b978d3693132d09cb87d10343f",
+        "commit": "f8bb418fc3eeb514f4b1dfc1fdce8040470fe3e8",
+        "cpu_count": 9,
+        "dot_parser": "joern",
+        "flow_max_depth": 5,
+        "max_ddg_depth": 5,
+        "memory_total_bytes": 10451423232,
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "process_rss_high_water_is_cumulative": true,
+        "python": "3.12.14",
+        "rss_sample_interval_sec": 0.02,
+        "tracked_changes": true,
+        "versions": {
+          "networkx": "3.6.1",
+          "psutil": "7.2.2",
+          "pydot": "4.0.1",
+          "pyparsing": "3.3.2"
+        }
+      },
+      "pipeline_wall_sec": 180.1206960730001,
+      "stages": [
+        {
+          "cpu_sec": 4.7622298569999995,
+          "process_rss_high_water_bytes": 351899648,
+          "rss_end_bytes": 319803392,
+          "rss_sampled_peak_bytes": 352010240,
+          "rss_start_bytes": 30916608,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 4.751039514999775
+        },
+        {
+          "cpu_sec": 0.11635360500000047,
+          "process_rss_high_water_bytes": 351899648,
+          "rss_end_bytes": 321527808,
+          "rss_sampled_peak_bytes": 321531904,
+          "rss_start_bytes": 319856640,
+          "stage": "templates_and_trie",
+          "status": "ok",
+          "wall_sec": 0.11624874199969781
+        },
+        {
+          "cpu_sec": 174.16568379100002,
+          "process_rss_high_water_bytes": 351899648,
+          "rss_end_bytes": 327737344,
+          "rss_sampled_peak_bytes": 328634368,
+          "rss_start_bytes": 321531904,
+          "stage": "flow_and_fsm",
+          "status": "ok",
+          "wall_sec": 175.05186365999998
+        },
+        {
+          "cpu_sec": 0.07014857100000427,
+          "process_rss_high_water_bytes": 351899648,
+          "rss_end_bytes": 327737344,
+          "rss_sampled_peak_bytes": 327741440,
+          "rss_start_bytes": 327737344,
+          "stage": "coverage",
+          "status": "ok",
+          "wall_sec": 0.06991347299981499
+        }
+      ]
+    },
+    "local_edges": {
+      "meta": {
+        "benchmark_module_sha256": "b819451b6ac3c891d6df148964a6da9e43ed4d61071cc6916118d364070da04d",
+        "builder_module_sha256": "90c1894084ef465bb60b2f8225c201a1682ad6b978d3693132d09cb87d10343f",
+        "commit": "3abf11ddbbe07640fda56504744729df53f9c457",
+        "cpu_count": 9,
+        "dot_parser": "joern",
+        "flow_max_depth": 5,
+        "max_ddg_depth": 5,
+        "memory_total_bytes": 10451423232,
+        "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+        "process_rss_high_water_is_cumulative": true,
+        "python": "3.12.14",
+        "python_hash_seed": "0",
+        "rss_sample_interval_sec": 0.02,
+        "tracked_changes": false,
+        "versions": {
+          "networkx": "3.6.1",
+          "psutil": "7.2.2",
+          "pydot": "4.0.1",
+          "pyparsing": "3.3.2"
+        }
+      },
+      "pipeline_wall_sec": 13.13183909899999,
+      "stages": [
+        {
+          "cpu_sec": 8.411180887,
+          "process_rss_high_water_bytes": 351621120,
+          "rss_end_bytes": 319934464,
+          "rss_sampled_peak_bytes": 352141312,
+          "rss_start_bytes": 32317440,
+          "stage": "load_dot",
+          "status": "ok",
+          "wall_sec": 8.616586264000034
+        },
+        {
+          "cpu_sec": 0.1654962169999994,
+          "process_rss_high_water_bytes": 351621120,
+          "rss_end_bytes": 321667072,
+          "rss_sampled_peak_bytes": 321667072,
+          "rss_start_bytes": 319983616,
+          "stage": "templates_and_trie",
+          "status": "ok",
+          "wall_sec": 0.17531284100004996
+        },
+        {
+          "cpu_sec": 4.119208706,
+          "process_rss_high_water_bytes": 351621120,
+          "rss_end_bytes": 330178560,
+          "rss_sampled_peak_bytes": 331149312,
+          "rss_start_bytes": 321667072,
+          "stage": "flow_and_fsm",
+          "status": "ok",
+          "wall_sec": 4.133467482000015
+        },
+        {
+          "cpu_sec": 0.06062545099999994,
+          "process_rss_high_water_bytes": 351621120,
+          "rss_end_bytes": 330178560,
+          "rss_sampled_peak_bytes": 330182656,
+          "rss_start_bytes": 330178560,
+          "stage": "coverage",
+          "status": "ok",
+          "wall_sec": 0.060237103999952524
+        }
+      ]
+    }
+  }
+}

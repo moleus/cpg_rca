@@ -2,6 +2,7 @@ import argparse
 import json
 import logging
 import sys
+from time import perf_counter
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Iterable
@@ -13,6 +14,7 @@ import src.offline.log as cpg_parser
 from src.offline.entrypoint import EntrypointDetector
 from src.offline.flow import EntrypointFlow
 from src.offline.finite_state_machine import LogFlowExtractor
+from src.offline.joern_dot import parse_joern_dot
 
 logger = logging.getLogger("builder")
 
@@ -21,10 +23,29 @@ logger = logging.getLogger("builder")
 # Загрузка CPG
 # --------------------------------------------------------------------------- #
 
-def load_cpg(dot_path: Path) -> nx.MultiDiGraph:
-    """Читает export.dot и строит networkx.MultiDiGraph."""
+def load_cpg(dot_path: Path, *, dot_parser: str = "pydot") -> nx.MultiDiGraph:
+    """Load a DOT export; the strict Joern parser is an explicit opt-in."""
+    if dot_parser not in ("pydot", "joern"):
+        raise ValueError(f"Unknown DOT parser: {dot_parser}")
+    logger.info("Чтение DOT: %s (%s)", dot_path, dot_parser)
+    started = perf_counter()
     dot_text = dot_path.read_text(encoding="utf-8")
-    graphs = pydot.graph_from_dot_data(dot_text)
+    logger.info("Разбор DOT: %s (%.2f с чтения)", dot_parser, perf_counter() - started)
+    if dot_parser == "joern":
+        graph = parse_joern_dot(dot_text)
+    else:
+        graphs = pydot.graph_from_dot_data(dot_text)
+        del dot_text  # Do not keep the raw text while constructing the NetworkX graph.
+        logger.info("Материализация графа NetworkX (%.2f с)", perf_counter() - started)
+        graph = _pydot_to_graph(graphs, dot_path)
+    logger.info(
+        "CPG загружен: %d узлов, %d рёбер (%.2f с)",
+        graph.number_of_nodes(), graph.number_of_edges(), perf_counter() - started,
+    )
+    return graph
+
+
+def _pydot_to_graph(graphs, dot_path: Path) -> nx.MultiDiGraph:
     if not graphs:
         raise ValueError(f"Не удалось распарсить DOT-файл: {dot_path}")
 
@@ -45,7 +66,6 @@ def load_cpg(dot_path: Path) -> nx.MultiDiGraph:
         attrs = dict(edge.get_attributes())
         graph.add_edge(src, dst, **attrs)
 
-    logger.info("CPG загружен: %d узлов, %d рёбер", graph.number_of_nodes(), graph.number_of_edges())
     return graph
 
 
@@ -267,14 +287,16 @@ def process_service(
     output_root: Path,
     max_ddg_depth: int = 5,
     flow_max_depth: int = 5,
-    flow_max_paths: int = 50
+    flow_max_paths: int = 50,
+    *,
+    dot_parser: str = "pydot",
 ) -> dict:
     """Полный пайплайн обработки одного сервиса: CPG -> Log Trie + FLOW + FSM."""
     logger.info("=== Сервис: %s ===", service_name)
     output_dir = output_root / service_name
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    graph = load_cpg(dot_path)
+    graph = load_cpg(dot_path, dot_parser=dot_parser)
     templates, _root = build_log_trie(graph, output_dir, max_ddg_depth=max_ddg_depth)
 
     index = build_entrypoint_artifacts(
@@ -312,7 +334,9 @@ def process_services_dir(
     only_service: str | None = None,
     max_ddg_depth: int = 5,
     flow_max_depth: int = 5,
-    flow_max_paths: int = 50
+    flow_max_paths: int = 50,
+    *,
+    dot_parser: str = "pydot",
 ) -> list[dict]:
     """Обходит все сервисы в services_dir и обрабатывает каждый export.dot."""
     dot_files = discover_services(services_dir)
@@ -332,7 +356,8 @@ def process_services_dir(
                 output_root=output_root,
                 max_ddg_depth=max_ddg_depth,
                 flow_max_depth=flow_max_depth,
-                flow_max_paths=flow_max_paths
+                flow_max_paths=flow_max_paths,
+                dot_parser=dot_parser,
             )
         except Exception as error:  # noqa: BLE001 - не прерываем обработку остальных сервисов
             logger.exception("Сбой при обработке сервиса %s", service_name)
@@ -366,6 +391,10 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
         "--service", type=str, default=None,
         help="Обработать только один сервис по имени (иначе — все найденные)",
     )
+    parser.add_argument(
+        "--dot-parser", choices=("pydot", "joern"), default="pydot",
+        help="pydot (по умолчанию) или быстрый строгий reader для экспортов Joern",
+    )
     parser.add_argument("--max-ddg-depth", type=int, default=5, help="Глубина DDG для лог-шаблонов")
     parser.add_argument("--flow-max-depth", type=int, default=5, help="Максимальная глубина FLOW-обхода")
     parser.add_argument("--flow-max-paths", type=int, default=50, help="Максимум путей в FLOW-обходе")
@@ -390,13 +419,14 @@ def main(argv: Iterable[str] | None = None) -> int:
         only_service=args.service,
         max_ddg_depth=args.max_ddg_depth,
         flow_max_depth=args.flow_max_depth,
-        flow_max_paths=args.flow_max_paths
+        flow_max_paths=args.flow_max_paths,
+        dot_parser=args.dot_parser,
     )
 
     ok = sum(1 for s in summaries if s.get("entrypoints_error", 0) == 0 and "error" not in s)
     logger.info("Готово: %d/%d сервисов обработано без ошибок. Результаты -> %s",
                 ok, len(summaries), args.output_dir)
-    return 0
+    return 0 if ok == len(summaries) else 1
 
 
 if __name__ == "__main__":

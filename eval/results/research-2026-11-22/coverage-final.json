@@ -1,0 +1,154 @@
+{
+ "meta": {
+  "args": [
+   "../final-corpus-patched",
+   "../bench-runs/final-corpus-coverage"
+  ],
+  "commit": "fdb7209e0a4e8a0af0bbe8d7005873537130ccb4"
+ },
+ "services": {
+  "adservice": {
+   "entrypoints": 3,
+   "log_points": 17,
+   "lost": 5,
+   "pooled_lost": 5,
+   "pooled_lost_callee": 5,
+   "pooled_lost_entry": 0,
+   "pooled_reachable": 9,
+   "pooled_visible": 4,
+   "reachable": 9,
+   "visible": 4,
+   "zero_log": 0
+  },
+  "cartservice": {
+   "entrypoints": 0,
+   "log_points": 14,
+   "lost": 0,
+   "pooled_lost": 0,
+   "pooled_lost_callee": 0,
+   "pooled_lost_entry": 0,
+   "pooled_reachable": 0,
+   "pooled_visible": 0,
+   "reachable": 0,
+   "visible": 0,
+   "zero_log": 0
+  },
+  "checkoutservice": {
+   "entrypoints": 50,
+   "log_points": 60,
+   "lost": 16,
+   "pooled_lost": 16,
+   "pooled_lost_callee": 13,
+   "pooled_lost_entry": 3,
+   "pooled_reachable": 31,
+   "pooled_visible": 15,
+   "reachable": 31,
+   "visible": 15,
+   "zero_log": 46
+  },
+  "currencyservice": {
+   "entrypoints": 3,
+   "log_points": 13,
+   "lost": 1,
+   "pooled_lost": 1,
+   "pooled_lost_callee": 1,
+   "pooled_lost_entry": 0,
+   "pooled_reachable": 7,
+   "pooled_visible": 6,
+   "reachable": 7,
+   "visible": 6,
+   "zero_log": 0
+  },
+  "emailservice": {
+   "entrypoints": 33,
+   "log_points": 12,
+   "lost": 2,
+   "pooled_lost": 2,
+   "pooled_lost_callee": 2,
+   "pooled_lost_entry": 0,
+   "pooled_reachable": 6,
+   "pooled_visible": 4,
+   "reachable": 6,
+   "visible": 4,
+   "zero_log": 31
+  },
+  "frontend": {
+   "entrypoints": 62,
+   "log_points": 76,
+   "lost": 5,
+   "pooled_lost": 21,
+   "pooled_lost_callee": 21,
+   "pooled_lost_entry": 0,
+   "pooled_reachable": 52,
+   "pooled_visible": 31,
+   "reachable": 36,
+   "visible": 31,
+   "zero_log": 49
+  },
+  "paymentservice": {
+   "entrypoints": 1,
+   "log_points": 7,
+   "lost": 1,
+   "pooled_lost": 1,
+   "pooled_lost_callee": 1,
+   "pooled_lost_entry": 0,
+   "pooled_reachable": 2,
+   "pooled_visible": 1,
+   "reachable": 2,
+   "visible": 1,
+   "zero_log": 0
+  },
+  "productcatalogservice": {
+   "entrypoints": 38,
+   "log_points": 47,
+   "lost": 16,
+   "pooled_lost": 69,
+   "pooled_lost_callee": 69,
+   "pooled_lost_entry": 0,
+   "pooled_reachable": 80,
+   "pooled_visible": 11,
+   "reachable": 27,
+   "visible": 11,
+   "zero_log": 33
+  },
+  "recommendationservice": {
+   "entrypoints": 28,
+   "log_points": 9,
+   "lost": 1,
+   "pooled_lost": 1,
+   "pooled_lost_callee": 1,
+   "pooled_lost_entry": 0,
+   "pooled_reachable": 1,
+   "pooled_visible": 0,
+   "reachable": 1,
+   "visible": 0,
+   "zero_log": 28
+  },
+  "shippingservice": {
+   "entrypoints": 36,
+   "log_points": 36,
+   "lost": 2,
+   "pooled_lost": 2,
+   "pooled_lost_callee": 2,
+   "pooled_lost_entry": 0,
+   "pooled_reachable": 16,
+   "pooled_visible": 14,
+   "reachable": 16,
+   "visible": 14,
+   "zero_log": 33
+  }
+ },
+ "totals": {
+  "entrypoints": 254,
+  "log_points": 291,
+  "lost": 49,
+  "pooled_lost": 118,
+  "pooled_lost_callee": 115,
+  "pooled_lost_entry": 3,
+  "pooled_reachable": 204,
+  "pooled_visible": 86,
+  "reachable": 135,
+  "visible": 86,
+  "zero_log": 220
+ }
+}

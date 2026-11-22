@@ -1,0 +1,38 @@
+{
+  "date_utc": "2026-11-22",
+  "host": {
+    "jdk": "21.0.13",
+    "logical_cpus": 9,
+    "physical_memory_bytes": 10451423232,
+    "python": "3.12.14"
+  },
+  "java_fixture_compilation": {
+    "compiler": "javax.tools.ToolProvider.getSystemJavaCompiler()",
+    "exit_code": 0,
+    "fixture": "eval/fixtures/java/YieldRepro.java",
+    "jdk": "21.0.13"
+  },
+  "javaparser_comparison": {
+    "sha256": "b5499a3b1c40b16c0671fabe478c9aafeab38160c6fde74a6c13f42d86716ecd",
+    "url": "https://repo.maven.apache.org/maven2/com/github/javaparser/javaparser-core/3.28.2/javaparser-core-3.28.2.jar",
+    "version": "3.28.2"
+  },
+  "joern_archive_sha256": "c13f0b6adbb1ea2fbf94c046e42ae023394f150f855ca6ca19ef20e20a1805b0",
+  "joern_release": "v4.0.689",
+  "limitations": [
+    "Single diagnostic runs, not statistical speedup estimates.",
+    "Some commands overlapped on the host.",
+    "No dependency jars were downloaded.",
+    "No production logs or runtime RCA accuracy were measured.",
+    "Absolute workspace prefix is replaced by <workspace> in published commands."
+  ],
+  "opensearch_commit": "2220907d3119897b8bd58cbc3c926787cd05ed2c",
+  "scope": "Public OpenSearch source and synthetic Java only.",
+  "sizes": {
+    "snapshots_cpg_bytes": 1840992,
+    "snapshots_dot_bytes": 32222687,
+    "snapshots_graphml_bytes": 69372660
+  },
+  "snapshots_method_instances": 511,
+  "snapshots_unique_methods": 248
+}
