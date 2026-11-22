@@ -1,0 +1,106 @@
+{
+  "counts": {
+    "calls": 75,
+    "edges": 535,
+    "edges_by_label": {
+      "ARGUMENT": 128,
+      "AST": 271,
+      "BINDS": 15,
+      "CAPTURE": 5,
+      "CATCH_BODY": 1,
+      "CONDITION": 6,
+      "RECEIVER": 43,
+      "REF": 59,
+      "TRUE_BODY": 6,
+      "TRY_BODY": 1
+    },
+    "external_methods": 0,
+    "loader": "Cpg.withStorage(persistOnClose=false)",
+    "log_candidate_names": [
+      "debug",
+      "error",
+      "fatal",
+      "info",
+      "log",
+      "trace",
+      "warn"
+    ],
+    "log_candidate_note": "CALL.name only; these candidates are not verified logger calls or extracted templates.",
+    "method_source_names": [
+      "<empty>",
+      "server/src/main/java/org/opensearch/snapshots/RestoreCompletionNotifier.java"
+    ],
+    "method_source_names_note": "Distinct filenames of non-external METHOD nodes; not proof of complete file or construct coverage.",
+    "methods": 7,
+    "name_only_log_candidates": 2,
+    "nodes": 323,
+    "nodes_by_label": {
+      "BINDING": 15,
+      "BLOCK": 17,
+      "CALL": 75,
+      "CLOSURE_BINDING": 5,
+      "CONTROL_STRUCTURE": 8,
+      "FIELD_IDENTIFIER": 11,
+      "FILE": 1,
+      "IDENTIFIER": 62,
+      "IMPORT": 13,
+      "LITERAL": 5,
+      "LOCAL": 16,
+      "MEMBER": 3,
+      "META_DATA": 1,
+      "METHOD": 7,
+      "METHOD_PARAMETER_IN": 10,
+      "METHOD_REF": 3,
+      "METHOD_RETURN": 7,
+      "MODIFIER": 21,
+      "NAMESPACE_BLOCK": 2,
+      "RETURN": 6,
+      "TYPE": 29,
+      "TYPE_DECL": 3,
+      "TYPE_REF": 3
+    },
+    "overlays_added_by_query": false,
+    "rca_edge_counts": {
+      "AST": 271,
+      "CALL": 0,
+      "CFG": 0,
+      "REACHING_DEF": 0
+    },
+    "schema_version": 1,
+    "unknown_nodes": 0
+  },
+  "cpg": {
+    "bytes": 70735,
+    "sha256_after_parse": "003d4378fdfe06dd95720a0b059944cd890c819e1a4ebacc94a5763af6f4198e",
+    "sha256_after_query": "003d4378fdfe06dd95720a0b059944cd890c819e1a4ebacc94a5763af6f4198e",
+    "sha256_before_query": "003d4378fdfe06dd95720a0b059944cd890c819e1a4ebacc94a5763af6f4198e",
+    "unchanged_by_query": true
+  },
+  "metadata": [
+    {
+      "language": "JAVASRC",
+      "overlays": [],
+      "version": "4.0.689"
+    }
+  ],
+  "note": "Public notifier source only. Local smoke uses smaller limits than the full-source Actions job. Timing is not a cross-host performance comparison.",
+  "query_sha256": "f707192bce767302c8db2fe4f516b9285220fc4154d05c8ad3f2d1da00a358a3",
+  "resource_limits": {
+    "active_processors": 2,
+    "aggregate_rss_mib": 2048,
+    "java_heap_gib": 1,
+    "parse_timeout_sec": 120,
+    "query_timeout_sec": 120
+  },
+  "scope": "single_file_smoke",
+  "source_commit": "2220907d3119897b8bd58cbc3c926787cd05ed2c",
+  "source_completeness": "not_established",
+  "source_files": [
+    {
+      "bytes": 4052,
+      "path": "server/src/main/java/org/opensearch/snapshots/RestoreCompletionNotifier.java",
+      "sha256": "fcbf808f693f117a269238d4cf6758beb2e45a3f4d83ddf126062e4bf962f176"
+    }
+  ],
+  "status": "native_graph_counted"
+}

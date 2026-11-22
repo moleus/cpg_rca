@@ -1,0 +1,95 @@
+name: Full OpenSearch native CPG feasibility
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - experiment/opensearch-large-scale
+
+permissions:
+  contents: read
+
+concurrency:
+  group: opensearch-large-scale-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  native-cpg:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    env:
+      PYTHONHASHSEED: '0'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: opensearch-project/OpenSearch
+          ref: 2220907d3119897b8bd58cbc3c926787cd05ed2c
+          path: temp/OpenSearch
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.12'
+      - name: Install fixed monitor dependencies
+        run: python -m pip install -r eval/requirements-benchmark.txt
+      - name: Record runner and Java environment
+        shell: bash
+        run: |
+          export JAVA_HOME="$JAVA_HOME_21_X64"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          mkdir -p output/environment
+          java -version > output/environment/java.txt 2>&1
+          python -m pip freeze > output/environment/python.txt
+          lscpu > output/environment/cpu.txt
+          free -b > output/environment/memory.txt
+          df -B1 . > output/environment/disk.txt
+      - name: Download and verify Joern 4.0.689
+        shell: bash
+        run: |
+          mkdir -p temp/joern
+          curl --fail --location --retry 2 --max-time 600 --retry-max-time 600 \
+            https://github.com/joernio/joern/releases/download/v4.0.689/joern-cli-linux-x86_64.zip \
+            --output temp/joern/joern.zip
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          with Path('temp/joern/joern.zip').open('rb') as stream:
+              actual = hashlib.file_digest(stream, 'sha256').hexdigest()
+          expected = 'c13f0b6adbb1ea2fbf94c046e42ae023394f150f855ca6ca19ef20e20a1805b0'
+          if actual != expected:
+              raise SystemExit(f'Joern archive digest mismatch: {actual}')
+          PY
+          unzip -q temp/joern/joern.zip -d temp/joern
+          rm temp/joern/joern.zip
+      - name: Parse every tracked Java source and count the native graph
+        shell: bash
+        run: |
+          export JAVA_HOME="$JAVA_HOME_21_X64"
+          export PATH="$JAVA_HOME/bin:$PATH"
+          python -m eval.opensearch_large_scale \
+            --source-checkout temp/OpenSearch --joern-home temp/joern/joern-cli \
+            --scope repository --output output/large-scale \
+            --heap-gib 8 --processors 4 --max-rss-mib 12288 \
+            --parse-timeout-sec 1200 --query-timeout-sec 300
+      - name: Save public manifest, counts, diagnostics, and limits
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: opensearch-full-native-results-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            output/environment/
+            output/large-scale/*.json
+            output/large-scale/*.log
+          retention-days: 14
+          if-no-files-found: error
+      - name: Save native CPG when it fits the 200 MB compressed cap
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: opensearch-full-native-graph-${{ github.run_id }}-${{ github.run_attempt }}
+          path: output/large-scale/artifacts/
+          compression-level: 0
+          retention-days: 14
+          if-no-files-found: warn
