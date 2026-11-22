@@ -9,8 +9,10 @@ Rows that already pass on master guard cases that a careless rewrite would break
 from __future__ import annotations
 
 import re
+import json
 import sys
 import warnings
+from dataclasses import asdict
 from pathlib import Path
 
 import networkx as nx
@@ -20,6 +22,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.offline import log as L  # noqa: E402
+from src.online.trie_matcher import ServiceTrieMatcher  # noqa: E402
 
 # --------------------------------------------------------------------------- #
 # The table. Source snippets are written as in the service code.
@@ -139,6 +142,28 @@ def check_excerpt(dot, template, line):
 
 def test_runtime_line_cleaning_is_unchanged():
     assert L._clean_text_selective("Port 8080 is 100% invalid {}") == "port 8080 is 100 invalid"
+
+
+BOUNDARY_CASES = [
+    ("go", 'logrus.Infof("%s failed", name)', "<*> failed <*>", "request failed", True),
+    ("go", 'logrus.Infof("%s failed", name)', "<*> failed <*>", "failed", True),
+    ("java", 'logger.info("{} request failed", name)', "<*> request failed <*>", "new request failed", True),
+    ("python", 'logger.info("{} failed".format(name))', "<*> failed <*>", "request failed", True),
+    ("java", 'logger.info("request {} failed", name)', "request <*> failed <*>", "request  failed", True),
+    ("java", 'logger.info("request {} failed", name)', "request <*> failed <*>", "request started", False),
+    ("go", 'logrus.Infof("%s %s failed", a, b)', "<*> failed <*>", "failed", True),
+]
+
+
+@pytest.mark.parametrize("lang,source,expected,message,matches", BOUNDARY_CASES)
+def test_wildcard_boundaries_match_online_and_offline(tmp_path, lang, source, expected, message, matches):
+    templates = L.build_templates_from_cpg(cpg_from_source(lang, source))
+    assert [row.raw_template for row in templates] == [expected]
+    offline = L.map_logs([("test", message)], L.build_trie(templates), templates)
+    assert offline[0].matched is matches
+    path = tmp_path / "trie.json"
+    path.write_text(json.dumps({"templates": [asdict(row) for row in templates]}), encoding="utf-8")
+    assert bool(ServiceTrieMatcher(path).match(message)) is matches
 
 
 # --------------------------------------------------------------------------- #

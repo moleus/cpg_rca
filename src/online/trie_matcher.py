@@ -14,13 +14,12 @@ valid continuations.
 from __future__ import annotations
 
 import json
-import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 
-WILDCARD = "<*>"
+from src.log_text import WILDCARD, normalize_text, template_tokens as _template_tokens
 
 
 @dataclass(frozen=True)
@@ -32,17 +31,6 @@ class TrieMatch:
     tokens: tuple[str, ...]
     static_score: int
     score: float
-
-
-def normalize_text(value: str) -> str:
-    """Normalize runtime text using the same token policy as log.py templates."""
-    value = (value or "").lower()
-    value = re.sub(r"[^\w*]+", " ", value, flags=re.UNICODE)
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _template_tokens(template: str) -> tuple[str, ...]:
-    return tuple(normalize_text(template.replace(WILDCARD, f" {WILDCARD} ")).split())
 
 
 def _matches_template(message_tokens: tuple[str, ...], template_tokens: tuple[str, ...]) -> bool:

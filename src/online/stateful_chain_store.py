@@ -21,13 +21,13 @@ no Trie candidate is available.
 from __future__ import annotations
 
 import csv
-import re
 from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 import pandas as pd
 
+from src.log_text import normalize_text, template_tokens as _template_tokens
 from src.offline.finite_state_machine import LogTransition, StaticLogFSM
 
 
@@ -118,16 +118,6 @@ class HypothesisEvent:
 
 
 ChainEvent = HypothesisEvent
-
-
-def normalize_text(value: str) -> str:
-    value = (value or "").lower()
-    value = re.sub(r"[^\w*]+", " ", value, flags=re.UNICODE)
-    return re.sub(r"\s+", " ", value).strip()
-
-
-def _template_tokens(template: str) -> List[str]:
-    return normalize_text(template.replace("<*>", " <*> ")).split()
 
 
 def template_score(message: str, template: str) -> float:

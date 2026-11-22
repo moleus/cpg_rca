@@ -1,10 +1,11 @@
 import html
 import re
-import string
 from collections import deque
 from dataclasses import dataclass, field
 from typing import Dict, List, Set, Tuple, Optional
 import networkx as nx
+
+from src.log_text import WILDCARD, normalize_text as _clean_text_selective
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -54,7 +55,6 @@ CALL_LABEL = "CALL"
 REACHING_DEF_LABEL = "REACHING_DEF"
 CDG_LABEL = "CDG"
 METHOD_LABEL = "METHOD"
-WILDCARD = "<*>"
 STRING_RE = re.compile(r'["`\'](.*?)["`\']', re.DOTALL)
 # Format placeholders. A literal is only rewritten when the CPG shows that it is
 # the format string of a formatting call (see _format_style); otherwise the
@@ -226,34 +226,6 @@ def _find_parent_method(
 # ---------------------------------------------------------------------------
 
 
-def _clean_text_selective(text: str) -> str:
-    """
-    Remove ALL escape sequences and special symbols EXCEPT hyphens (-).
-    Keeps hyphens for compound words like "user-failed", "connection-timeout".
-    """
-    if not text:
-        return ""
-
-    text = str(text)
-
-    text = text.replace(r"\\", " ")
-    text = text.replace(r"\"", " ")
-    text = text.replace(r"\'", " ")
-    text = text.replace(r"\/", " ")
-    text = re.sub(r"\[a-zA-Z]", " ", text)
-
-    PUNCTUATION_TO_REMOVE = set(string.punctuation)
-    PUNCTUATION_TO_REMOVE.discard("-")  # KEEP hyphens
-
-    for p in PUNCTUATION_TO_REMOVE:
-        text = text.replace(p, " ")
-
-    text = re.sub(r"\s+", " ", text)
-    text = text.strip()
-    text = text.lower()
-    return text
-
-
 def _mark_placeholders(text: str, style: Optional[str]) -> str:
     """Replace placeholders of the given style ("printf" / "java" / "python") with a
     mark that cleaning keeps as its own token. Other text is returned unchanged."""
@@ -389,7 +361,8 @@ def _build_template(code_labels: List[Tuple[str, str, str]]) -> str:
     from sibling/predecessor nodes, turning 'request started <*>' into
     'request started <*> session <*>' — which breaks trie matching.
 
-    Removes leading wildcards, keeps trailing for variable matching.
+    Keeps leading and trailing wildcards for variable matching.
+    Requires at least one static token.
     """
     if not code_labels:
         return ""
@@ -435,13 +408,13 @@ def _build_template(code_labels: List[Tuple[str, str, str]]) -> str:
 
         need_wildcard = True
 
-    while parts and parts[0] == WILDCARD:
-        parts.pop(0)
-
     merged = []
     for p in parts:
         if not (p == WILDCARD and merged and merged[-1] == WILDCARD):
             merged.append(p)
+
+    if not any(part != WILDCARD for part in merged):
+        return ""
 
     if merged and merged[-1] != WILDCARD:
         merged.append(WILDCARD)
@@ -575,7 +548,8 @@ def _trie_match(
 
     if WILDCARD in node.children:
         wc = node.children[WILDCARD]
-        for end in range(pos + 1, len(msg) + 1):
+        # A formatted argument can be empty, as in "request {} failed".
+        for end in range(pos, len(msg) + 1):
             _trie_match(wc, msg, end, results)
 
 
