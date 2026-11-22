@@ -69,6 +69,100 @@ class PathHypothesis:
     status: str = "active"  # active | completed | incomplete | expired | pruned | superseded
     termination_reason: str = ""
 
+    def _path_length(self) -> int:
+        return len(self.transition_ids)
+
+    def _path_key(self):
+        return self.transition_ids
+
+
+@dataclass(frozen=True, slots=True, eq=False)
+class _HistoryStep:
+    """One immutable event and a shared prefix. Never hold a mutable hypothesis."""
+
+    parent: Optional[_HistoryStep]
+    log: ChainLog
+    length: int
+    path_hash: int
+
+    @classmethod
+    def append(cls, parent: Optional[_HistoryStep], log: ChainLog) -> _HistoryStep:
+        return cls(
+            parent, log, (parent.length if parent else 0) + 1,
+            hash((parent.path_hash if parent else 0, log.transition_id)),
+        )
+
+    def logs(self) -> List[ChainLog]:
+        result = []
+        step = self
+        while step is not None:
+            result.append(step.log)
+            step = step.parent
+        result.reverse()
+        return result
+
+
+class _TransitionPathKey:
+    """Hash a shared transition path in O(1); compare collisions exactly."""
+
+    __slots__ = ("tail",)
+
+    def __init__(self, tail: _HistoryStep) -> None:
+        self.tail = tail
+
+    def __hash__(self) -> int:
+        return self.tail.path_hash
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, _TransitionPathKey):
+            return NotImplemented
+        left, right = self.tail, other.tail
+        if left.length != right.length or left.path_hash != right.path_hash:
+            return False
+        while left is not right:
+            if left is None or right is None or left.log.transition_id != right.log.transition_id:
+                return False
+            left, right = left.parent, right.parent
+        return True
+
+
+class _CompactPathHypothesis(PathHypothesis):
+    """Read-compatible hypothesis with tuple/list snapshots of shared history.
+
+    The inherited dataclass fields keep asdict() and existing reports unchanged.
+    Reading logs returns a new list. Editing this list does not edit the history.
+    """
+
+    def __init__(
+        self, hypothesis_id: int, current_state: str, score: float,
+        history: _HistoryStep, status: str, termination_reason: str,
+    ) -> None:
+        self.hypothesis_id = hypothesis_id
+        self.current_state = current_state
+        self.score = score
+        self._history = history
+        self.status = status
+        self.termination_reason = termination_reason
+
+    @property
+    def transition_ids(self) -> Tuple[str, ...]:
+        return tuple(log.transition_id for log in self._history.logs())
+
+    @property
+    def state_path(self) -> Tuple[str, ...]:
+        logs = self._history.logs()
+        return (logs[0].source_state,) + tuple(log.target_state for log in logs)
+
+    @property
+    def logs(self) -> List[ChainLog]:
+        return self._history.logs()
+
+    def _path_length(self) -> int:
+        return self._history.length
+
+    def _path_key(self) -> _TransitionPathKey:
+        return _TransitionPathKey(self._history)
+
 
 @dataclass
 class ActiveChain:
@@ -174,6 +268,9 @@ class ExplicitHypothesisStore:
 
     With require_correlation=True, only events with the same nonempty request
     key can continue a chain. Missing keys produce unexplained events.
+
+    Experimental compact_history=True shares immutable history prefixes.
+    Public history fields remain tuple/list snapshots. Do not mutate them.
     """
 
     def __init__(
@@ -186,6 +283,7 @@ class ExplicitHypothesisStore:
         max_total_active_hypotheses: int = 2048,
         allow_new_chains: bool = True,
         require_correlation: bool = False,
+        compact_history: bool = False,
     ) -> None:
         self.fsms = {key: fsm for key, fsm in fsms.items() if fsm.transitions}
         self.threshold = threshold
@@ -195,6 +293,7 @@ class ExplicitHypothesisStore:
         self.max_total_active_hypotheses = max_total_active_hypotheses
         self.allow_new_chains = allow_new_chains
         self.require_correlation = require_correlation
+        self._compact_history = compact_history
         self.active_chains: Dict[int, ActiveChain] = {}
         self.history: List[HypothesisEvent] = []
         self._next_chain_id = 0
@@ -277,7 +376,7 @@ class ExplicitHypothesisStore:
         active = chain.active_hypotheses
         if len(active) <= self.max_hypotheses_per_chain:
             return
-        active.sort(key=lambda h: (h.score, len(h.transition_ids)), reverse=True)
+        active.sort(key=lambda h: (h.score, h._path_length()), reverse=True)
         for hypothesis in active[self.max_hypotheses_per_chain:]:
             hypothesis.status = "pruned"
             hypothesis.termination_reason = "beam_width"
@@ -335,6 +434,17 @@ class ExplicitHypothesisStore:
             score=match.score,
             correlation_key=chain.correlation_key,
         )
+        if self._compact_history:
+            if parent is not None and not isinstance(parent, _CompactPathHypothesis):
+                raise TypeError("A compact store requires compact parent histories.")
+            return _CompactPathHypothesis(
+                hypothesis_id=self._new_hypothesis_id(),
+                current_state=match.target_state,
+                score=(parent.score if parent else 0.0) + match.score,
+                history=_HistoryStep.append(parent._history if parent else None, log),
+                status="incomplete" if incomplete else "completed" if terminal else "active",
+                termination_reason="incomplete_static_graph" if incomplete else "terminal_state" if terminal else "",
+            )
         return PathHypothesis(
             hypothesis_id=self._new_hypothesis_id(),
             current_state=match.target_state,
@@ -389,7 +499,7 @@ class ExplicitHypothesisStore:
         # Explicit histories make every child unique by (state, transition sequence).
         best: Dict[tuple, PathHypothesis] = {}
         for child in children:
-            key = (child.current_state, child.transition_ids)
+            key = (child.current_state, child._path_key())
             if key not in best or child.score > best[key].score:
                 best[key] = child
         for child in best.values():
